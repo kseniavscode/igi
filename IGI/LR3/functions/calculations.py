@@ -39,3 +39,38 @@ def min_in_list(values: list) ->int:
         if values[i] < min:
             min = values[i]
     return min
+
+def count_chars_in_low(string: str) ->int:
+
+    """
+    Finding elements of string in lower case.
+    
+    Args:
+        string(str): inputting string
+    
+    Returns:
+        int: count of chars in lower case
+    """
+
+    count = 0
+    for i in range(len(string)):
+        if(string[i].islower()):
+            count += 1
+    return count
+def count_numbers(string: str) ->int:
+
+    """
+    Finding elements of string which are digits.
+    
+    Args:
+        string(str): inputting string
+    
+    Returns:
+        int: count of chars which are digits
+    """
+
+    count = 0
+    for i in range(len(string)):
+        if(string[i].isdigit()):
+            count += 1
+    return count

@@ -117,7 +117,7 @@ def menu():
         print("0. Exit.")
         print("1. Calculate a value of ln(x+1)")
         print("2. Find a min element in our inputing list")
-        print("3.")
+        print("3. Find count of all elements of string(inputting) in low and all number")
         print("4.")
         print("5.")
         return input("Your choice (1-5): ")
@@ -162,4 +162,34 @@ def output_min(x, values: list):
         values(list): list of elements
     """
     print(f"Min elements in list {values} is {x}" )
+
+def input_string():
+    """
+    Input not empty string
+    
+    Returns: x(str): string
+    """
+    while True:
+        x = input("Input string: ")
+        if x:
+            return x
+        print("Our string does not have to be empty...") 
+def output_count_lower(x):
+    """
+    Output information about count of chars in lower case
+    
+    Args: 
+        x(int): count
+    """
+    print(f"Count of chars in lower case is {x}" )
+
+def output_count_num(x):
+    """
+    Output information about count of chars which are digits
+    
+    Args: 
+        x(int): count
+    """
+    print(f"Count of chars which are digits is {x}" )
+          
 

@@ -1,6 +1,6 @@
 import math
 
-from functions import sum_F, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min
+from functions import sum_F, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min, input_string, count_chars_in_low, count_numbers, output_count_lower, output_count_num
 
 '''
 LAB 3
@@ -36,7 +36,12 @@ while True:
         my_list = input_list_without_one()
         min = min_in_list(my_list)
         output_min(min, my_list)
-    # elif choice == '3':
+    elif choice == '3':
+        string = input_string()
+        count_low = count_chars_in_low(string)
+        output_count_lower(count_low)
+        count_n = count_numbers(string)
+        output_count_num(count_n)
     # elif choice == '4':
     # elif choice == '5':
     else:
