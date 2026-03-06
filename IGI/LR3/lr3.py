@@ -1,6 +1,6 @@
 import math
 
-from functions import sum_F, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min, input_string, count_chars_in_low, count_numbers, output_count_lower, output_count_num
+from functions import sum_F, count_odd_num_of_letters, split_string, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min, input_string, count_chars_in_low, count_numbers, output_count_lower, output_count_num, output_words_count, shortest_started_i, output_word_with_i
 
 '''
 LAB 3
@@ -42,7 +42,16 @@ while True:
         output_count_lower(count_low)
         count_n = count_numbers(string)
         output_count_num(count_n)
-    # elif choice == '4':
+    elif choice == '4':
+        string = ''' So she was considering in her own mind, as well as she could, for the hot day made her feel 
+        very sleepy and stupid, whether the pleasure of making a daisy-chain would be worth the trouble 
+        of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by 
+        her.'''
+        s = split_string(string)
+        odd_words = count_odd_num_of_letters(s)
+        output_words_count(odd_words)
+        word_i = shortest_started_i(s)
+        output_word_with_i(word_i)
     # elif choice == '5':
     else:
         print("Mistake! Not correct input! Choose from 1 to 5")

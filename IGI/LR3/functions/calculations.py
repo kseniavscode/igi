@@ -74,3 +74,67 @@ def count_numbers(string: str) ->int:
         if(string[i].isdigit()):
             count += 1
     return count
+
+def split_string(string:str):
+    """
+    Split string -> list
+    
+    Args:
+        string(str): string
+    
+    Returns:
+        list: words
+    """
+    str_new = string.replace(',', ' ')
+    str_new_2 = str_new.replace('.', ' ')
+
+    parts = []
+    for i in str_new_2.split(' '):
+        if i.strip():
+            parts.append(i.strip())
+    return parts
+def count_odd_num_of_letters(parts:list) ->list:
+
+    """
+    Finding elements of list with an odd number of letters .
+    
+    Args:
+        parts(list): list of words
+    
+    Returns:
+        list: words + count of chars with an odd number of letters
+    """
+
+    count = 0
+    odd_parts = []
+    for part in parts:
+        if len(part) % 2 == 1:
+            count += 1
+            odd_parts.append(part)
+    odd_parts.append(count)
+    return odd_parts
+
+
+def shortest_started_i(l:list):
+
+    """
+    Finding elements of string started with i .
+    
+    Args:
+        l(list): list of words
+    
+    Returns:
+        a word started with i or n, if not found 
+    """
+     
+    start_i = []
+    for i in l[:-1]:
+        if i[0].lower() == 'i':
+            start_i.append(i)
+    if len(start_i) == 0:
+        return 'n'
+    short = start_i[0]
+    for j in start_i[1:]:
+        if len(j) < len(short):
+            short = start_i[j]
+    return short

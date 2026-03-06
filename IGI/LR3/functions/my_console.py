@@ -118,7 +118,7 @@ def menu():
         print("1. Calculate a value of ln(x+1)")
         print("2. Find a min element in our inputing list")
         print("3. Find count of all elements of string(inputting) in low and all number")
-        print("4.")
+        print("4. Have a text, find words with an odd number of letters, find the shortest word starting with i, output repeated words")
         print("5.")
         return input("Your choice (1-5): ")
         
@@ -191,5 +191,33 @@ def output_count_num(x):
         x(int): count
     """
     print(f"Count of chars which are digits is {x}" )
+
+def output_words_count(l:list):
+
+    """
+    Output information about count of words with an odd number of letters and words
+    
+    Args: 
+        x(int): count
+        list: words with an odd number of letters
+    """
+
+    print("All of words in this text with an odd number of letters")
+    for i in l[:-1]:
+        print(i)
+    print(f"Count of words is {l[-1]}")
+
+def output_word_with_i(x):
+    """
+    Output information about a word started with i
+    
+    Args: 
+        x(str): n, if not found, a word, if found
+    """
+    if x == 'n':
+        print(f"Not found a word started with i...")
+    else:
+        print(f"Found the shortest word started with i: {x}")
+
           
 
