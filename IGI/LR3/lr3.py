@@ -1,3 +1,4 @@
+from prettytable import PrettyTable
 import math
 def sum_F(x, n, eps):
     F = 0
@@ -26,10 +27,12 @@ def input_int():
             if (x > 0 and x <= 500) :
                 break
         except ValueError:
-            print("Input int value!")
+            print("Input int value from 1 to 500")
     return x
 
-
+table = PrettyTable()
+table.field_names = ["x", "n", "F(x)", "Math", "eps"]
+print("")
 while True:
     print("x: x must be from -1 to 1")
     x = input_double()
@@ -37,8 +40,11 @@ while True:
         break
     else:
         print("x must be from -1 to 1")
-print("n: ")
+
+print("n: int number from 1 to 500 ")
+print("")
 n = input_int()
+print("")
 while True:
     print("eps: must be positive")
     eps = input_double()
@@ -46,14 +52,16 @@ while True:
         break
     else:
         print("Eps must be positive")
-
+print("")
 F = sum_F(x, n, eps)
 F_math = math.log(1+x)
+table.add_row([x, n, F, F_math, eps])
+print(table)
 
-print("________________________________________________________________________")
-print("|  x  |  n  |        F(x)        |        Math F(x)       |     eps     |")
-print(f"| {x} | {n} | {F} | {F_math} | {eps} |")
-print("________________________________________________________________________")
+# print("________________________________________________________________________")
+# print("|  x  |  n  |        F(x)        |        Math F(x)       |     eps     |")
+# print(f"| {x} | {n} | {F} | {F_math} | {eps} |")
+# print("________________________________________________________________________")
 
 
 
