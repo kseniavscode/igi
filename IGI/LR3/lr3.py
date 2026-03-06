@@ -1,5 +1,14 @@
-from prettytable import PrettyTable
+from prettytable import PrettyTable #for pretty table
 import math
+
+
+#LAB 3
+#YAROSHEVICH KSENIA, group 453504
+#started 06.03.2026 8:13
+#python 3.14.3
+
+#task 1
+#need to calculate the sum of the series ln(x+1)
 def sum_F(x, n, eps):
     F = 0
     i = 1
@@ -30,9 +39,10 @@ def input_int():
             print("Input int value from 1 to 500")
     return x
 
-table = PrettyTable()
+table = PrettyTable() 
 table.field_names = ["x", "n", "F(x)", "Math", "eps"]
 print("")
+#Inputting values for function 
 while True:
     print("x: x must be from -1 to 1")
     x = input_double()
@@ -40,9 +50,8 @@ while True:
         break
     else:
         print("x must be from -1 to 1")
-
-print("n: int number from 1 to 500 ")
 print("")
+print("n: int number from 1 to 500 ")
 n = input_int()
 print("")
 while True:
@@ -54,10 +63,12 @@ while True:
         print("Eps must be positive")
 print("")
 F = sum_F(x, n, eps)
-F_math = math.log(1+x)
-table.add_row([x, n, F, F_math, eps])
+F_math = math.log(1+x) #using math
+
+table.add_row([x, n, F, F_math, eps]) #this is our values
 print(table)
 
+#bad experience
 # print("________________________________________________________________________")
 # print("|  x  |  n  |        F(x)        |        Math F(x)       |     eps     |")
 # print(f"| {x} | {n} | {F} | {F_math} | {eps} |")
