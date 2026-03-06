@@ -1,6 +1,6 @@
 import math
 
-from functions import sum_F, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data
+from functions import sum_F, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min
 
 '''
 LAB 3
@@ -32,7 +32,10 @@ while True:
         F = sum_F(x, n, eps)
         F_math = math.log(x + 1)
         create_table(["x", "n", "F(x)", "Math", "eps"], [x, n, F, F_math, eps])
-    # elif choice == '2':
+    elif choice == '2':
+        my_list = input_list_without_one()
+        min = min_in_list(my_list)
+        output_min(min, my_list)
     # elif choice == '3':
     # elif choice == '4':
     # elif choice == '5':

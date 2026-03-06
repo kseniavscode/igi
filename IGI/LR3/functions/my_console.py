@@ -58,6 +58,22 @@ def input_int_n() ->int:
             print("Input int value from 1 to 500")
     print("")
     return x
+def input_int() ->int:
+
+    """
+    Checking the input parameter.
+    
+    Returns:
+        int: value
+    """
+
+    while True:
+        try:
+            x = int(input("Input int number, if you wanna stop loop, enter number 1: "))
+            return x
+        except ValueError:
+            print("Input int value!")
+
 def create_table(col_names: list, values: list):
     
     """
@@ -100,7 +116,7 @@ def menu():
         print("Choose one of the options:")
         print("0. Exit.")
         print("1. Calculate a value of ln(x+1)")
-        print("2.")
+        print("2. Find a min element in our inputing list")
         print("3.")
         print("4.")
         print("5.")
@@ -120,4 +136,30 @@ def menu_input_data():
     print("1. Keyboard input")
     print("2. Random data")
     return input("Your choice 1 or 2: ")
+
+def input_list_without_one():
+
+    """
+    Input loop for list, when we input 1, loop will be stopped
+    
+    Returns:
+        list: elements without 1
+    """
+
+    my_list = []
+    while True:
+        x = input_int()
+        if x == 1:
+            return my_list
+        my_list.append(x)
+
+def output_min(x, values: list):
+    """
+    Output information about a min element in list
+    
+    Args: 
+        x(int): min
+        values(list): list of elements
+    """
+    print(f"Min elements in list {values} is {x}" )
 

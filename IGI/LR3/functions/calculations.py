@@ -11,7 +11,7 @@ def sum_F(x, n, eps) -> float:
     Returns:
         float: calculated sum of the series
     """
-    
+
     F = 0
     i = 1
     while True:
@@ -21,3 +21,21 @@ def sum_F(x, n, eps) -> float:
             break 
         i += 1
     return F
+
+def min_in_list(values: list) ->int:
+
+    """
+    Finding the min in values(list).
+    
+    Args:
+        values(list): list of arguments without 1
+    
+    Returns:
+        int: min
+    """
+
+    min = values[0]
+    for i in range(1, len(values)):
+        if values[i] < min:
+            min = values[i]
+    return min
