@@ -156,3 +156,55 @@ def counts_repeated_words(l:list) ->dict:
         else:
             counts[i] = 1
     return counts
+
+def list_with_positive(l:list) ->list:
+
+    """
+    Doing list only with positive numbers
+    
+    Args:
+        l(list): list of numbers
+    
+    Returns:
+        list: list[:not_pos] or list[:]
+    """
+
+    not_pos = len(l)
+    for i, num  in enumerate(l):
+        if num < 0:
+            not_pos = i
+            return l[:not_pos]
+    return l[:]
+        
+def found_max_in_list(l:list) ->float:
+    """
+    Finding max element in list
+    
+    Args:
+        l(list): list of numbers
+    
+    Returns:
+        float max: max element
+    """
+    max = l[0]
+    for i in l[1:]:
+        if abs(i) > max:
+            max = i
+    return max
+
+def sum_list(l:list) ->float:
+
+    """
+    Finding max element in list
+    
+    Args:
+        l(list): list of numbers
+    
+    Returns:
+        float sum: sum of float elem
+    """
+
+    sum = 0
+    for i in l:
+        sum += i
+    return sum

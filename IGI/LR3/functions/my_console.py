@@ -119,7 +119,7 @@ def menu():
         print("2. Find a min element in our inputing list")
         print("3. Find count of all elements of string(inputting) in low and all number")
         print("4. Have a text, find words with an odd number of letters, find the shortest word starting with i, output repeated words")
-        print("5.")
+        print("5. Enter size and list of float elem, found max, found sum of only positive part of elements of list")
         return input("Your choice (1-5): ")
         
 def menu_input_data():
@@ -167,7 +167,7 @@ def input_string():
     """
     Input not empty string
     
-    Returns: x(str): string
+    Returns: str x: string
     """
     while True:
         x = input("Input string: ")
@@ -238,3 +238,78 @@ def output_repeated_words(d:dict):
     if not found:
         print("In this text not found repeated words at all")
 
+def input_size_list() ->int:
+
+    """
+    Input size of future list
+    
+    Returns: int x: size > 0
+    """
+
+    while True:
+        try:
+            x = int(input("Enter the size of future list: "))
+            if x > 0:
+                return x
+        except ValueError:
+            print("Size of list MUST be positive int number")
+
+def input_list(size:int) ->list:
+
+    """
+    Input not empty string
+    
+    Args: size(int): size of list
+
+    Returns: list l: list of float numbers
+    """
+
+    l = []
+    while size != 0:
+        try:
+           x = float(input("Enter the float element for list: ")) 
+           l.append(x)
+           size -= 1
+        except ValueError:
+            print("List contains only float number without restrictions")
+    return l
+
+def output_list(l:list):
+
+    """
+    Output list
+    
+    Args: l(list): list
+    """
+
+    print(f"List of inputting elements: {l}")
+
+def output_max(max:float):
+
+    """
+    Output max abs element of list
+    
+    Args: 
+        max(float): element of list
+    """
+
+    print(f"Max abs element of list: |{max}|")
+
+def output_sum_list(sum:float):
+
+    """
+    Output sum element of list
+    
+    Args: 
+        sum(float): sum element of list
+    """
+
+    print(f"Sum of positive elements: {sum}")
+
+def output_empty_list():
+
+    """
+    Output that list is empty
+    """
+
+    print(f"Sorry, but list is turned out empty...")
