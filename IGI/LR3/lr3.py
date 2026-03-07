@@ -1,6 +1,6 @@
 import math
 
-from functions import sum_F, count_odd_num_of_letters, split_string, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min, input_string, count_chars_in_low, count_numbers, output_count_lower, output_count_num, output_words_count, shortest_started_i, output_word_with_i
+from functions import sum_F, count_odd_num_of_letters, split_string, counts_repeated_words, output_repeated_words, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min, input_string, count_chars_in_low, count_numbers, output_count_lower, output_count_num, output_words_count, shortest_started_i, output_word_with_i
 
 '''
 LAB 3
@@ -47,11 +47,13 @@ while True:
         very sleepy and stupid, whether the pleasure of making a daisy-chain would be worth the trouble 
         of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by 
         her.'''
-        s = split_string(string)
-        odd_words = count_odd_num_of_letters(s)
+        my_list = split_string(string)
+        odd_words = count_odd_num_of_letters(my_list)
         output_words_count(odd_words)
-        word_i = shortest_started_i(s)
+        word_i = shortest_started_i(my_list)
         output_word_with_i(word_i)
+        my_dict = counts_repeated_words(my_list)
+        output_repeated_words(my_dict)
     # elif choice == '5':
     else:
         print("Mistake! Not correct input! Choose from 1 to 5")

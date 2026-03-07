@@ -219,5 +219,22 @@ def output_word_with_i(x):
     else:
         print(f"Found the shortest word started with i: {x}")
 
-          
+def output_repeated_words(d:dict):
+
+    """
+    Output dictionary with repeated words and their counts
+    
+    Args: 
+        d(dict): dictionary where key = word
+    """
+
+    print('')
+    print("Repeated words and their counts in text:")
+    found = False
+    for word, count in d.items():
+        if count > 1:
+            print(f"{word} :: {count}")
+            found = True
+    if not found:
+        print("In this text not found repeated words at all")
 

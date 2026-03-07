@@ -91,7 +91,7 @@ def split_string(string:str):
     parts = []
     for i in str_new_2.split(' '):
         if i.strip():
-            parts.append(i.strip())
+            parts.append(i.strip().lower())
     return parts
 def count_odd_num_of_letters(parts:list) ->list:
 
@@ -138,3 +138,21 @@ def shortest_started_i(l:list):
         if len(j) < len(short):
             short = start_i[j]
     return short
+
+def counts_repeated_words(l:list) ->dict:
+    """
+    Finding counts of repeated words in our list.
+    
+    Args:
+        l(list): list of words
+    
+    Returns:
+        dict: counts
+    """
+    counts = {}
+    for i in l:
+        if i in counts:
+            counts[i] += 1
+        else:
+            counts[i] = 1
+    return counts
