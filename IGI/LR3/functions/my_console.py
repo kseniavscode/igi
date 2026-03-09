@@ -1,5 +1,7 @@
 from prettytable import PrettyTable
 import random
+
+from utilits import decorator
 def input_float_x() ->float:
 
     """
@@ -153,6 +155,10 @@ def input_list_without_one():
             return my_list
         my_list.append(x)
 
+
+
+
+@decorator
 def output_min(x, values: list):
     """
     Output information about a min element in list
@@ -273,6 +279,18 @@ def input_list(size:int) ->list:
         except ValueError:
             print("List contains only float number without restrictions")
     return l
+
+def input_list_generation(size:int):
+
+    """
+    Generator Expression for list of elements counts which is size
+    
+    Args: size(int): size of list
+
+    Returns: list l: list of float numbers
+    """
+
+    return [round(random.uniform(-50, 500), 2) for _ in range(size)]
 
 def output_list(l:list):
 

@@ -1,6 +1,6 @@
 import math
 
-from functions import sum_F, output_max, sum_list, output_empty_list, input_list, output_sum_list, found_max_in_list, list_with_positive, output_list, count_odd_num_of_letters, split_string, counts_repeated_words, output_repeated_words, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min, input_string, count_chars_in_low, count_numbers, output_count_lower, output_count_num, output_words_count, shortest_started_i, output_word_with_i, input_size_list
+from functions import input_list_generation, sum_F, output_max, sum_list, output_empty_list, input_list, output_sum_list, found_max_in_list, list_with_positive, output_list, count_odd_num_of_letters, split_string, counts_repeated_words, output_repeated_words, input_float_x, input_float_eps, input_int_n, create_table, generate_random_data, menu, menu_input_data, min_in_list, input_list_without_one, output_min, input_string, count_chars_in_low, count_numbers, output_count_lower, output_count_num, output_words_count, shortest_started_i, output_word_with_i, input_size_list
 
 '''
 LAB 3
@@ -56,7 +56,15 @@ while True:
         output_repeated_words(my_dict)
     elif choice == '5':
         size = input_size_list()
-        my_list = input_list(size)
+        ch_data = menu_input_data()
+        while ch_data != '1' and ch_data != '2':
+            print("Mistake! Not correct input! Choose 1 or 2")
+            ch_data = menu_input_data()
+        if ch_data == '1':
+            my_list = input_list(size)
+        elif ch_data == '2':
+            my_list = input_list_generation(size)
+
         output_list(my_list)
         max = found_max_in_list(my_list)
         output_max(max)

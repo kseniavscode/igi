@@ -93,6 +93,7 @@ def split_string(string:str):
         if i.strip():
             parts.append(i.strip().lower())
     return parts
+
 def count_odd_num_of_letters(parts:list) ->list:
 
     """
