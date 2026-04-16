@@ -2,11 +2,14 @@ class Student():
 
     total_count = 0
     def __init__(self, name):
-        self._name = name
+        self.name = name
         Student.total_count += 1
         self._id = Student.total_count
 
-    @property
+    def __str__(self):
+        return f"- {self._name}"
+    
+    @property   
     def name(self):
         """
         Getter of name, when writed obj.name, this method will be done.
@@ -32,9 +35,12 @@ class MusicStudent(Student):
     
     def __init__(self, name, instrument, score):
         super().__init__(name)
-        self._instrument = instrument
-        self._score = score
+        self.instrument = instrument
+        self.score = score
 
+    def __str__(self):
+        return f"{super().__str__()} | Exam score: {self._instrument} - {self._score}"
+    
     @property
     def instrument(self):
         """
