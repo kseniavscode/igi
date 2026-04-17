@@ -48,20 +48,20 @@ def check_name():
     """
     Checking name of a student
     """
-    return "Enter a name of student consisting of only letters "
+    return "Enter a name of student consisting of only letters, for instance, Andrew "
 
 @checking(str, "Enter a name of instrument consisting of only letters", regex=r"^[a-zа-яё]{4,}$")
 def check_instrument():
     """
     Checking a name of instrument
     """
-    return "Enter a name of instrument consisting of only letters "
+    return "Enter a name of instrument consisting of only letters, for instance, violin "
 
 @checking(int, "Not correct inputting an exam score", condition=lambda x: x > 0 and x <= 10)
 def check_score():
     """
     Checking of valid entering mark 
     """
-    return "Enter an exam score of this student "
+    return "Enter an exam score of this student, 1-10 "
 
 

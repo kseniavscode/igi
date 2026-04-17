@@ -1,14 +1,14 @@
-class Student():
+import re
+from classes.mixin import *
+
+class Student(ColorOutputMixin):
 
     total_count = 0
     def __init__(self, name):
-        self.name = name
         Student.total_count += 1
         self._id = Student.total_count
-
-    def __str__(self):
-        return f"- {self._name}"
-    
+        self.name = name
+        
     @property   
     def name(self):
         """
@@ -21,11 +21,11 @@ class Student():
         """
         Setter of name, when writed obj.name = value, this method will be done.
         """
-
-        if not value.strip().isalpha():
+        x = re.sub(r"^\s+|\s+$", "", value)
+        if not re.fullmatch(r"^[A-ZА-Я][a-zа-яё]{2,}(\-[A-ZА-Я][a-zа-яё]{2,})?$",x):
             raise ValueError("Not correct entering name of Student") 
 
-        self._name = value.strip().lower().capitalize()
+        self._name = x
 
     
 
@@ -37,9 +37,6 @@ class MusicStudent(Student):
         super().__init__(name)
         self.instrument = instrument
         self.score = score
-
-    def __str__(self):
-        return f"{super().__str__()} | Exam score: {self.instrument} - {self.score}"
     
     @property
     def instrument(self):
@@ -53,11 +50,11 @@ class MusicStudent(Student):
         """
         Setter of instrument, when writed obj.instrument = value, this method will be done.
         """
+        x = re.sub(r"^\s+|\s+$", "", value)
+        if not re.fullmatch(r"^[a-zа-яё]{4,}$",x):
+            raise ValueError("Not correct an entering name of instrument") 
 
-        if not value.strip().isalpha():
-            raise ValueError("Not correct entering name of Student") 
-
-        self._instrument = value.strip().lower()
+        self._instrument = x
 
 
     @property
@@ -73,9 +70,9 @@ class MusicStudent(Student):
         Setter of exam score, when writed obj.score = value, this method will be done.
         """
         if type(value) is not int:
-            raise TypeError("Not correct entering name of Student, must be integer") 
-        if value <= 0 or value > 100 or not isinstance(value, int):
-            raise ValueError("Not correct entering name of Student, must be from 0 to 100") 
+            raise TypeError("Not correct entering exam score, must be integer") 
+        if value <= 0 or value > 100:
+            raise ValueError("Not correct entering exam score, must be from 0 to 100") 
 
         self._score = value
 

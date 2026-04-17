@@ -70,7 +70,7 @@ while True:
         if not dictionary:
             output("Dictionary is empty...")
         instr = check_instrument()
-        list_instr = [x for x in dictionary.values() if x._instrument == instr]
+        list_instr = [x for x in dictionary.values() if x.instrument == instr]
         sorted_list = sorted(list_instr, key = lambda x: x.score)
 
         for x in sorted_list:
