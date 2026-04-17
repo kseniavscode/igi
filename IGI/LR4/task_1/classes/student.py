@@ -39,7 +39,7 @@ class MusicStudent(Student):
         self.score = score
 
     def __str__(self):
-        return f"{super().__str__()} | Exam score: {self._instrument} - {self._score}"
+        return f"{super().__str__()} | Exam score: {self.instrument} - {self.score}"
     
     @property
     def instrument(self):

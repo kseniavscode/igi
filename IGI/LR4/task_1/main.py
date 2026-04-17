@@ -30,7 +30,19 @@ while True:
         for s in dictionary.values():
             print(s)
     elif choice == 3:
-        pass
+        try:
+            saving_format()
+            choice = check_saving_format()
+
+            if choice == 1:
+                load_csv(dictionary)
+            elif choice == 2:
+                load_pickle(dictionary)
+                pass
+        except Exception as e:
+            print(f"Bad bad bad! {e}")
+        else:
+            output("Information is successfully added!")
     elif choice == 4: 
         if not dictionary:
             output("Dictionary is empty...")
@@ -39,25 +51,27 @@ while True:
             choice = check_saving_format()
 
             if choice == 1:
-                #CSV
-                pass
+                save_csv(dictionary)
             elif choice == 2:
-                #pickel
-                pass
+                save_pickle(dictionary)
         except Exception as e:
             print(f"Bad bad bad! {e}")
         else:
-            output("Information is successfully added!")
+            output("Information is successfully added into file!")
     elif choice == 5:
         if not dictionary:
             output("Dictionary is empty...") 
+        name = check_name()
+        for d in dictionary.values():
+            if d.name == name:
+                print(d)
 
     elif choice == 6:
         if not dictionary:
             output("Dictionary is empty...")
         instr = check_instrument()
         list_instr = [x for x in dictionary.values() if x._instrument == instr]
-        sorted_list = sorted(list_instr, key = lambda x: x._score)
+        sorted_list = sorted(list_instr, key = lambda x: x.score)
 
         for x in sorted_list:
             print(x)

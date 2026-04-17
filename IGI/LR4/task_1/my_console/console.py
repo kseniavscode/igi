@@ -21,21 +21,21 @@ def menu():
 
 def saving_format():
     """
-    Menu for choosing a format for saving
+    Menu for choosing a format for saving/loading, two choice (1,2), csv or pickle
     """
-    print("CHOOSE A FORMAT FOR SAVING")
+    print("CHOOSE A FORMAT")
     print("1. CSV")
     print("2. PICKEL")
     print()
 
-@checking(int, "Choose right number of list", lambda x: x >= 0 and x <= 6)
+@checking(int, "Choose right number of list", condition=lambda x: x >= 0 and x <= 6)
 def check_value_of_menu():
     """
     Checking of number of choosing in a menu
     """
     return "Enter a number of choosing "
 
-@checking(int, "You can choose only 1 or 2", lambda x: x == 1 or x == 2)
+@checking(int, "You can choose only 1 or 2", condition=lambda x: x in (1,2))
 def check_saving_format():
     """
     Checking entering number of format saving
@@ -43,21 +43,21 @@ def check_saving_format():
     return ""
 
 
-@checking(str, "Enter right name of student consisting of only letters", lambda x: x.isalpha())
+@checking(str, "Enter right name of student consisting of only letters", regex=r"^[A-ZА-Я][a-zа-яё]{2,}(\-[A-ZА-Я][a-zа-яё]{2,})?$")
 def check_name():
     """
     Checking name of a student
     """
     return "Enter a name of student consisting of only letters "
 
-@checking(str, "Enter a name of instrument consisting of only letters", lambda x: x.isalpha())
+@checking(str, "Enter a name of instrument consisting of only letters", regex=r"^[a-zа-яё]{4,}$")
 def check_instrument():
     """
     Checking a name of instrument
     """
     return "Enter a name of instrument consisting of only letters "
 
-@checking(int, "Not correct inputting an exam score", lambda x: x > 0 and x <= 10)
+@checking(int, "Not correct inputting an exam score", condition=lambda x: x > 0 and x <= 10)
 def check_score():
     """
     Checking of valid entering mark 
