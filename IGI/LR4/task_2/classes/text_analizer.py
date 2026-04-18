@@ -47,7 +47,7 @@ class TextAnalizer():
 
     def all_words(self):
         """All words in text Returns: list of words"""
-        return re.findall(r"[A-ZА-ЯЁa-zа-яё]+(?:\-[A-ZА-ЯЁa-zа-яё]+)*",self.text)
+        return re.findall(r"\b[A-ZА-ЯЁa-zа-яё]+(?:\-[A-ZА-ЯЁa-zа-яё]+)*\b",self.text)
     
 
     def average_length_word_sentences(self):
@@ -56,15 +56,19 @@ class TextAnalizer():
         Returns: count
         """
         count_sent = self.count_sentences()
+
         if count_sent == 0:
             print("Not words in this text")
             return 0
+        
         return sum(len(word) for word in self.all_words()) / count_sent
 
     def average_length_word_text(self):
         """Average length of word in text Returns: count"""
+
         words = self.all_words()
         count_words = len(words)
+
         if count_words == 0:
             print("No words in this text")
             return 0
@@ -105,6 +109,49 @@ class TextAnalizer():
 
     def find_aA(self, line:str):
         """Find two symbols, when lower case and then upper case """
-        return re.sub(r"([a-zа-яё][A-ZА-ЯЁ])","_?_\1_?_",line)
+        return re.sub(r"([a-zа-яё][A-ZА-ЯЁ])", r"_?_\1_?_",line)
+    
+    def output_line(self, line:str):
+        """Output chosen line"""
+        print(line)
+
+    def count_words_chosen_line_even(self, line:str):
+        """Find all words in line which has even"""
+        words = re.findall(r"\b[A-Za-zА-ЯЁа-яё]+(?:\-[A-Za-zА-ЯЁа-яё]+)*\b", line)
+        print(f"Count of words in chosen line: {len(words)}")
+        print("Words where length is even:")
+        print(*(x for x in words if len(x) % 2 == 0))
 
 
+    def find_word_min_len_a(self, line:str):
+        """Method for finding word started with a, and have min length of word in this line"""
+        words = re.findall(r"\b[aAаА][a-zа-яё]*(?:\-[A-Za-zА-ЯЁа-яё]+)*\b", line)
+
+        if not words:
+            print("No words started with 'a' in this line")
+            return
+
+        print(f"Word started with 'a' and have min length in this line: {min(words, key=len)}")
+        
+    def find_duplicates(self, line:str):
+        """Find duplicates in line"""
+
+        words = re.findall(r"\b[a-zа-яё]+(?:\-[a-zа-яё]+)*\b", line.lower())
+
+        words_dict = {}
+        duplicates = []
+        for word in words:
+            if word in words_dict:
+                words_dict[word] += 1
+            else:
+                words_dict[word] = 1
+        for x, count in words_dict.items():
+            if count > 1:
+                duplicates.append(x)
+
+        if not duplicates:
+            print("No duplicates in this line")
+            return
+        print("Duplicates in chosen line:")
+        print(*(duplicates))
+        
