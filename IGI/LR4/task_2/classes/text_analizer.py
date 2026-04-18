@@ -1,4 +1,5 @@
 import re
+from classes.mixins import *
 
 class TextAnalizer():
 
