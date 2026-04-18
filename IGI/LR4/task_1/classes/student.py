@@ -22,7 +22,7 @@ class Student(ColorOutputMixin):
         Setter of name, when writed obj.name = value, this method will be done.
         """
         x = re.sub(r"^\s+|\s+$", "", value)
-        if not re.fullmatch(r"^[A-ZА-Я][a-zа-яё]{2,}(\-[A-ZА-Я][a-zа-яё]{2,})?$",x):
+        if not re.fullmatch(r"^[A-ZА-Я][a-zа-яё]{2,}(?:\-[A-ZА-Я][a-zа-яё]{2,})*$",x):
             raise ValueError("Not correct entering name of Student") 
 
         self._name = x
