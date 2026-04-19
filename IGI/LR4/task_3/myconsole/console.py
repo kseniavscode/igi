@@ -102,4 +102,4 @@ def generate_random_data():
 
     yield round(random.uniform(-0.99, 0.99), 3)
     yield random.randint(1, 500)
-    yield random.choice([0.1, 0.01, 0.001, 0.0001, 0.00001])
+    yield random.choice([0.001, 0.0001, 0.00001])

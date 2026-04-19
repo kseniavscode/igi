@@ -71,10 +71,10 @@ class Solve():
         y_coord = []
         y_coord_math = []
         
-        x_value = -0.9
-        while x_value <= 0.9:
+        x_value = -0.99
+        while x_value <= 0.99:
             x_coord.append(x_value)
-            x_value += 0.05
+            x_value += 0.01
         
         y_coord = [self.sum_F(cur_x=x) for x in x_coord]
         y_coord_math = [math.log(1 + x) for x in x_coord]
@@ -87,13 +87,14 @@ class Solve():
 
         F = self.sum_F()
 
-        plot.figure(figsize=(10,7), dpi=100)
+        plot.figure(figsize=(10,6), dpi=100)
         plot.title("Plot compare",loc='center')
         plot.xlabel("X")
         plot.ylabel("Y")
 
         plot.plot(x_coord, y_coord_math, color='royalblue', linewidth=2.5, label='math.log(1+x)')
-        plot.plot(x_coord, y_coord, color='crimson', linestyle='--', linewidth=2, label=f'Taylor (n={self.n})')
+        plot.plot(x_coord, y_coord, color='crimson', linestyle='--', linewidth=2, label=f'Taylor')
+        plot.scatter(self.x, F, color='crimson')
 
         plot.axhline(y=0, color='black', linewidth=1)
         plot.axvline(x=0, color='black', linewidth=1)
@@ -107,11 +108,22 @@ class Solve():
             },
             facecolor='white'
         )
+        plot.text(
+            0.15,0.85,f"Information\nn={self.n}\neps={self.eps}",
+            transform=plot.gca().transAxes,
+            horizontalalignment='right',
+            verticalalignment='top',
+            bbox=dict(
+                boxstyle='round',
+                pad=0.3,
+                facecolor='white'
+            )
+        )
 
         plot.annotate(
             f"Result: {F:.4f}",
             xy=(self.x,F),
-            xytext=(self.x+0.4,F-0.4),
+            xytext=(self.x+0.2,F-0.4),
             arrowprops=dict(
                 facecolor='black',
                 shrink=0.05,
@@ -122,11 +134,16 @@ class Solve():
             bbox=dict(
                 boxstyle='round',
                 pad=0.3,
-                facecolor='purple',
-                alpha=0.3
+                facecolor='white'
             )
         )
+
+        
         plot.grid(True, linestyle=':',alpha=0.6)
+
+        plot.margins(0.15) 
+        plot.tight_layout()
+
         plot.savefig("plot.png", dpi=300)
         plot.show()
 

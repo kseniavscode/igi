@@ -28,6 +28,7 @@ while True:
     create_table(["x", "n", "F(x)", "Math", "eps"], [solve.x, solve.n, F, F_math, solve.eps])
 
     solve.get_plot()
+    
     menu()
     choice = check_menu()
     if choice == 0:
