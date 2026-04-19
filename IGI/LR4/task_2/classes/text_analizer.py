@@ -1,7 +1,7 @@
 import re
 from classes.mixins import *
 
-class TextAnalizer():
+class TextAnalizer(FileMixin):
 
     def __init__(self, filename):
         """
@@ -31,18 +31,33 @@ class TextAnalizer():
         Find all narratine sentences (., ...)
         Returns: count of narrative sentences
         """
+        count_sent = self.count_sentences()
+
+        if count_sent == 0:
+            return "Not words in this text"
+        
         return len(re.findall(r"[\.]+", self.text))
     def count_question(self):
         """ 
         Find all question sentences (?)
         Returns: count of question sentenses
         """
+        count_sent = self.count_sentences()
+
+        if count_sent == 0:
+            return "Not words in this text"
+        
         return len(re.findall(r"[\?]+", self.text))
     def count_incentive(self):
         """ 
         Find all incentive sentences (!)
         Returns: count of incentive sentences
         """
+        count_sent = self.count_sentences()
+
+        if count_sent == 0:
+            return "Not words in this text"
+        
         return len(re.findall(r"[\!]+", self.text))
     
 
@@ -88,7 +103,7 @@ class TextAnalizer():
                 words.append(x)
         return words
     
-
+        
     def find_a_specific_line(self, index_line):
         """Method for finding a specific line by index Returns: this line like str"""
 
@@ -119,9 +134,7 @@ class TextAnalizer():
     def count_words_chosen_line_even(self, line:str):
         """Find all words in line which has even"""
         words = re.findall(r"\b[A-Za-zА-ЯЁа-яё]+(?:\-[A-Za-zА-ЯЁа-яё]+)*\b", line)
-        print(f"Count of words in chosen line: {len(words)}")
-        print("Words where length is even:")
-        print(*(x for x in words if len(x) % 2 == 0))
+        return len(words), [x for x in words if len(x) % 2 == 0]
 
 
     def find_word_min_len_a(self, line:str):
@@ -129,10 +142,8 @@ class TextAnalizer():
         words = re.findall(r"\b[aAаА][a-zа-яё]*(?:\-[A-Za-zА-ЯЁа-яё]+)*\b", line)
 
         if not words:
-            print("No words started with 'a' in this line")
-            return
-
-        print(f"Word started with 'a' and have min length in this line: {min(words, key=len)}")
+            return None
+        return min(words, key=len)
         
     def find_duplicates(self, line:str):
         """Find duplicates in line"""
@@ -151,8 +162,6 @@ class TextAnalizer():
                 duplicates.append(x)
 
         if not duplicates:
-            print("No duplicates in this line")
-            return
-        print("Duplicates in chosen line:")
-        print(*(duplicates))
+            return []
+        return duplicates
         

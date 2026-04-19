@@ -1,6 +1,6 @@
 import os
 import zipfile
-
+import datetime
 class FileMixin():
 
     def save_into_file(self, data, filename="filename.txt"):
@@ -24,5 +24,6 @@ class FileMixin():
             for info in f.infolist():
                 print(f"File into archive: {info.filename}")
                 print(f"Orig size: {info.file_size}") 
-                print(f"Zip size: {info.compress_size}")  
-                print(f"Time: {info.date_time}")     
+                print(f"Zip size: {info.compress_size}") 
+                date =  datetime.datetime(*info.date_time)
+                print(f"Time: {date.strftime("%d.%m.%Y %H:%M^%S")}")     
