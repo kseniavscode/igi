@@ -1,7 +1,16 @@
 from my_console.decorator import *
 import os
 
+def menu():
+    print()
+    print("MENU:")
+    print("0. Close.")
+    print("1. Continue")
+    print()
+
 def menu_my():
+    print()
+    print("MENU:")
     print("0. Continue.")
     print("1. List of words, length which is less then 5")
     print("2. Change _?_aA_?_")
@@ -10,7 +19,12 @@ def menu_my():
     print("5. Duplicates")
     print()
 
-@checking(int, "Not correct input! Integer from 0 to 5", condition=lambda x: x in (0,5))
+@checking(int, "Not correct input! Integer from 0 or 1", condition=lambda x: x in (0,1))
+def menu_choice():
+    """Method for checking choice (0,1)"""
+    return "Input your choice (0,1): " 
+
+@checking(int, "Not correct input! Integer from 0 to 5", condition=lambda x: x >= 0 and x <= 5)
 def menu_choice_my():
     """Method for checking choice (0,5)"""
     return "Input your choice (0-5): "    

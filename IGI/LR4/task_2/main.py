@@ -1,32 +1,45 @@
 from classes.text_analizer import *
+from classes.file_result import *
 from my_console.console import *
-import os
 
 while True:
     filename = check_filename()
     textAnalizer = TextAnalizer(filename)
 
     result = []
-    result_filename = "result.txt"
+    fileResult = FileResults("result.txt")
 
     print("Text from file:")
     print(textAnalizer.text)
 
-    print(f"Count of sentences: {textAnalizer.count_sentences()}")
-    print(f"Count of narrative sentences: {textAnalizer.count_narrative()}")
-    print(f"Count of questiion sentences: {textAnalizer.count_question()}")
-    print(f"Count of incentive sentences: {textAnalizer.count_incentive()}")
-    print(f"Average length of word in sentences: {textAnalizer.average_length_word_sentences()}")
-    print(f"Count of emoji: {textAnalizer.count_emoji()}")
-    print(f"Average length of word in text: {textAnalizer.average_length_word_text()}")
+    smth = f"Count of sentences: {textAnalizer.count_sentences()}"
+    print(smth)
+    result.append(smth)
+    
+    smth = f"Count of narrative sentences: {textAnalizer.count_narrative()}"
+    print(smth)
+    result.append(smth)
 
-    result.append(f"Count of sentences: {textAnalizer.count_sentences()}")
-    result.append(f"Count of narrative sentences: {textAnalizer.count_narrative()}")
-    result.append(f"Count of questiion sentences: {textAnalizer.count_question()}")
-    result.append(f"Count of incentive sentences: {textAnalizer.count_incentive()}")
-    result.append(f"Average length of word in sentences: {textAnalizer.average_length_word_sentences()}")
-    result.append(f"Count of emoji: {textAnalizer.count_emoji()}")
-    result.append(f"Average length of word in text: {textAnalizer.average_length_word_text()}")
+    smth = f"Count of questiion sentences: {textAnalizer.count_question()}"
+    print(smth)
+    result.append(smth)
+
+    smth = f"Count of incentive sentences: {textAnalizer.count_incentive()}"
+    print(smth)
+    result.append(smth)
+
+    smth = f"Average length of word in sentences: {textAnalizer.average_length_word_sentences()}"
+    print(smth)
+    result.append(smth)
+
+    smth = f"Count of emoji: {textAnalizer.count_emoji()}"
+    print(smth)
+    result.append(smth)
+
+    smth = f"Average length of word in text: {textAnalizer.average_length_word_text()}"
+    print(smth)
+    result.append(smth)
+    
 
     while True:
         menu_my()
@@ -87,5 +100,16 @@ while True:
             string = f"Duplicates: {', '.join(textAnalizer.find_duplicates(chosen_line))}"
             print(string)
             result.append(string)
+
+    result = list(dict.fromkeys(result))
+    fileResult.save_into_file("\n".join(result), fileResult.result_filename)
+    fileResult.archive(fileResult.result_filename)
+    info = fileResult.get_info_zip()
+
+    menu()
+    choice = menu_choice()
+
+    if choice == 0:
+        break
 
 

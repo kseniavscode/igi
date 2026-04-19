@@ -16,14 +16,28 @@ class FileMixin():
 
     def get_info_zip(self, zipfilename="my_zipfile.zip"):
         """Get info about archive"""
-
+        inform = []
         if not os.path.exists(zipfilename):
             print("No found this archive")
             return
         with zipfile.ZipFile(zipfilename, 'r') as f:
             for info in f.infolist():
-                print(f"File into archive: {info.filename}")
-                print(f"Orig size: {info.file_size}") 
-                print(f"Zip size: {info.compress_size}") 
+                smth = f"File into archive: {info.filename}"
+                print(smth)
+                inform.append(smth) 
+
+                smth = f"Orig size: {info.file_size}"
+                print(smth)
+                inform.append(smth)
+
+                smth = f"Zip size: {info.compress_size}"
+                print(smth)
+                inform.append(smth)
+
                 date =  datetime.datetime(*info.date_time)
-                print(f"Time: {date.strftime("%d.%m.%Y %H:%M^%S")}")     
+                smth = f"Time: {date.strftime('%d.%m.%Y %H:%M:%S')}"
+                print(smth)
+                inform.append(smth)
+        return inform
+
+                  
