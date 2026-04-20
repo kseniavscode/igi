@@ -61,7 +61,7 @@ class Solve():
             f"Mean : {statistics.mean(self.history)}",
             f"Median : {statistics.median(self.history)}",
             f"Mode : {statistics.mode(self.history)}",
-            f"Dispirsion/Variance : {statistics.variance(self.history)}",
+            f"Dispersion/Variance : {statistics.variance(self.history)}",
             f"Standart deviation : {statistics.stdev(self.history)}"
         ]
     
