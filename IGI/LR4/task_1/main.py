@@ -2,6 +2,11 @@ from classes.student import *
 from my_console.console import *
 from functions.func_of_file import *
 
+'''
+Yaroshevich Ksenia
+v 1.0.0
+15.04.2026
+'''
 
 dictionary = dict()
 while True:
