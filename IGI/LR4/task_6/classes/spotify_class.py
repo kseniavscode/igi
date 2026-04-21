@@ -45,3 +45,19 @@ class SpotifyClass(BaseClass, StatisticMixin):
         mean_unpop = unpopular['danceability_%'].mean()
 
         return popular, unpopular, self.calculate_ratio(mean_pop, mean_unpop)
+    
+    def analize_min_max(self, col_criteria, col_target):
+        """Method for analysis average mean with max, min"""
+
+        max_value = self._df[col_criteria].max()
+        min_value = self._df[col_criteria].min()
+
+        max_group = self._df[self._df[col_criteria] == max_value]
+        min_group = self._df[self._df[col_criteria] == min_value]
+
+        max_mean = max_group[col_target].mean()
+        min_mean = min_group[col_target].mean()
+
+        return max_value, min_value, max_group, min_group, self.calculate_ratio(max_mean, min_mean)
+
+
