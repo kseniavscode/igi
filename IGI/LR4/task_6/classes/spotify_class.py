@@ -55,9 +55,9 @@ class SpotifyClass(BaseClass, StatisticMixin):
         max_group = self._df[self._df[col_criteria] == max_value]
         min_group = self._df[self._df[col_criteria] == min_value]
 
-        max_mean = max_group[col_target].mean()
-        min_mean = min_group[col_target].mean()
+        max_mean = max_group[col_target].head(10).mean()
+        min_mean = min_group[col_target].head(10).mean()
 
-        return max_value, min_value, max_group, min_group, self.calculate_ratio(max_mean, min_mean)
+        return max_value, min_value, max_group[['track_name', col_criteria, col_target]].head(10), min_group[['track_name', col_criteria, col_target]].head(10), self.calculate_ratio(max_mean, min_mean)
 
 

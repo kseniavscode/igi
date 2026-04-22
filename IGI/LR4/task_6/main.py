@@ -36,6 +36,7 @@ while True:
     charts = spotify._df['in_spotify_charts'].head(10).tolist()
 
     my_series = pandas.Series(data=songs, index=charts)
+    
     display(my_series)
     print()
     print()
@@ -43,11 +44,11 @@ while True:
     print(f"loc: {my_series.loc[charts[0]]}")
     print()
     pop = spotify.get_popularity()
-    print(f"Sliding average for 15 first: \n{spotify.sliding_average(pop).head(15)}")
+    print(f"{BLUE}Sliding average for 15 first:{RESET} \n{spotify.sliding_average(pop).head(15)}")
 
-    print('\n')
+    print('\nINFO')
     spotify._df.info()
-    print()
+    print('\nDESCRIBE')
     display(spotify._df.describe())
     print()
 
@@ -74,11 +75,15 @@ while True:
 
             max_value, min_value, max_group, min_group, ratio = spotify.analize_min_max(col_criteria, col_target)
 
+            cols_to_show = ['track_name', col_criteria, col_target]
+
             print(f"Max value in column criteria: {max_value}")
             print(f"Min value in column criteria: {min_value}")
 
-            print(f"Group with max value:\n{max_group}\n")
-            print(f"Group with min value:\n{min_group}\n")
+            print("Group with max value:")
+            display(max_group[cols_to_show])
+            print("Group with min value:")
+            display(min_group[cols_to_show])
 
             print(f"Average {num_cols[target]} in {ratio} high")
             break
@@ -86,11 +91,11 @@ while True:
 
     popular, unpopular, mean = spotify.analize_danceability()
 
-    display(popular.head(10))
+    display(popular[['track_name', 'streams', 'danceability_%']].head(10))
     print()
     print(f"Danceability: {mean}")
     print()
-    display(unpopular.head(10))
+    display(unpopular[['track_name', 'streams', 'danceability_%']].head(10))
 
     menu()
     choice = check_menu()
