@@ -1,23 +1,8 @@
-Count of sentences: 10
+Count of sentences: 11
 Count of narrative sentences: 5
 Count of questiion sentences: 2
-Count of incentive sentences: 3
-Average length of word in sentences: 16.3
-Count of emoji: 2
-Average length of word in text: 3.326530612244898
-List of words, length which is less then 5: How, are, you, This, is, a, test, is, a, I, like, my, code, It, is, very, fast, and, cool, An, a, day, the, away, Are, you, Let, s, The, big, blue, box, is, big, a, aa, aaa
-Change _?_aA_?_:
-Hello world! How are you today? This is a simple test... 
-Apple is a fruit. I like my pyThon code :) 
-It is very fast and cool. An apple a day keeps the doctor away! 
-Are you ready? Let's go-go! ;)
-The big blue box is big. a aa aaa.
-Min length of word started with 'a' : a
-Change _?_aA_?_:
-Hello world! How are you today? This is a simple test... 
-Apple is a fruit. I like my p_?_yT_?_hon code :) 
-It is very fast and cool. An apple a day keeps the doctor away! 
-Are you ready? Let's go-go! ;)
-The big blue box is big. a aa aaa.
-Count words : 8, output words length which is % 2 = 0 : is, like, my, code
-Duplicates: 
+Count of incentive sentences: 4
+Average length of word in sentences: 14.727272727272727
+Count of emoji: 3
+Average length of word in text: 3.375
+Min length of word started with 'a' : aa

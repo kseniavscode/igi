@@ -93,7 +93,7 @@ class TextAnalizer(FileMixin):
 
     def count_emoji(self):
         """All emoji in text Returns: count of emoji in text"""
-        return len(re.findall(r"[;:](?:\-)*(\(+|\)+|\[+|\]+)", self.text))
+        return len(re.findall(r"(?<![;:\-\,\.])([;:](?:\-)*(?:\(+|\)+|\[+|\]+))(?=[\s!?\.])", self.text))
     
     def list_words_length_less_five(self):
         """Method for find all words which have length less then 5  Returns: list of words"""
