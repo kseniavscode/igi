@@ -41,6 +41,8 @@ class Book(models.Model):
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, verbose_name="Language")
     authors = models.ManyToManyField(Author, verbose_name="Authors")
 
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Price of book")
+
     def __str__(self):
         return self.title
     

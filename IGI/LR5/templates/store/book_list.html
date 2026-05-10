@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+</head>
+<body>
+    <h2>Catalog of books:</h2>
+    <ul>
+        {% for book in books %}
+        <li>
+            <strong>{{ book.title }}</strong>
+            (Price: {{ book.price }})
+            <em>{{ book.genre.all|join:', ' }}</em>
+        </li>
+        {% empty %}
+            <p>Books not found</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>
