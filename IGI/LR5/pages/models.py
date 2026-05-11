@@ -16,8 +16,7 @@ class Article(models.Model):
     """News"""
 
     title = models.CharField(max_length=100, verbose_name="Title of article")
-    short_description = models.CharField(max_length=500, verbose_name="Short part of article")
-    full_text = models.CharField(max_length=1500, verbose_name="Text of article")
+    full_text = models.TextField(verbose_name="Text of article")
     image = models.ImageField(upload_to='news/', null=True, blank=True)
     publishing_date = models.DateField(auto_now_add=True, verbose_name="Date of publishing")
 

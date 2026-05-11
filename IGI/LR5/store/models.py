@@ -34,7 +34,7 @@ class Book(models.Model):
 
     title = models.CharField(max_length=150, verbose_name="Title of book")
     cover = models.ImageField(upload_to='books/', null=True, blank=True, verbose_name="Book cover")
-    summery = models.CharField(max_length=1500, verbose_name="Annotation")
+    summery = models.TextField(verbose_name="Annotation")
     imprint = models.CharField(max_length=100, blank=True, verbose_name="Publishing House")
     isbn = models.CharField(max_length=13, verbose_name="ISBN")
 
@@ -105,4 +105,4 @@ class Order(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICE, default='n', verbose_name='Status of order')
 
     def __str__(self):
-        return f"Order #{self.id} from {self.client.username}"
+        return f"Order #{self.id} from {self.client.user.username}"

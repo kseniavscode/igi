@@ -1,7 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.db.models import Q
-from .models import Book
+from django.db.models import Q, Sum
+from django.contrib.auth.decorators import login_required
+from .models import Book, Client, Order
+
+from django.contrib.auth import login
+from .forms import UserRegistrationForm
 # Create your views here.
 
 def book_list(request):
@@ -29,3 +33,53 @@ def book_list(request):
 def book_details(request, pk):
     book = get_object_or_404(Book, pk=pk)
     return render(request, 'store/book_details.html', {'book': book})
+
+
+@login_required
+def add_to_orders(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    client = Client.objects.get(user=request.user)
+    
+    order = Order.objects.create(client=client, status='n')
+    order.books.add(book)
+    order.save()
+    
+    return redirect('book_list')
+
+
+def sales_stats(request):
+    total_sales = Order.objects.filter(status='d').aggregate(Sum('books__price'))['books__price__sum'] or 0
+    
+    orders_count = Order.objects.count()
+    
+    return render(request, 'store/stats.html', {
+        'total_sales': total_sales,
+        'orders_count': orders_count
+    })
+
+
+
+def register(request):
+    
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+
+            Client.objects.create(
+                user=user,
+                phone=form.cleaned_data['phone'],
+                age=form.cleaned_data['age'],
+                address=form.cleaned_data['address']
+            )
+
+            login(request, user)
+            return redirect('book_list')
+    else:
+        form = UserRegistrationForm()
+    
+    return render(request, 'registration/register.html', {'form': form})

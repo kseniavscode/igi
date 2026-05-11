@@ -1,14 +1,51 @@
 {% extends 'pages/layout.html' %}
+{% load static %}
 
 {% block title %}News page{% endblock %}
 
 {% block content %}
+    <h1 class="news_title">Latest Company News</h1>
+    <hr>
     {% for article in articles %}
-        <h1>{{ article.title }}</h1>
-        {% if article.image %}
-            <img src="{{ article.image.url }}" width="200">
-        {% endif %}
-        <p>{{ article.short_description }}</p>
-        <p style="text-decoration-style: wavy;">{{ article.publishing_date }}</p>
+        <div class="news">
+            <div class="image_of_article">
+                {% if article.image %}
+                    <img src="{{ article.image.url }}" width="200">
+                {% endif %}
+            </div>
+            <div class="info_article">
+                <h2>{{ article.title }}</h2>
+                <p id="text-{{  article.id }}" data-fulltext="{{ article.full_text }}">{{ article.full_text|truncatechars:200 }}</p>
+
+                {% if article.full_text|length > 200 %}
+                    <button id="read_more_btn" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
+                {% endif %}
+
+                <p class="date_of_article">{{ article.publishing_date }}</p>
+            </div>
+        </div>
+        
+        
+
+    {% empty %}
+        <p>There are no news yet. Come back later!</p>
     {% endfor %}
-{% endblock %}s
+    
+    <script>
+        function toggleNewsText(articleId) {
+            const textElement = document.getElementById('text-' + articleId);
+            const btn = document.getElementById('read_more_btn');
+            const fullText = textElement.getAttribute('data-fulltext');
+            
+            if (btn.innerText === "Read more") {
+                textElement.innerText = fullText;
+                btn.innerText = "Show less";
+            } else {
+                textElement.innerText = fullText.substring(0, 200) + '...';
+                btn.innerText = "Read more";
+            }
+        }
+    </script>
+
+{% endblock %}
+
