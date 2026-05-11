@@ -1,0 +1,14 @@
+{% extends 'pages/layout.html' %}
+
+{% block title %}News page{% endblock %}
+
+{% block content %}
+    {% for article in articles %}
+        <h1>{{ article.title }}</h1>
+        {% if article.image %}
+            <img src="{{ article.image.url }}" width="200">
+        {% endif %}
+        <p>{{ article.short_description }}</p>
+        <p style="text-decoration-style: wavy;">{{ article.publishing_date }}</p>
+    {% endfor %}
+{% endblock %}s

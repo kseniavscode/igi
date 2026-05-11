@@ -3,7 +3,7 @@ from .models import Article, CompanyInfo, FAQ, Employee, Vacancy, Review, PromoC
 
 # Create your views here.
 
-def home_page(request):
+def news_page(request):
     """Main page with the last article"""
-    last_article = Article.objects.order_by('-publishing_date').first()
-    return render(request, 'pages/home.html', {'article': last_article})
+    articles = Article.objects.all()
+    return render(request, 'pages/news.html', {'articles': articles})

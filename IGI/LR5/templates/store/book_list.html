@@ -1,22 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Store</title>
-</head>
-<body>
-    <h2>Catalog of books:</h2>
-    <ul>
-        {% for book in books %}
-        <li>
-            <strong>{{ book.title }}</strong>
-            (Price: {{ book.price }})
-            <em>{{ book.genre.all|join:', ' }}</em>
-        </li>
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Book Store</h1>
+
+    <form class="search_form" method="get" action="{% url 'book_list' %}">
+        <input type="text" name="search" placeholder="Search books..." value="{{ search_query }}">
+        <button type="submit">Search</button>
+    </form>
+    <hr>
+    <div class="book_grid">
+        {% for book in page_obj %}
+            <div class="book_card">
+                <a href="{% url 'book_details' book.pk %}">
+                    {% if book.cover %}
+                        <img class="book_cover" src="{{ book.cover.url }}" alt="{{ book.title }}" >
+
+                    {% else %}
+                        <img class="book_cover" src="{% static 'images/book_cover_default.jpg' %}" alt="{{ book.title }}" >
+                    {% endif %}
+                </a>
+                
+
+                <h3><a href="{% url 'book_details' book.pk %}">{{ book.title }}</a></h3>
+                <p class="price">{{ book.price }} BYN</p>
+            </div>
+
         {% empty %}
-            <p>Books not found</p>
+            <p>No books found.</p>
         {% endfor %}
-    </ul>
-</body>
-</html>
+
+    </div>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if search_query %}&serch={{ search_query }}{% endif %}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">previous</a>
+
+            
+        {% endif %}
+
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ serch_query }}{% endif %}">last &raquo;</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

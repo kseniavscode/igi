@@ -1,0 +1,75 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+    <a href="{% url 'book_list' %}" class="back_link">← Back to catalog</a>
+    <hr>
+    <div class="book_details">
+        <div class="details_image">
+            {% if book.cover %}
+                <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="details_cover">
+            {% else %}
+                <img src="{% static 'images/default_book.png' %}" alt="No cover" class="details_cover">
+            {% endif %}
+        </div>
+        <div class="details_info">
+            <h1>{{ book.title }}</h1>
+            
+            <div class="info">
+                <div class="book_meta">
+                    <p><strong>Authors:</strong>
+                        {% for author in book.authors.all %}
+                            {{ author.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Genre:</strong> 
+                        {% for g in book.genre.all %}
+                            {{ g.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Language:</strong> {{ book.language }}</p>
+                    {% if book.imprint %}
+                        <p><strong>Publisher:</strong> {{ book.imprint }}</p>
+                    {% endif %}
+                    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+                    
+                </div>
+
+                <div class="annotation">
+                    <h3>Annotation</h3>
+                    <p id="summary" data-fulltext="{{ book.summery }}">{{ book.summery|truncatechars:150 }}</p>
+                    {% if book.summery|length > 150 %}
+                        <button id="read_more_btn" onclick="toggleText()">Read more</button>
+                    {% endif %}
+                </div>
+            </div>
+            
+            
+            <div class="price_card">
+                <h3>Price: {{ book.price }} BYN</h3>
+                <button>Add to Cart</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        function toggleText() {
+            const summaryP = document.getElementById('summary');
+            const btn = document.getElementById('read_more_btn');
+            const fullText = summaryP.getAttribute('data-fulltext');
+            const shortText = fullText.substring(0, 150) + '...';
+
+            if (btn.innerText === "Read more") {
+                summaryP.innerText = fullText;
+                btn.innerText = "Show less";
+            } else {
+                summaryP.innerText = shortText;
+                btn.innerText = "Read more";
+            }
+        }
+    </script>
+
+{% endblock %}

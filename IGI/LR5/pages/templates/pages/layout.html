@@ -1,12 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="control_buttons">
+        <a href="{% url 'book_list' %}" class="panel_btn">Main Store</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">About Company</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">News</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">FAQ</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">Contacts</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">Policy</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">Vacancies</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">Reviews</a>
+        <a href="{% url 'book_list' %}" class="panel_btn">PromoCodes</a>
+    </div>
 </body>
 </html>
