@@ -11,5 +11,10 @@ urlpatterns = [
 
     path('add-to-orders/<int:pk>/', views.add_to_orders, name='add_to_orders'),
     path('my-orders/', views.my_orders, name='my_orders'),
+    path('order/confirm/<int:pk>/', views.confirm_order, name='confirm_order'),
+    path('order/cancel/<int:pk>', views.cancel_order, name='cancel_order'),
+    path('order/complete/<int:pk>', views.complete_order, name='complete_order'),
+
+    path('order-management/', views.order_management, name='order_management'),
     
 ]

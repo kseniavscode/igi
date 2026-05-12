@@ -1,0 +1,23 @@
+.orders_stat{
+    display: inline-block;
+    align-content: center;
+}
+.orders_stat p{
+    display: inline;
+    margin: 0 10px 0 0;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: #630016;
+}
+
+.order_card{
+    padding: 10px;
+    border: 1px solid #630016;
+    border-radius: 6px;
+    box-shadow: 5px 10px 10px rgba(71, 43, 1, 0.5);
+}
+
+.order_card p{
+    margin: 0;
+}

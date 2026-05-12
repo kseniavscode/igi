@@ -86,7 +86,18 @@ class Client(models.Model):
     def __str__(self):
         return f"{self.user.username} ({self.phone})"
     
+class Employee(models.Model):
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="User Account", null=True, blank=True)
+
+    full_name = models.CharField(max_length=150, verbose_name="Full- Last- Second name")
+    position = models.CharField(max_length=100, verbose_name="Position in this company")
+    email = models.EmailField(verbose_name="Email")
+    photo = models.ImageField(upload_to='employees/', null=True, blank=True)
+
+    def __str__(self):
+        return self.full_name
+    
 class Order(models.Model):
     """Model of order"""
 
@@ -94,6 +105,7 @@ class Order(models.Model):
     books = models.ManyToManyField(Book, verbose_name="Books in order")
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date of order")
+    updated_at = models.DateTimeField(null=True, blank=True, verbose_name="Processed at")
 
     STATUS_CHOICE = {
         ('n', 'New'),
@@ -104,5 +116,14 @@ class Order(models.Model):
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICE, default='n', verbose_name='Status of order')
 
+
+    DELIVERY_CHOICES = [
+        ('s', 'Pickup (Self-delivery)'),
+        ('c', 'Courier'),
+    ]
+    delivery_method = models.CharField(max_length=1, choices=DELIVERY_CHOICES, default='s', verbose_name='Delivery method')
+        
+    def total_price(self):
+        return self.books.aggregate(total=models.Sum('price'))['total'] or 0
     def __str__(self):
         return f"Order #{self.id} from {self.client.user.username}"

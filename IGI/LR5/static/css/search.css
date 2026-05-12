@@ -1,0 +1,22 @@
+.search_form {
+    margin-bottom: 20px;
+}
+
+.search_form input {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search_form button {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    padding: 8px 15px;
+    background-color: rgb(71, 40, 1);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -31,14 +32,6 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
-class Employee(models.Model):
-    full_name = models.CharField(max_length=150, verbose_name="Full- Last- Second name")
-    position = models.CharField(max_length=100, verbose_name="Position in this company")
-    email = models.EmailField(verbose_name="Email")
-    photo = models.ImageField(upload_to='employees/', null=True, blank=True)
-
-    def __str__(self):
-        return self.full_name
     
 class Vacancy(models.Model):
     title = models.CharField(max_length=100, verbose_name="Vacancy")

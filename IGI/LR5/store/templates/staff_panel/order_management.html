@@ -1,0 +1,56 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/order_management.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block title %}Order Management{% endblock %}
+
+{% block content %}
+    <h1>Order Management</h1>
+    <hr>
+    <div class="orders_stat">
+        <strong>Total revenue: </strong>
+        <p>{{ total_revenue|floatformat:2 }}</p>
+        <strong>Completed orders count: </strong>
+        <p>{{ count_done_orders }}</p>
+        <strong>Orders in process: </strong>
+        <p>{{ orders.count }}</p>
+    </div>
+
+    <h3>Orders in process</h3>
+
+    <form class="search_form" method="get" action="">
+        <input type="text" name="search" placeholder="Search an order..." value="{{ search_query }}">
+        <button type="submit">Search</button>
+    </form>
+    {% for order in orders %}
+        <div class="order_card">
+            <div class="order_card_info">
+                <p><strong>Order #{{ order.id }}</strong> by {{ order.client.user.username }}</p>
+                <p>Phone: {{ order.client.phone }}</p>
+                <p>Moved to process: {{ order.updated_at|date:"d.m.Y H:i" }}</p>
+                <p>Total: {{ order.total_price|floatformat:2 }} BYN</p>
+            </div>
+            <div class="order_card_books">
+                <ul>
+                    {% for book in order.books.all %}
+                        <li>{{ book.title }} — {{ book.price }} BYN</li>
+                    {% endfor %}
+                </ul>
+                
+            </div>
+
+            
+            <a href="{% url 'complete_order' order.pk %}" class="panel_btn">Mark as Done</a>
+        </div>
+
+    {% empty %}
+        <p>No active orders to process right now.</p>
+    {% endfor %}
+    
+
+
+{% endblock %}

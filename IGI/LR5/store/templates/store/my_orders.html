@@ -35,6 +35,13 @@
                 {% endfor %}
             </div>
 
+            <div class="order_footer">
+                <p>Total cost: {{ order.total_price|floatformat:2 }} BYN</p>
+                {% if order.status == 'n' %}
+                    <a class="panel_btn" href="{% url 'confirm_order' order.pk %}">Confirm</a>
+                    <a class="panel_btn" href="{% url 'cancel_order' order.pk %}">Cancel</a>
+                {% endif %}
+            </div>
         </div>
         
     
