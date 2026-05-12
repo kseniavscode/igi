@@ -1,6 +1,11 @@
 {% extends 'pages/layout.html' %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/book_details.css' %}">
+    <link rel="stylesheet" href="{% static 'css/read_more.css' %}">
+{% endblock %}
+
 {% block title %}{{ book.title }}{% endblock %}
 
 {% block content %}
@@ -49,7 +54,14 @@
             
             <div class="price_card">
                 <h3>Price: {{ book.price }} BYN</h3>
-                <button>Add to Cart</button>
+
+                {% if user.is_authenticated %}
+                    {% if not user.is_staff %}
+                        <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Add to Order</a>
+                    {% endif %}
+                {% else %}
+                    <p><a class="panel_btn" href="{% url 'login' %}">Log in</a> to buy this book</p>
+                {% endif %}
             </div>
             
         </div>

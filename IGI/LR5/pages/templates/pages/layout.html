@@ -4,10 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Book Store{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+    
 </head>
 <body>
+
+    <div class="header_container">
+        <div class="info_buttons">
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <p>Emploee`s panel</p>
+                    <a href="{% url 'book_list' %}" class="panel_btn">Statistic</a>
+                    <a href="{% url 'book_list' %}" class="panel_btn">Order management</a>
+                    <a href="{% url 'book_list' %}" class="panel_btn">List of clients</a>
+                {% else %}
+                    <p>User`s personal account</p>
+                    <a href="{% url 'my_orders' %}" class="panel_btn">My orders</a>
+                    <a href="{% url 'book_list' %}" class="panel_btn">Self-diaming points</a>
+                    <a href="{% url 'book_list' %}" class="panel_btn">My promocodes</a>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="log_bar">
+
+            {% if user.is_authenticated %}
+                <span>
+                    You entered as <strong>{{ user.username }}</strong>{% if user.is_staff %}Emploee{% endif %}
+                </span>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="panel_btn" type="submit">
+                        Log out
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'register' %}" class="panel_btn">Register</a>
+                <a href="{% url 'login' %}" class="panel_btn">Log in</a>
+            {% endif %}
+
+        </div>
+    </div>
+    
+
+
     <div class="container">
         {% block content %}
         {% endblock %}

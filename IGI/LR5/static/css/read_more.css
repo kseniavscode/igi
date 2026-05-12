@@ -1,0 +1,9 @@
+#read_more_btn {
+    background: none;
+    border: none;
+    color: #610303;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0;
+    text-decoration: underline;
+}

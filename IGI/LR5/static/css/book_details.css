@@ -1,0 +1,83 @@
+.back_link {
+    display: inline-block;
+    margin: 0 0 15px 0;
+    padding: 5px;
+    text-decoration: none;
+    color: rgb(58, 33, 2);
+    font-weight: bold;
+    border: 1px solid rgb(58, 33, 2);
+    border-radius: 3px;
+}
+
+.book_details {
+    display: flex;
+    justify-content: flex-start;
+    padding: 30px;
+    gap: 30px;
+}
+
+.details_image{
+    width: 250px;
+}
+.details_cover{
+    width: 250px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.details_info h1{
+    margin: 0;
+    font-size: 32px;
+}
+
+.info{
+    margin: 20px 0;
+    display: flex;
+    justify-content: end;
+    gap: 40px;
+}
+
+.book_meta{
+    flex: 1;
+    background: #fdfdfd;
+    padding: 15px;
+    border-left: 3px solid #610303;
+}
+.book_meta p{
+    margin: 0;
+}
+
+.annotation{
+    flex: 2;
+}
+.annotation h3{
+    margin: 0 0 10px 0;
+    padding: 0;
+    color: #610303;
+}
+
+
+
+.price_card{
+    margin: auto 40px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.price_card h3{
+    margin: 20px;
+    color: #222;
+    font-size: 28px;
+}
+/* .price_card button{
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #610303;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+} */

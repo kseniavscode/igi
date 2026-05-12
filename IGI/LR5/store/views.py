@@ -36,15 +36,20 @@ def book_details(request, pk):
 
 
 @login_required
-def add_to_orders(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    client = Client.objects.get(user=request.user)
+def add_to_orders(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    client = get_object_or_404(Client, user=request.user)
     
-    order = Order.objects.create(client=client, status='n')
+    order, created = Order.objects.get_or_create(client=client, status='n')
     order.books.add(book)
-    order.save()
     
-    return redirect('book_list')
+    return redirect('my_orders')
+
+@login_required
+def my_orders(request):
+    client = get_object_or_404(Client, user=request.user)
+    orders = Order.objects.filter(client=client).order_by('-created_at')
+    return render(request, 'store/my_orders.html', {'orders': orders})
 
 
 def sales_stats(request):

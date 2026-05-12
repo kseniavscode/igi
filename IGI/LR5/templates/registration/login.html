@@ -1,0 +1,15 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+    <h1>Sing in</h1>
+    <form method="post">
+        {% csrf_token %} 
+        {{ form.as_p }} 
+        <button class="panel_btn" type="submit">Login</button>
+    </form>
+
+{% endblock %}
+

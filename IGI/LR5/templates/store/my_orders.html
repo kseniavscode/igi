@@ -1,0 +1,44 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/my_orders.css' %}">
+{% endblock %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+    <h1>My Orders</h1>
+    {% for order in orders %}
+        <div class="order_card">
+            <div class="order_header">
+                <strong>Order #{{ order.id }}</strong>
+                <span>Date: {{ order.created_at|date:"d.m.Y H:i" }}</span>
+                <span class="status_{{ order.status }}">Status: {{ order.get_status_display }}</span>
+            </div>
+
+            <div class="order_books">
+                {% for book in order.books.all %}
+                    <div class="book_in_order">
+                        <a href="{% url 'book_details' book.pk %}">
+                            {% if book.cover %}
+                                <img class="book_cover_order" src="{{ book.cover.url }}" alt="{{ book.title }}" >
+
+                            {% else %}
+                                <img class="book_cover_order" src="{% static 'images/book_cover_default.jpg' %}" alt="{{ book.title }}" >
+                            {% endif %}
+                        </a>
+                        
+                        <h5><a href="{% url 'book_details' book.pk %}">{{ book.title }}</a></h5>
+                        <p class="price">{{ book.price }} BYN</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        
+    
+    {% empty %}
+        <p>You haven't made any orders yet. <a class="panel_btn" href="{% url 'book_list' %}">Go to store</a>.</p>
+    {% endfor %}
+{% endblock %}

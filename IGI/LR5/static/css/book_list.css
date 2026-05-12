@@ -1,0 +1,91 @@
+.search_form {
+    margin-bottom: 20px;
+}
+
+.search_form input {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search_form button {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    padding: 8px 15px;
+    background-color: rgb(71, 40, 1);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.book_grid {
+    background-color: #fff;
+    margin: 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(54, 31, 4, 0.7);
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: flex-start;
+}
+
+.book_card {
+    width: 210px;
+    margin: 0 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.book_card h3 {
+    height: 45px;
+    font-size: 16px;
+    margin: 0 10px 5px 0;
+    overflow: hidden;
+}
+
+.book_card h3 a {
+    text-decoration: none;
+    color: #333;
+}
+
+.book_card h3 a:hover {
+    color: rgb(36, 20, 1);
+}
+
+.price {
+    font-weight: bold;
+    color: #610303;
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.book_cover {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    height: 310px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+}
+
+.pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination a {
+    text-decoration: none;
+    margin: 0 2px;
+    padding: 5px;
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(58, 33, 2);
+    border-radius: 4px;
+}
