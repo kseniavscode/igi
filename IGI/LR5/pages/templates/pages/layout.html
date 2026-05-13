@@ -17,7 +17,7 @@
             {% if user.is_authenticated %}
                 {% if user.is_staff %}
                     <p>Emploee`s panel</p>
-                    <a href="{% url 'book_list' %}" class="panel_btn">Statistic</a>
+                    <a href="{% url 'stats' %}" class="panel_btn">Statistic</a>
                     <a href="{% url 'order_management' %}" class="panel_btn">Order management</a>
                     <a href="{% url 'book_list' %}" class="panel_btn">List of clients</a>
                 {% else %}

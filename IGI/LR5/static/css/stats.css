@@ -1,0 +1,85 @@
+.stats{
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+
+}
+
+.stat_container{
+    padding: 15px;
+    background-color: #630016;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0.1, 0.3);
+}
+
+.stat_card{
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0.1, 0.3);
+}
+.stat_card p{
+    margin: 0;
+}
+
+.stat_card h4{
+    color: #007bff;
+}
+
+.best_and_worst_books{
+
+    margin: auto 20px;
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+.best{
+    padding: 5px;
+    margin: 5px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0.1, 0.3);
+
+    text-align: center;
+    flex: 1;
+
+}
+.best h2{
+    color: rgb(5, 104, 5);
+}
+
+.worst{
+    padding: 5px;
+    margin: 5px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0.1, 0.3);
+
+    text-align: center;
+    flex: 1;
+}
+
+.worst h2{
+    color: rgb(104, 5, 5);
+}
+.book_cover_stat{
+    width: 100px;
+    object-fit: cover;
+}
+.display{
+    padding: 5px;
+    border: #222;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0.1, 0.3);
+}
+
+.plot{
+    margin: 40px 0;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.plot_canvas{
+    flex: 2;
+}

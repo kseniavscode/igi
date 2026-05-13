@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Avg, Count
+from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
-from .models import Book, Client, Order
+from .models import Book, Client, Order, Genre
 
 from django.contrib.auth import login
 from .forms import UserRegistrationForm
 
 from django.utils import timezone
+import statistics
 # Create your views here.
 
 def book_list(request):
@@ -16,7 +18,7 @@ def book_list(request):
     search_query = request.GET.get('search', '')
 
     if search_query:
-        books = Book.objects.filter(Q(authors__name__icontains=search_query) | Q(title__icontains=search_query) | Q(summery__icontains=search_query)).distinct()
+        books = Book.objects.filter(Q(authors__name__icontains=search_query) | Q(title__icontains=search_query)).distinct()
 
     else:
         books = Book.objects.all()
@@ -106,14 +108,94 @@ def complete_order(request, pk):
         order.save()
     return redirect('order_management')
 
-def sales_stats(request):
-    total_sales = Order.objects.filter(status='d').aggregate(Sum('books__price'))['books__price__sum'] or 0
+@login_required
+def statistic_view(request):
+
+    if not hasattr(request.user, 'employee'):
+        return redirect('book_list')
     
-    orders_count = Order.objects.count()
+    clients_alphabetical = Client.objects.order_by('user__username')
+    books_alphabetical = Book.objects.order_by('title')
+
+    done_orders = Order.objects.filter(status='d')
+    total_revenue = done_orders.aggregate(total=Sum('books__price'))['total'] or 0
+
+    order_total = [o.total_price() for o in done_orders]
+
+    if order_total:
+        revenue_mean = statistics.mean(order_total)
+        revenue_median = statistics.median(order_total)
+
+        try:
+            revenue_mode = statistics.mode(order_total)
+        except statistics.StatisticsError:
+            revenue_mode = 'Multiple modes'
+    else:
+        revenue_mean = revenue_median = revenue_mode = 0
+
+
+    ages = Client.objects.values_list('age', flat=True)
+    if ages:
+        age_mean = statistics.mean(ages)
+        age_median = statistics.median(ages)
+    else:
+        age_mean = age_median = 0
+
+    popular_genre = Genre.objects.annotate(profit=Count('book__order', filter=Q(book__order__status='d'))).order_by('-profit').first()
+    profitable_genre = Genre.objects.annotate(profit=Count('book__price', filter=Q(book__order__status='d'))).order_by('-profit').first()
     
-    return render(request, 'store/stats.html', {
-        'total_sales': total_sales,
-        'orders_count': orders_count
+
+    top_book = Book.objects.annotate(sales_count=Count('order', filter=Q(order__status='d'))).order_by('sales_count').first()
+    loser_book = Book.objects.annotate(sales_count=Count('order', filter=Q(order__status='d'))).order_by('-sales_count').first()
+
+
+    monthly_sales_data = Order.objects.filter(status='d').annotate(month=TruncMonth('updated_at')).values('month').annotate(total=Sum('books__price')).order_by('month')
+
+    chart_labels = [data['month'].strftime("%b %Y") for data in monthly_sales_data]
+    chart_data = [float(data['total']) for data in monthly_sales_data]
+
+
+
+    y_values = chart_data
+    n = len(y_values)
+    x_values = list(range(1, n + 1))
+
+    if n > 1:
+        sum_x = sum(x_values)
+        sum_y = sum(y_values)
+        sum_xy = sum(x * y for x, y in zip(x_values, y_values))
+        sum_xx = sum(x * x for x in x_values)
+
+        slope = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x**2)
+        intercept = (sum_y - slope * sum_x) / n
+        
+        trend_line_data = [round(slope * x + intercept, 2) for x in x_values]
+
+        next_month = n+1
+        forecast_value = round(slope * next_month + intercept, 2)
+
+    else:
+        trend_line_data = []
+        forecast_value = 0
+
+    return render(request, 'staff_panel/stats.html', {
+        'clients': clients_alphabetical,
+        'books': books_alphabetical,
+        'total_revenue': total_revenue,
+        'revenue_mean': revenue_mean,
+        'revenue_median': revenue_median,
+        'revenue_mode': revenue_mode,
+        'age_mean': age_mean,
+        'age_median': age_median,
+        'popular_genre': popular_genre,
+        'profitable_genre': profitable_genre,
+        'top_book': top_book,
+        'loser_book': loser_book,
+        'chart_labels': chart_labels,
+        'chart_data': chart_data,
+        'trend_line_data': trend_line_data,
+        'forecast_value': forecast_value,
+        
     })
 
 

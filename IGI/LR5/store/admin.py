@@ -14,8 +14,9 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'client', 'created_at', 'status')
-    list_filter = ('status', 'created_at')
+    list_display = ('id', 'client', 'created_at', 'updated_at', 'status')
+    list_editable = ('updated_at', 'status')
+    list_filter = ('status', 'created_at', 'updated_at')
     filter_horizontal = ('books',)
 
 @admin.register(Employee)

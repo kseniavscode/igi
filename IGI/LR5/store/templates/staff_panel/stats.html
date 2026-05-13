@@ -1,0 +1,129 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/stats.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block title %}Business Analytics{% endblock %}
+
+{% block content %}
+    <h1>Business Analytics</h1>
+    <hr>
+    <div class="stats">
+        <div class="stat_container">
+            <div class="stat_card">
+                <h3>Sales Metrics</h3>
+                <p>Total Revenue: <strong>{{ total_revenue|floatformat:2 }} BYN</strong></p>
+                <p>Average Check: {{ revenue_mean|floatformat:2 }} BYN</p>
+                <p>Median Check: {{ revenue_median|floatformat:2 }} BYN</p>
+                <p>Most common price: {{ revenue_mode|floatformat:2 }}</p>
+            </div>
+            <div class="stat_card">
+                <h3>Customer Metrics</h3>
+                <p>Average Age: {{ age_mean|floatformat:1 }} years</p>
+                <p>Median Age: {{ age_median }} years</p>
+            </div>
+            <div class="stat_card">
+                <h3>Top Performance</h3>
+                <p>Most Popular Genre: <strong>{{ popular_genre.name }}</strong></p>
+                <p>Most Profitable Genre: <strong>{{ profitable_genre.name }}</strong></p>
+            </div>
+        </div>
+        
+        <div class="best_and_worst_books">
+            <div class="best">
+                <h2>Best Seller</h2>
+                {% if top_book.cover %}
+                    <img src="{{ top_book.cover.url }}" alt="{{ top_book.title }}" class="book_cover_stat">
+                {% else %}
+                    <img src="{% static 'images/default_book.png' %}" alt="No cover" class="book_cover_stat">
+                {% endif %}
+                <h3>{{ top_book.title }}</h3>
+            </div>
+            <div class="worst">
+                <h2>Least Demanded</h2>
+                {% if loser_book.cover %}
+                    <img src="{{ loser_book.cover.url }}" alt="{{ loser_book.title }}" class="book_cover_stat">
+                {% else %}
+                    <img src="{% static 'images/default_book.png' %}" alt="No cover" class="book_cover_stat">
+                {% endif %}
+                <h3>{{ loser_book.title }}</h3>
+            </div>
+        </div>
+
+        <div class="display">
+            <div>
+                <h4>Clients</h4>
+                <ul>
+                    {% for client in clients %}
+                        <li>{{ client.user.username }} ({{ client.phone }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <hr>
+            <div>
+                <h4>Inventory</h4>
+                <ul>
+                    {% for book in books %}
+                        <li>{{ book.title }} - {{ book.price }} BYN</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="plot">
+        <div class="plot_canvas">
+            <canvas id="salesChart"></canvas>
+        </div>
+        
+        <div class="stat_card">
+            <h2>Sales Forecast</h2>
+            <p>Based on linear trend, next month's estimated revenue:</p>
+            <h4>{{ forecast_value }} BYN</h4>
+            
+            {% if forecast_value > total_sales_sum %}
+                <p>▲ Positive growth trend</p>
+            {% else %}
+                <p>▼ Negative trend or stabilization</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <script>
+        const ctx = document.getElementById('salesChart').getContext('2d')
+        const salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_labels|safe }},
+                datasets: [{
+                    label: 'Monthly Revenue',
+                    data: {{ chart_data|safe }},
+                    borderColor: 'rgba(99, 0, 22, 1)',
+                    backgroundColor: 'rgba(99, 0, 22, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                },
+                {
+                    label: 'Linear Trend',
+                    data: {{ trend_line_data|safe }},
+                    borderColor: 'rgba(54, 162, 235, 0.8)',
+                    borderDash: [5, 5],
+                    fill: false,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+
+{% endblock %}

@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, RegexValidator
+from django.utils import timezone
 
 # Create your models here.
 
@@ -104,7 +105,7 @@ class Order(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name="Client")
     books = models.ManyToManyField(Book, verbose_name="Books in order")
 
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date of order")
+    created_at = models.DateTimeField(default=timezone.now, verbose_name="Date of order")
     updated_at = models.DateTimeField(null=True, blank=True, verbose_name="Processed at")
 
     STATUS_CHOICE = {

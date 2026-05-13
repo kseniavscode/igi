@@ -16,5 +16,6 @@ urlpatterns = [
     path('order/complete/<int:pk>', views.complete_order, name='complete_order'),
 
     path('order-management/', views.order_management, name='order_management'),
+    path('stats/', views.statistic_view, name='stats'),
     
 ]
