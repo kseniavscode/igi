@@ -94,6 +94,38 @@
 
     </div>
 
+    <div class="financial_report">
+        <h3>Annual Financial Report (by Genre)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Genre</th>
+                    {% for header in table_headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for genre, month_data in annual_report.items %}
+                    <tr>
+                        <td>{{ genre }}</td>
+
+                        {% for month, profit in month_data.items %}
+                            <td>
+                                {% if profit > 0 %}
+                                    {{ profit }} BYN
+                                {% else %}
+                                    <span>-</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     <script>
         const ctx = document.getElementById('salesChart').getContext('2d')
         const salesChart = new Chart(ctx, {

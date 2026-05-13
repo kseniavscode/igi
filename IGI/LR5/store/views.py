@@ -114,6 +114,8 @@ def statistic_view(request):
     if not hasattr(request.user, 'employee'):
         return redirect('book_list')
     
+    context = {}
+
     clients_alphabetical = Client.objects.order_by('user__username')
     books_alphabetical = Book.objects.order_by('title')
 
@@ -145,16 +147,36 @@ def statistic_view(request):
     profitable_genre = Genre.objects.annotate(profit=Count('book__price', filter=Q(book__order__status='d'))).order_by('-profit').first()
     
 
+    context.update({
+        'clients': clients_alphabetical,
+        'books': books_alphabetical,
+        'total_revenue': total_revenue,
+        'revenue_mean': revenue_mean,
+        'revenue_median': revenue_median,
+        'revenue_mode': revenue_mode,
+        'age_mean': age_mean,
+        'age_median': age_median,
+        'popular_genre': popular_genre,
+        'profitable_genre': profitable_genre,
+    })
+
     top_book = Book.objects.annotate(sales_count=Count('order', filter=Q(order__status='d'))).order_by('sales_count').first()
     loser_book = Book.objects.annotate(sales_count=Count('order', filter=Q(order__status='d'))).order_by('-sales_count').first()
 
+    context.update({
+        'top_book': top_book,
+        'loser_book': loser_book,
+    })
 
     monthly_sales_data = Order.objects.filter(status='d').annotate(month=TruncMonth('updated_at')).values('month').annotate(total=Sum('books__price')).order_by('month')
 
     chart_labels = [data['month'].strftime("%b %Y") for data in monthly_sales_data]
     chart_data = [float(data['total']) for data in monthly_sales_data]
 
-
+    context.update({
+        'chart_labels': chart_labels,
+        'chart_data': chart_data,
+    })
 
     y_values = chart_data
     n = len(y_values)
@@ -178,25 +200,34 @@ def statistic_view(request):
         trend_line_data = []
         forecast_value = 0
 
-    return render(request, 'staff_panel/stats.html', {
-        'clients': clients_alphabetical,
-        'books': books_alphabetical,
-        'total_revenue': total_revenue,
-        'revenue_mean': revenue_mean,
-        'revenue_median': revenue_median,
-        'revenue_mode': revenue_mode,
-        'age_mean': age_mean,
-        'age_median': age_median,
-        'popular_genre': popular_genre,
-        'profitable_genre': profitable_genre,
-        'top_book': top_book,
-        'loser_book': loser_book,
-        'chart_labels': chart_labels,
-        'chart_data': chart_data,
+    context.update({
         'trend_line_data': trend_line_data,
         'forecast_value': forecast_value,
-        
     })
+
+    raw_report_data = Genre.objects.filter(book__order__status= 'd').annotate(month=TruncMonth('book__order__updated_at')).values('name', 'month').annotate(total=Sum('book__price')).order_by('name', 'month')
+
+    report_months = sorted(list(set(row['month'] for row in raw_report_data if row['month'] )))
+    table_headers = [m.strftime("%b %Y") for m in report_months]
+
+    annual_report = {}
+
+    for row in raw_report_data:
+        genre_name = row['name']
+        month_date = row['month']
+        profit = float(row['total'] or 0)
+
+        if genre_name not in annual_report:
+            annual_report[genre_name] = {m: 0.0 for m in report_months}
+
+        annual_report[genre_name][month_date] = profit
+
+    context.update({
+        'table_headers': table_headers,
+        'annual_report': annual_report,
+    })
+
+    return render(request, 'staff_panel/stats.html', context)
 
 
 
