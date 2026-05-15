@@ -17,5 +17,8 @@ urlpatterns = [
 
     path('order-management/', views.order_management, name='order_management'),
     path('stats/', views.statistic_view, name='stats'),
+    path('import_books/', views.import_books, name='import_books'),
+    path('manage_stock/', views.manage_stock, name='manage_stock'),
+    path('add_instance/<int:pk>/', views.add_instance, name='add_instance'),
     
 ]

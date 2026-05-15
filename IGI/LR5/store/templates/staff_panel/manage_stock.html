@@ -1,0 +1,47 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block title %}Manage Stock{% endblock %}
+
+{% block content %}
+    <div class="table_report">
+        <h3>Manage Stock</h3>
+        <form class="search_form" method="GET" action="{% url 'manage_stock' %}">
+            {% csrf_token %}
+            <input type="text" name="search" placeholder="Search books..." value="{{ search_query }}">
+            <button type="submit">Search</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>   
+                    <th>Count of book instance</th>
+                    <th>Count in waitlist</th>
+                    <th>Add instance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.in_stock }}</td>
+                        <td>{{ book.waiting }}</td>
+                        <td>
+                            <form class="search_form" method="POST" action="{% url 'add_instance' book.pk %}">
+                                {% csrf_token %}
+                                <input type="number" name="count" value="1" min="1">
+                                <button type="submit">Add instanse</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

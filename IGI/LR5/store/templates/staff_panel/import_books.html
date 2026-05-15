@@ -1,0 +1,58 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my_orders.css' %}">
+{% endblock %}
+
+{% block title %}Global Book Search{% endblock %}
+
+{% block content %}
+    <h2>Global Book Search (Open Library API)</h2>
+    <hr>
+    <form method="GET" class="search_form">
+        <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search by title, author, or ISBN...">
+        <button type="submit">Search Worldwide</button>
+    </form>
+
+    {% if results %}
+        <div class="list_group">
+        {% for book in results %}
+            <div class="book_in_order">
+
+                <div class="book_cover">
+                    {% if book.cover_url %}
+                        <img class="book_cover_order" src="{{ book.cover_url }}" alt="No cover" >
+                    {% endif %}
+                </div>
+                <div class="">
+                    <h5>{{ book.title }}</h5>
+                    <p>Author: {{ book.authors|join:", " }}</p>
+                    <p>{{ book.description|truncatewords:20 }}</p>
+                
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="title" value="{{ book.title }}">
+                        <input type="hidden" name="description" value="{{ book.description }}">
+                        <input type="hidden" name="isbn" value="{{ book.isbn }}">
+                        <input type="hidden" name="publisher" value="{{ book.publisher }}"> 
+                        <input type="hidden" name="language" value="{{ book.language }}">
+                        <input type="hidden" name="cover_url" value="{{ book.cover_url }}">
+
+                        {% for author in book.authors %}
+                            <input type="hidden" name="authors" value="{{ author }}">
+                        {% endfor %}
+                        {% for cat in book.categories %}
+                            <input type="hidden" name="categories" value="{{ cat }}">
+                        {% endfor %}
+                        <button type="submit" class="panel_btn">Add to Library</button>
+                    </form>
+                </div>
+                
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    
+{% endblock %}

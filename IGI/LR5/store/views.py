@@ -3,14 +3,129 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Sum, Avg, Count
 from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
-from .models import Book, Client, Order, Genre
+from .models import Book, BookInstance, Client, Order, Genre, Author, Language, Waitlist
 
 from django.contrib.auth import login
 from .forms import UserRegistrationForm
 
 from django.utils import timezone
 import statistics
+
+from django.conf import settings
+
+import requests
+from django.core.files.base import ContentFile
+import random
+import uuid
 # Create your views here.
+
+@login_required
+def import_books(request):
+
+    if not hasattr(request.user, 'employee'):
+        return redirect('book_list')
+    
+    search_results = []
+    query = request.GET.get('q')
+
+    if query:
+        api_key = settings.GOOGLE_BOOKS_API_KEY
+        url = f"https://www.googleapis.com/books/v1/volumes"
+
+        params = {
+            'q': query,
+            'maxResults': 10,
+            'key': api_key 
+        }
+
+        response = requests.get(url, params=params)
+
+        if response.status_code == 200:
+            data = response.json()
+            items = data.get('items', [])
+            
+            for item in items:
+
+                isbn = None
+                info = item.get('volumeInfo', {})
+
+                publisher = info.get('publisher', 'Unknown Publisher')
+                identifiers = info.get('industryIdentifiers', [])
+                isbn = identifiers[0].get('identifier', '0000000000000') if identifiers else '0000000000000'
+
+                if isbn and isbn != '0000000000000':
+                    cover_url = f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false"
+
+                else:
+                    image_link = info.get('imageLinks', {})
+                    google_image = image_link.get('extraLarge', '') or image_link.get('large', '') or image_link.get('thumbnail', '')
+                    cover_url = google_image.replace('zoom=1', 'zoom=4').replace('&edge=curl', '').replace('http://', 'https://')
+
+                search_results.append({
+                    'title': info.get('title'),
+                    'authors': info.get('authors', ['Unknown Author']),
+                    'description': info.get('description', 'No description available.'),
+                    'categories': info.get('categories', ['General']),
+                    'publisher': publisher,
+                    'language': info.get('language', 'English'),
+                    'cover_url': cover_url,
+                    'isbn': isbn or '0000000000000'
+                    
+                    
+                })
+
+    if request.method == 'POST':
+
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        isbn = request.POST.get('isbn')[:13]
+        imprint = request.POST.get('publisher')
+        lang_code = request.POST.get('language').upper()
+        cover_url = request.POST.get('cover_url')
+
+        lang_obj, _ = Language.objects.get_or_create(name=lang_code)
+
+
+        new_book = Book.objects.create(
+            title=title,
+            summary=description,
+            isbn=isbn,
+            imprint=imprint,
+            language=lang_obj,
+            price=round(random.randint(20, 55), 2)
+        )
+        authors_list = request.POST.getlist('authors')
+        for a_name in authors_list:
+            author_obj, _ = Author.objects.get_or_create(name=a_name)
+            new_book.authors.add(author_obj)
+
+        categories_list = request.POST.getlist('categories')
+        for c_name in categories_list:
+            genre_obj, _ = Genre.objects.get_or_create(name=c_name)
+            new_book.genre.add(genre_obj)
+
+        stock_count = random.randint(5, 20)
+        for _ in range(stock_count):
+            BookInstance.objects.create(
+                book=new_book,
+                imprint=new_book.imprint,
+                status='a'
+            )
+        if cover_url:
+            cover_url = cover_url.replace('http://', 'https://')
+            try:
+                img_temp = requests.get(cover_url)
+                if img_temp.status_code == 200:
+                    file_name = f"{title.replace(' ', '_')[:20]}.jpg"
+                    new_book.cover.save(file_name, ContentFile(img_temp.content), save=True)
+            except:
+                pass
+
+        return redirect('book_list')
+    
+    return render(request, 'staff_panel/import_books.html', {'results': search_results, 'query': query})
+
+
 
 def book_list(request):
     """Get all books from bd and by searching"""
@@ -36,7 +151,12 @@ def book_list(request):
 
 def book_details(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    return render(request, 'store/book_details.html', {'book': book})
+
+    available_count = BookInstance.objects.filter(book=book, status='a').count()
+    return render(request, 'store/book_details.html', {
+        'book': book,
+        'available_count': available_count
+    })
 
 
 @login_required
@@ -44,10 +164,23 @@ def add_to_orders(request, pk):
     book = get_object_or_404(Book, pk=pk)
     client = get_object_or_404(Client, user=request.user)
     
-    order, created = Order.objects.get_or_create(client=client, status='n')
-    order.books.add(book)
-    
-    return redirect('my_orders')
+    book_instance = BookInstance.objects.filter(book=book, status='a').first()
+
+    if book_instance:
+        order, _ = Order.objects.get_or_create(client=client, status='n')
+        
+        book_instance.status = 'r'
+        book_instance.order = order
+        book_instance.save()
+
+        order.books.add(book)
+        return redirect('my_orders')
+    else:
+        Waitlist.objects.get_or_create(client=client, book=book)
+        return render(request, 'store/book_details.html', {
+            'book': book,
+            'message': "Книги нет в наличии, вы добавлены в лист ожидания. Мы сообщим, когда она появится!"
+        })
 
 @login_required
 def my_orders(request):
@@ -67,6 +200,13 @@ def confirm_order(request, pk):
 def cancel_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if order.status == 'n':
+
+        instances = BookInstance.objects.filter(order=order)
+        for ins in instances:
+            ins.status = 'a'
+            ins.order = None
+            ins.save()
+
         order.status = 'c'
         order.save()
     return redirect('my_orders')
@@ -104,6 +244,13 @@ def complete_order(request, pk):
     
     order = get_object_or_404(Order, pk=pk)
     if order.status == 'p': 
+
+        instances = BookInstance.objects.filter(order=order)
+
+        for ins in instances:
+            ins.status = 's'
+            ins.save()
+
         order.status = 'd'  
         order.save()
     return redirect('order_management')
@@ -229,7 +376,55 @@ def statistic_view(request):
 
     return render(request, 'staff_panel/stats.html', context)
 
+@login_required
+def manage_stock(request):
+    if not hasattr(request.user, 'employee'):
+        return redirect('book_list')
+    
+    books = Book.objects.annotate(in_stock=Count('bookinstance', filter=Q(bookinstance__status='a')),
+                                  waiting=Count('waitlist')).order_by('title')
+    search_query = request.GET.get('search', '')
 
+    if search_query:
+        books = books.filter(Q(title__icontains=search_query)).distinct()
+
+    
+    return render(request, 'staff_panel/manage_stock.html', {
+        'books': books,
+        'search_query': search_query
+    })
+
+@login_required
+def add_instance(request, pk):
+    if not hasattr(request.user, 'employee'):
+        return redirect('book_list')
+    
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.method == 'POST':
+        count = int(request.POST.get('count', 1))
+
+        for _ in range(count):
+            new_instance = BookInstance.objects.create(
+                book=book,
+                imprint=book.imprint,
+                status='a'
+            )
+
+            waiting_user = Waitlist.objects.filter(book=book).order_by('added_at').first()
+
+            if waiting_user:
+
+                order, _ = Order.objects.get_or_create(client=waiting_user.client, status='n')
+                new_instance.status = 'r'
+                new_instance.order = order
+                new_instance.save()
+
+                order.books.add(book)
+
+                waiting_user.delete()
+
+        return redirect('manage_stock')
 
 
 

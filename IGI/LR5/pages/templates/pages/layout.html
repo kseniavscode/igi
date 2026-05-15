@@ -19,7 +19,8 @@
                     <p>Emploee`s panel</p>
                     <a href="{% url 'stats' %}" class="panel_btn">Statistic</a>
                     <a href="{% url 'order_management' %}" class="panel_btn">Order management</a>
-                    <a href="{% url 'book_list' %}" class="panel_btn">List of clients</a>
+                    <a href="{% url 'manage_stock' %}" class="panel_btn">Manage stock</a>
+                    <a href="{% url 'import_books' %}" class="panel_btn">Import books</a>
                 {% else %}
                     <p>User`s personal account</p>
                     <a href="{% url 'my_orders' %}" class="panel_btn">My orders</a>

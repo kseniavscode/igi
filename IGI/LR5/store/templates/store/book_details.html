@@ -44,8 +44,8 @@
 
                 <div class="annotation">
                     <h3>Annotation</h3>
-                    <p id="summary" data-fulltext="{{ book.summery }}">{{ book.summery|truncatechars:150 }}</p>
-                    {% if book.summery|length > 150 %}
+                    <p id="summary" data-fulltext="{{ book.summary }}">{{ book.summary|truncatechars:150 }}</p>
+                    {% if book.summary|length > 150 %}
                         <button id="read_more_btn" onclick="toggleText()">Read more</button>
                     {% endif %}
                 </div>
@@ -57,7 +57,11 @@
 
                 {% if user.is_authenticated %}
                     {% if not user.is_staff %}
-                        <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Add to Order</a>
+                        {% if available_count > 0 %}
+                            <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Add to Order</a>
+                        {% else %}
+                            <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Out of stock</a>
+                        {% endif %}
                     {% endif %}
                 {% else %}
                     <p><a class="panel_btn" href="{% url 'login' %}">Log in</a> to buy this book</p>

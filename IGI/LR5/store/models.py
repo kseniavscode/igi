@@ -35,7 +35,7 @@ class Book(models.Model):
 
     title = models.CharField(max_length=150, verbose_name="Title of book")
     cover = models.ImageField(upload_to='books/', null=True, blank=True, verbose_name="Book cover")
-    summery = models.TextField(verbose_name="Annotation")
+    summary = models.TextField(verbose_name="Annotation")
     imprint = models.CharField(max_length=100, blank=True, verbose_name="Publishing House")
     isbn = models.CharField(max_length=13, verbose_name="ISBN")
 
@@ -58,12 +58,14 @@ class BookInstance(models.Model):
 
     book = models.ForeignKey(Book, on_delete=models.RESTRICT, null=True, verbose_name="Book")
 
-    LOAN_STATUS = {
+    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, blank=True, related_name='instances')
+
+    LOAN_STATUS = [
         ("m", "maintenance"),
         ("s", "sold"),
         ("a", "available"),
         ("r", "reserved")
-    }
+    ]
 
     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default="m", verbose_name="Status")
 
@@ -108,12 +110,12 @@ class Order(models.Model):
     created_at = models.DateTimeField(default=timezone.now, verbose_name="Date of order")
     updated_at = models.DateTimeField(null=True, blank=True, verbose_name="Processed at")
 
-    STATUS_CHOICE = {
+    STATUS_CHOICE = [
         ('n', 'New'),
         ('p', 'In process'),
         ('d', 'Done'),
         ('c', 'Cancel')
-    }
+    ]
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICE, default='n', verbose_name='Status of order')
 
@@ -128,3 +130,12 @@ class Order(models.Model):
         return self.books.aggregate(total=models.Sum('price'))['total'] or 0
     def __str__(self):
         return f"Order #{self.id} from {self.client.user.username}"
+
+class Waitlist(models.Model):
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(default=timezone.now, verbose_name="Date of added at waitlist")
+
+    def __str__(self):
+        return f"{self.client.user.username} waiting for {self.book.title}"
