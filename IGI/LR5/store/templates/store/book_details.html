@@ -11,65 +11,132 @@
 {% block content %}
     <a href="{% url 'book_list' %}" class="back_link">← Back to catalog</a>
     <hr>
-    <div class="book_details">
-        <div class="details_image">
-            {% if book.cover %}
-                <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="details_cover">
-            {% else %}
-                <img src="{% static 'images/default_book.png' %}" alt="No cover" class="details_cover">
-            {% endif %}
-        </div>
-        <div class="details_info">
-            <h1>{{ book.title }}</h1>
-            
-            <div class="info">
-                <div class="book_meta">
-                    <p><strong>Authors:</strong>
-                        {% for author in book.authors.all %}
-                            {{ author.name }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p><strong>Genre:</strong> 
-                        {% for g in book.genre.all %}
-                            {{ g.name }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p><strong>Language:</strong> {{ book.language }}</p>
-                    {% if book.imprint %}
-                        <p><strong>Publisher:</strong> {{ book.imprint }}</p>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="class_messages">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if request.user.employee %}
+        <form action="{% url 'update_book' book.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="book_details">
+                <div class="details_image">
+                    {% if book.cover %}
+                    <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="details_cover">
+                    {% else %}
+                        <img src="{% static 'images/default_book.png' %}" alt="No cover" class="details_cover">
                     {% endif %}
-                    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-                    
+
+                    <div class="file_upload">
+                        <label>Change cover</label>
+                        <input type="file" name="cover" accept="image/*">
+                    </div>
                 </div>
 
-                <div class="annotation">
-                    <h3>Annotation</h3>
-                    <p id="summary" data-fulltext="{{ book.summary }}">{{ book.summary|truncatechars:150 }}</p>
-                    {% if book.summary|length > 150 %}
-                        <button id="read_more_btn" onclick="toggleText()">Read more</button>
-                    {% endif %}
+                <div class="details_info">
+                    <input type="text" name="title" value="{{ book.title }}" required pattern="^[\d\s\`\-\:\!\?\.A-ZА-ЯЁa-zа-яё]+$">
+
+                    <div class="info">
+                        <div class="book_meta">
+                            <p><strong>Authors:</strong>
+                                <input type="text" name="authors" value="{% for a in book.authors.all %}{{ a.name }}{% if not forloop.last %}, {% endif %}{% endfor %}" required pattern="^[A-ZА-ЯЁa-zа-яё\,\s\.]+$">
+                            </p>
+                            <p><strong>Genre:</strong> 
+                                <input type="text" name="genres" value="{% for a in book.genre.all %}{{ a.name }}{% if not forloop.last %}, {% endif %}{% endfor %}" pattern="^[A-ZА-ЯЁa-zа-яё\,\s\.]+$">
+                            </p>
+                            <p><strong>Language:</strong> 
+                            <input type="text" name="language" value="{{ book.language }}" pattern="^[A-ZА-ЯЁa-zа-яё]+$">
+                            </p>
+                            <p><strong>Publisher:</strong> 
+                                <input type="text" name="imprint" value="{% if book.imprint %}{{ book.imprint }}{% else %}-{% endif %}" pattern="^[A-ZА-ЯЁa-zа-яё]+([\s\-][A-ZА-ЯЁa-zа-яё]+)*$">
+                            </p>
+                            <p><strong>ISBN:</strong> 
+                                <input type="text" name="isbn" value="{{ book.isbn }}" pattern="\d{13}">
+                            </p>
+                        </div>
+                        <div class="annotation">
+                            <h3>Annotation</h3>
+                            <textarea name="summary">{{ book.summary }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="price_card">
+                        <h3>Price:</h3>
+                        <input type="number" step="0.01" name="price" value="{{ book.price }}" pattern="\d+(\.\d{1,2})?">
+                        
+                    </div>
                 </div>
             </div>
-            
-            
-            <div class="price_card">
-                <h3>Price: {{ book.price }} BYN</h3>
+            <div class="buttons_employee">
+                <button type="submit" class="panel_btn">Update info</button>
+                <a class="panel_btn" href="{% url 'delete_book' book.pk %}" onclick="return confirm('Delete book?')">Delete book</a>
+            </div>
+        </form>
 
-                {% if user.is_authenticated %}
-                    {% if not user.is_staff %}
-                        {% if available_count > 0 %}
-                            <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Add to Order</a>
-                        {% else %}
-                            <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Out of stock</a>
-                        {% endif %}
-                    {% endif %}
+
+    {% else %}
+        <div class="book_details">
+            <div class="details_image">
+                {% if book.cover %}
+                    <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="details_cover">
                 {% else %}
-                    <p><a class="panel_btn" href="{% url 'login' %}">Log in</a> to buy this book</p>
+                    <img src="{% static 'images/default_book.png' %}" alt="No cover" class="details_cover">
                 {% endif %}
             </div>
-            
+            <div class="details_info">
+                <h1>{{ book.title }}</h1>
+                
+                <div class="info">
+                    <div class="book_meta">
+                        <p><strong>Authors:</strong>
+                            {% for author in book.authors.all %}
+                                {{ author.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p><strong>Genre:</strong> 
+                            {% for g in book.genre.all %}
+                                {{ g.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p><strong>Language:</strong> {{ book.language }}</p>
+                        {% if book.imprint %}
+                            <p><strong>Publisher:</strong> {{ book.imprint }}</p>
+                        {% endif %}
+                        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+                        
+                    </div>
+
+                    <div class="annotation">
+                        <h3>Annotation</h3>
+                        <p id="summary" data-fulltext="{{ book.summary }}">{{ book.summary|truncatechars:150 }}</p>
+                        {% if book.summary|length > 150 %}
+                            <button id="read_more_btn" onclick="toggleText()">Read more</button>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                
+                <div class="price_card">
+                    <h3>Price: {{ book.price }} BYN</h3>
+
+                    {% if user.is_authenticated %}
+                        {% if not user.is_staff %}
+                            {% if available_count > 0 %}
+                                <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Add to Order</a>
+                            {% else %}
+                                <a class="panel_btn" href="{% url 'add_to_orders' book.pk %}">Out of stock</a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <p><a class="panel_btn" href="{% url 'login' %}">Log in</a> to buy this book</p>
+                    {% endif %}
+                </div>
+                
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     <script>
         function toggleText() {

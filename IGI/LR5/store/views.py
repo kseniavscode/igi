@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.db.models import Q, Sum, Avg, Count
+from django.db.models import Q, Sum, Count
 from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
 from .models import Book, BookInstance, Client, Order, Genre, Author, Language, Waitlist
@@ -16,7 +16,9 @@ from django.conf import settings
 import requests
 from django.core.files.base import ContentFile
 import random
-import uuid
+
+from django.contrib import messages
+import re
 # Create your views here.
 
 @login_required
@@ -158,6 +160,92 @@ def book_details(request, pk):
         'available_count': available_count
     })
 
+@login_required
+def update_book(request, pk):
+
+    if not hasattr(request.user, 'employee'):
+        return redirect('book_list')
+    
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.method == 'POST':
+
+        title = request.POST.get('title').strip()
+        cover = request.POST.get('cover')  
+        imprint = request.POST.get('imprint').strip()
+        isbn = request.POST.get('isbn').strip()
+        price = request.POST.get('price')
+        language = request.POST.get('language').strip()
+
+        genres = request.POST.get('genres', '').strip()
+        authors = request.POST.get('authors', '').strip()
+
+        if not re.match(r'^[A-ZА-ЯЁa-zа-яё\,\s\.]+$', authors):
+            messages.error(request, 'Enter rigth information about authors')
+            return redirect('book_details', pk=book.pk)
+        
+        if not re.match(r'^[A-ZА-ЯЁa-zа-яё\,\s\.]+$', genres):
+            messages.error(request, 'Enter rigth information about genres')
+            return redirect('book_details', pk=book.pk)
+        
+        if not re.match(r'^[A-ZА-ЯЁa-zа-яё]+$', language):
+            messages.error(request, 'Enter rigth information about language')
+            return redirect('book_details', pk=book.pk)
+        
+        if not re.match(r'^\d+(\.\d{1,2})?$', price):
+            messages.error(request, 'Enter rigth information about price')
+            return redirect('book_details', pk=book.pk)
+        
+        if not re.match(r'^\d{13}$', isbn):
+            messages.error(request, 'Enter rigth information about isbn')
+            return redirect('book_details', pk=book.pk)
+        
+        if not re.match(r'^[A-ZА-ЯЁa-zа-яё]+([\s\-][A-ZА-ЯЁa-zа-яё]+)*$', imprint):
+            messages.error(request, 'Enter rigth information about publishing house')
+            return redirect('book_details', pk=book.pk)
+        
+        if not re.match(r'^[\d\s\`\-\:\!\?\.A-ZА-ЯЁa-zа-яё]+$', title):
+            messages.error(request, 'Enter rigth information about a book`s title')
+            return redirect('book_details', pk=book.pk)
+        
+        book.title = title
+        book.summary = request.POST.get('summary')
+        book.isbn = isbn
+        book.imprint = imprint
+        book.price = price
+
+        lang, _ = Language.objects.get_or_create(name=language)
+        book.language = lang
+
+        a = [i.strip() for i in authors.split(',') if i.strip()]
+        book.authors.clear()
+        for author in a:
+            aut, _ = Author.objects.get_or_create(name=author)
+            book.authors.add(aut)
+
+        g = [i.strip() for i in genres.split(',') if i.strip()]
+        book.genre.clear()
+        for genre in g:
+            gen, _ = Genre.objects.get_or_create(name=genre)
+            book.genre.add(gen)
+
+        if 'cover' in request.FILES:
+            book.cover = request.FILES['cover']
+
+        book.save()
+        messages.success(request, 'Success: Data is updated')
+    return redirect('book_details', pk=book.pk)
+
+@login_required
+def delete_book(request, pk):
+
+    if not hasattr(request.user, 'employee'):
+        return redirect('book_list')
+    
+    book = get_object_or_404(Book, pk=pk)
+    BookInstance.objects.filter(book=book).delete()
+    book.delete()
+    return redirect('book_list')
 
 @login_required
 def add_to_orders(request, pk):
@@ -177,15 +265,12 @@ def add_to_orders(request, pk):
         return redirect('my_orders')
     else:
         Waitlist.objects.get_or_create(client=client, book=book)
-        return render(request, 'store/book_details.html', {
-            'book': book,
-            'message': "Книги нет в наличии, вы добавлены в лист ожидания. Мы сообщим, когда она появится!"
-        })
+        return redirect('book_details', pk=pk)
 
 @login_required
 def my_orders(request):
     client = get_object_or_404(Client, user=request.user)
-    orders = Order.objects.filter(client=client).order_by('-created_at')
+    orders = Order.objects.filter(client=client).exclude(status='c').order_by('-created_at')
     return render(request, 'store/my_orders.html', {'orders': orders})
 @login_required
 def confirm_order(request, pk):
@@ -224,7 +309,7 @@ def order_management(request):
     if search_query:
         orders = orders.filter(Q(client__user__username__icontains=search_query) | Q(client__phone__icontains=search_query))
 
-    total_revenue = Order.objects.filter(status='d').aggregate(total=Sum('books__price'))['total'] or 0
+    total_revenue = Order.objects.filter(status='d').aggregate(total=Sum('instances__book__price'))['total'] or 0
 
     count_done_orders = Order.objects.filter(status='d').count()
 
@@ -267,7 +352,7 @@ def statistic_view(request):
     books_alphabetical = Book.objects.order_by('title')
 
     done_orders = Order.objects.filter(status='d')
-    total_revenue = done_orders.aggregate(total=Sum('books__price'))['total'] or 0
+    total_revenue = done_orders.aggregate(total=Sum('instances__book__price'))['total'] or 0
 
     order_total = [o.total_price() for o in done_orders]
 
@@ -283,15 +368,15 @@ def statistic_view(request):
         revenue_mean = revenue_median = revenue_mode = 0
 
 
-    ages = Client.objects.values_list('age', flat=True)
+    ages = [c.get_age() for c in Client.objects.all()]
     if ages:
         age_mean = statistics.mean(ages)
         age_median = statistics.median(ages)
     else:
         age_mean = age_median = 0
 
-    popular_genre = Genre.objects.annotate(profit=Count('book__order', filter=Q(book__order__status='d'))).order_by('-profit').first()
-    profitable_genre = Genre.objects.annotate(profit=Count('book__price', filter=Q(book__order__status='d'))).order_by('-profit').first()
+    popular_genre = Genre.objects.filter(book__bookinstance__order__status='d').annotate(profit=Count('book__bookinstance')).order_by('-profit').first()
+    profitable_genre = Genre.objects.filter(book__bookinstance__order__status='d').annotate(profit=Sum('book__bookinstance__book__price')).order_by('-profit').first()
     
 
     context.update({
@@ -307,15 +392,15 @@ def statistic_view(request):
         'profitable_genre': profitable_genre,
     })
 
-    top_book = Book.objects.annotate(sales_count=Count('order', filter=Q(order__status='d'))).order_by('sales_count').first()
-    loser_book = Book.objects.annotate(sales_count=Count('order', filter=Q(order__status='d'))).order_by('-sales_count').first()
+    top_book = Book.objects.annotate(sales_count=Count('order', filter=Q(bookinstance__order__status='d'))).order_by('sales_count').first()
+    loser_book = Book.objects.annotate(sales_count=Count('order', filter=Q(bookinstance__order__status='d'))).order_by('-sales_count').first()
 
     context.update({
         'top_book': top_book,
         'loser_book': loser_book,
     })
 
-    monthly_sales_data = Order.objects.filter(status='d').annotate(month=TruncMonth('updated_at')).values('month').annotate(total=Sum('books__price')).order_by('month')
+    monthly_sales_data = Order.objects.filter(status='d').annotate(month=TruncMonth('updated_at')).values('month').annotate(total=Sum('instances__book__price')).order_by('month')
 
     chart_labels = [data['month'].strftime("%b %Y") for data in monthly_sales_data]
     chart_data = [float(data['total']) for data in monthly_sales_data]
@@ -352,7 +437,7 @@ def statistic_view(request):
         'forecast_value': forecast_value,
     })
 
-    raw_report_data = Genre.objects.filter(book__order__status= 'd').annotate(month=TruncMonth('book__order__updated_at')).values('name', 'month').annotate(total=Sum('book__price')).order_by('name', 'month')
+    raw_report_data = Genre.objects.filter(book__bookinstance__order__status= 'd').annotate(month=TruncMonth('book__bookinstance__order__updated_at')).values('name', 'month').annotate(total=Sum('book__bookinstance__book__price')).order_by('name', 'month')
 
     report_months = sorted(list(set(row['month'] for row in raw_report_data if row['month'] )))
     table_headers = [m.strftime("%b %Y") for m in report_months]
@@ -381,8 +466,8 @@ def manage_stock(request):
     if not hasattr(request.user, 'employee'):
         return redirect('book_list')
     
-    books = Book.objects.annotate(in_stock=Count('bookinstance', filter=Q(bookinstance__status='a')),
-                                  waiting=Count('waitlist')).order_by('title')
+    books = Book.objects.annotate(in_stock=Count('bookinstance', filter=Q(bookinstance__status='a'), distinct=True),
+                                  waiting=Count('waitlist', distinct=True)).order_by('title')
     search_query = request.GET.get('search', '')
 
     if search_query:
@@ -443,7 +528,7 @@ def register(request):
             Client.objects.create(
                 user=user,
                 phone=form.cleaned_data['phone'],
-                age=form.cleaned_data['age'],
+                birth_date=form.cleaned_data['birth_date'],
                 address=form.cleaned_data['address']
             )
 

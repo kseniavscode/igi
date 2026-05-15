@@ -34,7 +34,7 @@
 
             {% if user.is_authenticated %}
                 <span>
-                    You entered as <strong>{{ user.username }}</strong>{% if user.is_staff %}Emploee{% endif %}
+                    You entered as <strong>{{ user.username }}</strong>{% if user.is_staff %} Emploee{% endif %}
                 </span>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}

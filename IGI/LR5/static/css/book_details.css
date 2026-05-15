@@ -81,3 +81,18 @@
     font-weight: bold;
     font-size: 18px;
 } */
+
+.class_messages{
+    color: #630016; 
+    font-weight: bold;
+}
+.file_upload{
+    margin: 20px;
+}
+.buttons_employee{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 20px;
+    margin: 10px 30px;
+}

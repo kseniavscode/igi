@@ -20,5 +20,9 @@ urlpatterns = [
     path('import_books/', views.import_books, name='import_books'),
     path('manage_stock/', views.manage_stock, name='manage_stock'),
     path('add_instance/<int:pk>/', views.add_instance, name='add_instance'),
+
+    path('book/<int:pk>/update/', views.update_book, name='update_book'),
+    path('book/<int:pk>/delete', views.delete_book, name='delete_book')
+
     
 ]

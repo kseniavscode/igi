@@ -18,19 +18,20 @@
             </div>
 
             <div class="order_books">
-                {% for book in order.books.all %}
+                {% for item in order.get_group_items %}
                     <div class="book_in_order">
-                        <a href="{% url 'book_details' book.pk %}">
-                            {% if book.cover %}
-                                <img class="book_cover_order" src="{{ book.cover.url }}" alt="{{ book.title }}" >
+                        <a href="{% url 'book_details' item.book.pk %}">
+                            {% if item.book.cover %}
+                                <img class="book_cover_order" src="{{ item.book.cover.url }}" alt="{{ item.book.title }}" >
 
                             {% else %}
-                                <img class="book_cover_order" src="{% static 'images/book_cover_default.jpg' %}" alt="{{ book.title }}" >
+                                <img class="book_cover_order" src="{% static 'images/book_cover_default.jpg' %}" alt="{{ item.book.title }}" >
                             {% endif %}
                         </a>
                         
-                        <h5><a href="{% url 'book_details' book.pk %}">{{ book.title }}</a></h5>
-                        <p class="price">{{ book.price }} BYN</p>
+                        <h5><a href="{% url 'book_details' item.book.pk %}">{{ item.book.title }}</a></h5>
+                        <p class="price">{{ item.book.price }} BYN x {{ item.count }} count</p>
+                        <p class="price">In all: {{ item.total_item_price|floatformat:2 }} BYN</p>
                     </div>
                 {% endfor %}
             </div>

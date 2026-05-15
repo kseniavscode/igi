@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, RegexValidator
 from django.utils import timezone
 
+from django.db.models import Count
 # Create your models here.
 
 
@@ -56,7 +57,7 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200, verbose_name="Stamp of the publishing house")
     due_back = models.DateField(null=True, blank=True, verbose_name="Possible return date")
 
-    book = models.ForeignKey(Book, on_delete=models.RESTRICT, null=True, verbose_name="Book")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True, verbose_name="Book")
 
     order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, blank=True, related_name='instances')
 
@@ -79,15 +80,18 @@ class Client(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Profil")
 
-    phone_regex = RegexValidator(regex=r"^\+375\((25|29|33|44)\)\d{3}\-\d{2}-\d{2}$", message="Phone number must be +375(XX)XXX-XX-XX.")
-    phone = models.CharField(validators=[phone_regex], max_length=17, verbose_name="Phone number")
+    phone = models.CharField(max_length=17, verbose_name="Phone number")
 
-    age = models.PositiveIntegerField(validators=[MinValueValidator(18, message="User must be older then 18")], verbose_name="Age")
+    birth_date = models.DateField() 
 
     address = models.TextField(blank=True, verbose_name="Delivery address")
 
     def __str__(self):
         return f"{self.user.username} ({self.phone})"
+    
+    def get_age(self):
+        import datetime
+        return (datetime.date.today() - self.birth_date).days // 365
     
 class Employee(models.Model):
 
@@ -127,7 +131,20 @@ class Order(models.Model):
     delivery_method = models.CharField(max_length=1, choices=DELIVERY_CHOICES, default='s', verbose_name='Delivery method')
         
     def total_price(self):
-        return self.books.aggregate(total=models.Sum('price'))['total'] or 0
+        return self.instances.aggregate(total=models.Sum('book__price'))['total'] or 0
+    
+    def get_group_items(self):
+        items =[]
+        for book in self.books.all():
+            count = self.instances.filter(book=book).count()
+            if count > 0:
+                items.append({
+                    'book': book,
+                    'count': count,
+                    'total_item_price': book.price * count
+                })
+        return items
+
     def __str__(self):
         return f"Order #{self.id} from {self.client.user.username}"
 
@@ -137,5 +154,7 @@ class Waitlist(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     added_at = models.DateTimeField(default=timezone.now, verbose_name="Date of added at waitlist")
 
+    class Meta:
+        unique_together = ('client', 'book')
     def __str__(self):
         return f"{self.client.user.username} waiting for {self.book.title}"
