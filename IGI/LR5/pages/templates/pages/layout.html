@@ -21,6 +21,9 @@
                     <a href="{% url 'order_management' %}" class="panel_btn">Order management</a>
                     <a href="{% url 'manage_stock' %}" class="panel_btn">Manage stock</a>
                     <a href="{% url 'import_books' %}" class="panel_btn">Import books</a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'admin:index' %}" class="panel_btn">Admin</a>
+                    {% endif %}
                 {% else %}
                     <p>User`s personal account</p>
                     <a href="{% url 'my_orders' %}" class="panel_btn">My orders</a>

@@ -21,11 +21,21 @@ from django.contrib import messages
 import re
 # Create your views here.
 
-@login_required
-def import_books(request):
+from django.shortcuts import redirect
+from functools import wraps
 
-    if not hasattr(request.user, 'employee'):
+def staff_or_employee_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if request.user.is_authenticated and (request.user.is_staff or hasattr(request.user, 'employee')):
+            return view_func(request, *args, **kwargs)
         return redirect('book_list')
+    return _wrapped_view
+
+
+@login_required
+@staff_or_employee_required
+def import_books(request):
     
     search_results = []
     query = request.GET.get('q')
@@ -161,10 +171,8 @@ def book_details(request, pk):
     })
 
 @login_required
+@staff_or_employee_required
 def update_book(request, pk):
-
-    if not hasattr(request.user, 'employee'):
-        return redirect('book_list')
     
     book = get_object_or_404(Book, pk=pk)
 
@@ -237,10 +245,8 @@ def update_book(request, pk):
     return redirect('book_details', pk=book.pk)
 
 @login_required
+@staff_or_employee_required
 def delete_book(request, pk):
-
-    if not hasattr(request.user, 'employee'):
-        return redirect('book_list')
     
     book = get_object_or_404(Book, pk=pk)
     BookInstance.objects.filter(book=book).delete()
@@ -297,10 +303,8 @@ def cancel_order(request, pk):
     return redirect('my_orders')
 
 @login_required
+@staff_or_employee_required
 def order_management(request):
-
-    if not hasattr(request.user, 'employee'):
-        return redirect('book_list')
     
     search_query = request.GET.get('search', '')
 
@@ -322,10 +326,8 @@ def order_management(request):
     return render(request, 'staff_panel/order_management.html', content)
 
 @login_required
+@staff_or_employee_required
 def complete_order(request, pk):
-
-    if not hasattr(request.user, 'employee'):
-        return redirect('book_list')
     
     order = get_object_or_404(Order, pk=pk)
     if order.status == 'p': 
@@ -341,10 +343,8 @@ def complete_order(request, pk):
     return redirect('order_management')
 
 @login_required
+@staff_or_employee_required
 def statistic_view(request):
-
-    if not hasattr(request.user, 'employee'):
-        return redirect('book_list')
     
     context = {}
 
@@ -462,9 +462,8 @@ def statistic_view(request):
     return render(request, 'staff_panel/stats.html', context)
 
 @login_required
+@staff_or_employee_required
 def manage_stock(request):
-    if not hasattr(request.user, 'employee'):
-        return redirect('book_list')
     
     books = Book.objects.annotate(in_stock=Count('bookinstance', filter=Q(bookinstance__status='a'), distinct=True),
                                   waiting=Count('waitlist', distinct=True)).order_by('title')
@@ -480,9 +479,8 @@ def manage_stock(request):
     })
 
 @login_required
+@staff_or_employee_required
 def add_instance(request, pk):
-    if not hasattr(request.user, 'employee'):
-        return redirect('book_list')
     
     book = get_object_or_404(Book, pk=pk)
 
