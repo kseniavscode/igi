@@ -16,6 +16,49 @@ body {
     box-sizing: border-box;
 }
 
+
+.header_timezone{
+    display: flex;
+    justify-content: end;
+    gap: 30px;
+    align-items: center;
+    margin: 3px;
+    padding: 0 30px;
+
+    background: #ffffff;
+    font-family: 'Lucida Sans', sans-serif;
+    font-size: 13px;
+    border: 2px solid #472801;
+    box-shadow: 0 0 5px #472801;
+    border-radius: 4px;
+}
+
+.header_timezone b{
+    display: block; 
+    margin: 3px;
+}
+
+.info_date p{
+    margin: 3px;
+}
+.time_box p{
+    margin: 3px;
+}
+
+.weather_box{
+    color: #7b5f0c;
+}
+
+.calendar_box pre{
+
+    margin: 0;
+    font-family: monospace;
+    background: rgba(255,255,255,0.05);
+}
+
+
+
+
 .header_container {
     display: flex;
     justify-content: space-between;

@@ -8,6 +8,12 @@
 
 {% block title %}{{ book.title }}{% endblock %}
 
+{% block info_date %}
+    {% if request.user.is_staff %}
+        <p class="date_info">Added: {{ book.created_at|date:"d/m/Y" }}</p>
+        <p class="date_info">Changed: {{ book.updated_at|date:"d/m/Y" }}</p>
+    {% endif %}
+{% endblock %}
 {% block content %}
     <a href="{% url 'book_list' %}" class="back_link">← Back to catalog</a>
     <hr>
@@ -18,7 +24,7 @@
             </div>
         {% endfor %}
     {% endif %}
-    {% if request.user.employee %}
+    {% if request.user.is_staff %}
         <form action="{% url 'update_book' book.pk %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="book_details">

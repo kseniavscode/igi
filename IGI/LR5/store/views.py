@@ -143,12 +143,23 @@ def book_list(request):
     """Get all books from bd and by searching"""
 
     search_query = request.GET.get('search', '')
+    sort_option = request.GET.get('sort', 'none')
 
     if search_query:
         books = Book.objects.filter(Q(authors__name__icontains=search_query) | Q(title__icontains=search_query)).distinct()
-
     else:
         books = Book.objects.all()
+
+    if sort_option == 'none':
+        books = books.order_by('id')
+    elif sort_option == 'title_asc':
+        books = books.order_by('title')
+    elif sort_option == 'title_desc':
+        books = books.order_by('-title')
+    elif sort_option == 'price_asc':
+        books = books.order_by('price')
+    elif sort_option == 'price_desc':
+        books = books.order_by('-price')
 
     paginator = Paginator(books, 12)
     page_number = request.GET.get('page')
@@ -157,6 +168,7 @@ def book_list(request):
     context = {
         'page_obj': page_obj,
         'search_query': search_query,
+        'current_sort': sort_option,
     }
 
     return render(request, 'store/book_list.html', context)

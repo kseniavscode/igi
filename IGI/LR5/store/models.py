@@ -46,6 +46,9 @@ class Book(models.Model):
 
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Price of book")
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.title
     

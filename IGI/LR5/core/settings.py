@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 GOOGLE_BOOKS_API_KEY = os.getenv('GOOGLE_BOOKS_API_KEY')
+WEATHER_KEY = os.getenv('WEATHER_KEY')
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -69,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'store.context_processors.header_data', 
             ],
         },
     },
@@ -112,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 

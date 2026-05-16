@@ -11,6 +11,33 @@
     
 </head>
 <body>
+    <div class="header_timezone">
+        <div class="info_date">
+            {% block info_date %}{% endblock %}
+        </div>
+        <div class="time_box">
+            <b>Date & Time:</b>
+            <p>UTC: {{ utc_time|date:"d/m/Y H:i" }}</p>
+            <p>Local ({{ city_name }}): {{ local_time|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div class="weather_box">
+            <b>Weather</b>
+
+            {% if header_weather %}
+                <span class="weather_info">
+                    {{ city_name }}: {{ header_weather.temp }}°C, {{ header_weather.desc }}
+                </span>
+            {% else %}
+                Service temporarily unavailable
+            {% endif %}
+        </div>
+        <div class="calendar_box">
+            <pre>{{ header_calendar }}</pre>
+        </div>
+        
+        
+    </div>
+
 
     <div class="header_container">
         <div class="info_buttons">

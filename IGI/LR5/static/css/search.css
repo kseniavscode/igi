@@ -1,5 +1,9 @@
 .search_form {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     margin-bottom: 20px;
+    width: 450px;
 }
 
 .search_form input {
@@ -19,4 +23,28 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+.search_form button:hover {
+    background-color: rgb(90, 50, 2);
+}
+
+.search_form select{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 7px;
+    width: 100px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+    color: #898888;
+
+    
+}
+.search_form option{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #c0b9b9;
 }
