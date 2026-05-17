@@ -27,11 +27,18 @@ import re
 from django.shortcuts import redirect
 from functools import wraps
 
+import logging
+
+logger = logging.getLogger('store')
+
 def staff_or_employee_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
         if request.user.is_authenticated and (request.user.is_staff or hasattr(request.user, 'employee')):
             return view_func(request, *args, **kwargs)
+        
+        logger.warning(f"Unauthorized access attempt to {view_func.__name__} by user {request.user.username}")
+
         return redirect('book_list')
     return _wrapped_view
 
@@ -44,6 +51,9 @@ def import_books(request):
     query = request.GET.get('q')
 
     if query:
+
+        logger.info(f"User {request.user.username} searched for books to import: {query}")
+
         api_key = settings.GOOGLE_BOOKS_API_KEY
         url = f"https://www.googleapis.com/books/v1/volumes"
 
@@ -88,8 +98,12 @@ def import_books(request):
                     
                     
                 })
+        else:
+            logger.error(f"Google Books API error: {response.status_code} for query {query}")
 
     if request.method == 'POST':
+
+        logger.info(f"Book '{new_book.title}' (ISBN: {new_book.isbn}) successfully imported by {request.user.username}")
 
         title = request.POST.get('title')
         description = request.POST.get('description')
@@ -133,11 +147,12 @@ def import_books(request):
                 if img_temp.status_code == 200:
                     file_name = f"{title.replace(' ', '_')[:20]}.jpg"
                     new_book.cover.save(file_name, ContentFile(img_temp.content), save=True)
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Failed to download cover for book {title}: {str(e)}")
 
         return redirect('book_list')
     
+    logger.debug(f"IMPORT BOOKS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
     return render(request, 'staff_panel/import_books.html', {'results': search_results, 'query': query})
 
 
@@ -174,12 +189,17 @@ def book_list(request):
         'current_sort': sort_option,
     }
 
+    logger.debug(f"MAIN BOOKS STORE page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
+
     return render(request, 'store/book_list.html', context)
 
 def book_details(request, pk):
     book = get_object_or_404(Book, pk=pk)
 
     available_count = BookInstance.objects.filter(book=book, status='a').count()
+
+    logger.debug(f"BOOK DETAILS {book.id} page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
+
     return render(request, 'store/book_details.html', {
         'book': book,
         'available_count': available_count
@@ -203,30 +223,37 @@ def update_book(request, pk):
         authors = request.POST.get('authors', '').strip()
 
         if not re.match(r'^[A-ZА-ЯЁa-zа-яё\,\s\.]+$', authors):
+            logger.warning(f"Validation failed during book update (ID: {pk}) by {request.user.username}")
             messages.error(request, 'Enter rigth information about authors')
             return redirect('book_details', pk=book.pk)
         
         if not re.match(r'^[A-ZА-ЯЁa-zа-яё\,\s\.]+$', genres):
+            logger.warning(f"Validation failed during book update (ID: {pk}) by {request.user.username}")
             messages.error(request, 'Enter rigth information about genres')
             return redirect('book_details', pk=book.pk)
         
         if not re.match(r'^[A-ZА-ЯЁa-zа-яё]+$', language):
+            logger.warning(f"Validation failed during book update (ID: {pk}) by {request.user.username}")
             messages.error(request, 'Enter rigth information about language')
             return redirect('book_details', pk=book.pk)
         
         if not re.match(r'^\d+(\.\d{1,2})?$', price):
+            logger.warning(f"Validation failed during book update (ID: {pk}) by {request.user.username}")
             messages.error(request, 'Enter rigth information about price')
             return redirect('book_details', pk=book.pk)
         
         if not re.match(r'^\d{13}$', isbn):
+            logger.warning(f"Validation failed during book update (ID: {pk}) by {request.user.username}")
             messages.error(request, 'Enter rigth information about isbn')
             return redirect('book_details', pk=book.pk)
         
         if not re.match(r'^[A-ZА-ЯЁa-zа-яё]+([\s\-][A-ZА-ЯЁa-zа-яё]+)*$', imprint):
+            logger.warning(f"Validation failed during book update (ID: {pk}) by {request.user.username}")
             messages.error(request, 'Enter rigth information about publishing house')
             return redirect('book_details', pk=book.pk)
         
         if not re.match(r'^[\d\s\`\-\:\!\?\.A-ZА-ЯЁa-zа-яё]+$', title):
+            logger.warning(f"Validation failed during book update (ID: {pk}) by {request.user.username}")
             messages.error(request, 'Enter rigth information about a book`s title')
             return redirect('book_details', pk=book.pk)
         
@@ -255,6 +282,7 @@ def update_book(request, pk):
             book.cover = request.FILES['cover']
 
         book.save()
+        logger.info(f"Book ID {pk} updated by {request.user.username}")
         messages.success(request, 'Success: Data is updated')
     return redirect('book_details', pk=book.pk)
 
@@ -265,6 +293,7 @@ def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     BookInstance.objects.filter(book=book).delete()
     book.delete()
+    logger.warning(f"Book '{book.title}' (ID: {pk}) was DELETED by {request.user.username}")
     return redirect('book_list')
 
 @login_required
@@ -282,15 +311,22 @@ def add_to_orders(request, pk):
         book_instance.save()
 
         order.books.add(book)
+
+        logger.info(f"Book '{book.title}' RESERVED for user {request.user.username}")
+
         return redirect('my_orders')
     else:
         Waitlist.objects.get_or_create(client=client, book=book)
+
+        logger.info(f"User {request.user.username} added to WAITLIST for '{book.title}'")
+
         return redirect('book_details', pk=pk)
 
 @login_required
 def my_orders(request):
     client = get_object_or_404(Client, user=request.user)
     orders = Order.objects.filter(client=client).exclude(status='c').order_by('-created_at')
+    logger.debug(f"MY ORDERS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
     return render(request, 'store/my_orders.html', {'orders': orders})
 @login_required
 def confirm_order(request, pk):
@@ -299,6 +335,9 @@ def confirm_order(request, pk):
         order.status = 'p'
         order.updated_at = timezone.now()
         order.save()
+
+        logger.info(f"Order ID {pk} was comfirmed by user {request.user.username}")
+
     return redirect('my_orders')
 
 @login_required
@@ -314,6 +353,9 @@ def cancel_order(request, pk):
 
         order.status = 'c'
         order.save()
+
+        logger.info(f"Order ID {pk} was cancelled by user {request.user.username}")
+
     return redirect('my_orders')
 
 @login_required
@@ -337,6 +379,9 @@ def order_management(request):
         'count_done_orders': count_done_orders,
         'search_query': search_query,
     }
+
+    logger.debug(f"ORDER MANAGEMENT page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
+
     return render(request, 'staff_panel/order_management.html', content)
 
 @login_required
@@ -354,6 +399,9 @@ def complete_order(request, pk):
 
         order.status = 'd'  
         order.save()
+
+        logger.info(f"Order ID {pk} COMPLETED. Staff: {request.user.username}. Revenue: {order.total_price()} BYN")
+
     return redirect('order_management')
 
 
@@ -400,6 +448,7 @@ def statistic_view(request):
         except statistics.StatisticsError:
             revenue_mode = 'Multiple modes'
     else:
+        logger.debug("Statistics calculated for empty order set.")
         revenue_mean = revenue_median = revenue_mode = 0
 
 
@@ -408,6 +457,7 @@ def statistic_view(request):
         age_mean = statistics.mean(ages)
         age_median = statistics.median(ages)
     else:
+        logger.debug("Statistics calculated for empty clients set.")
         age_mean = age_median = 0
 
     popular_genre = Genre.objects.filter(book__bookinstance__order__status='d').annotate(profit=Count('book__bookinstance')).order_by('-profit').first()
@@ -514,6 +564,7 @@ def statistic_view(request):
         'annual_report': annual_report,
     })
 
+    logger.debug(f"STATISTIC page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
     return render(request, 'staff_panel/stats.html', context)
 
 @login_required
@@ -527,7 +578,8 @@ def manage_stock(request):
     if search_query:
         books = books.filter(Q(title__icontains=search_query)).distinct()
 
-    
+    logger.debug(f"MANAGE STOCK page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
+
     return render(request, 'staff_panel/manage_stock.html', {
         'books': books,
         'search_query': search_query
@@ -541,6 +593,8 @@ def add_instance(request, pk):
 
     if request.method == 'POST':
         count = int(request.POST.get('count', 1))
+
+        logger.info(f"Staff {request.user.username} adding {count} instances for '{book.title}'")
 
         for _ in range(count):
             new_instance = BookInstance.objects.create(
@@ -560,7 +614,11 @@ def add_instance(request, pk):
 
                 order.books.add(book)
 
+                logger.info(f"WAITLIST TRIGGER: Book '{book.title}' automatically assigned to {waiting_user.client.user.username}")
+
                 waiting_user.delete()
+
+                
 
         return redirect('manage_stock')
 
@@ -578,6 +636,8 @@ def register(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
 
+            logger.info(f"New user registered: {user.username} (City: {form.cleaned_data['city']})")
+
             Client.objects.create(
                 user=user,
                 phone=form.cleaned_data['phone'],
@@ -587,8 +647,14 @@ def register(request):
             )
 
             login(request, user)
+            logger.info(f"New user registered: {user.username}")
             return redirect('book_list')
+        
+        else:
+            logger.warning(f"Registration failed. Errors: {form.errors.as_json()}")
     else:
         form = UserRegistrationForm()
     
+    logger.debug(f"REGISTER page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
+
     return render(request, 'registration/register.html', {'form': form})
