@@ -34,6 +34,19 @@
                 <p>Moved to process: {{ order.updated_at|date:"d.m.Y H:i" }}</p>
                 <p>Total: {{ order.total_price|floatformat:2 }} BYN</p>
             </div>
+            <div class="delivery_details">
+            <p><strong>Method:</strong> {{ order.get_delivery_method_display }}</p>
+            
+                {% if order.delivery_method == 's' %}
+                    <p><strong>Pickup Point:</strong> {{ order.pickup_point.city }}, {{ order.pickup_point.address }}</p>
+                {% else %}
+                    <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+                {% endif %}
+
+                {% if order.promo_code %}
+                    <p><strong>Promo used:</strong> {{ order.promo_code.code }} (-{{ order.promo_code.discode }}%)</p>
+                {% endif %}
+            </div>
             <div class="order_card_books">
                 <ul>
                     {% for book in order.books.all %}
@@ -43,7 +56,7 @@
                 
             </div>
 
-            
+            <p><strong>Total to pay:</strong> <span>{{ order.final_price|floatformat:2 }} BYN</span></p>
             <a href="{% url 'complete_order' order.pk %}" class="panel_btn">Mark as Done</a>
         </div>
 

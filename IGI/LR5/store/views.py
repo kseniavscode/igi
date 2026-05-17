@@ -3,7 +3,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Sum, Count
 from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
-from .models import Book, BookInstance, Client, Order, Genre, Author, Language, Waitlist
+from .models import Book, BookInstance, Client, Order, Genre, Author, Language, Waitlist, PickupPoint
+from pages.models import PromoCode
 
 from django.contrib.auth import login
 from .forms import UserRegistrationForm
@@ -324,21 +325,59 @@ def add_to_orders(request, pk):
 
 @login_required
 def my_orders(request):
+
     client = get_object_or_404(Client, user=request.user)
     orders = Order.objects.filter(client=client).exclude(status='c').order_by('-created_at')
     logger.debug(f"MY ORDERS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
     return render(request, 'store/my_orders.html', {'orders': orders})
+
+
 @login_required
 def confirm_order(request, pk):
+
     order = get_object_or_404(Order, pk=pk)
-    if order.status == 'n':
+    pickup_points = PickupPoint.objects.all()
+
+    if request.method == 'POST':
+        delivery_method = request.POST.get('delivery_method')
+        promo_text = request.POST.get('promo_code')
+
+        order.delivery_method = delivery_method
+
+        if delivery_method == 's': 
+            point_id = request.POST.get('pickup_point')
+            order.pickup_point = PickupPoint.objects.get(id=point_id)
+            order.delivery_address = "" 
+        else:
+            order.delivery_address = request.POST.get('delivery_address')
+            order.pickup_point = None
+
+
+        if promo_text:
+            promo = PromoCode.objects.filter(code=promo_text, is_active=True).first()
+            if promo:
+                order.promo_code = promo
+            else:
+                messages.error(request, "Not right or archived PromoCode")
+
+
         order.status = 'p'
+        order.final_price = order.total_price()
         order.updated_at = timezone.now()
         order.save()
 
         logger.info(f"Order ID {pk} was comfirmed by user {request.user.username}")
 
-    return redirect('my_orders')
+        
+        return redirect('my_orders')
+    
+    return render(request, 'store/confirm_order_form.html', {
+        'order': order,
+        'pickup_points': pickup_points,
+        'client_address': order.client.address
+    })
+
+
 
 @login_required
 def cancel_order(request, pk):
@@ -369,7 +408,7 @@ def order_management(request):
     if search_query:
         orders = orders.filter(Q(client__user__username__icontains=search_query) | Q(client__phone__icontains=search_query))
 
-    total_revenue = Order.objects.filter(status='d').aggregate(total=Sum('instances__book__price'))['total'] or 0
+    total_revenue = Order.objects.filter(status='d').aggregate(total=Sum('final_price'))['total'] or 0
 
     count_done_orders = Order.objects.filter(status='d').count()
 
@@ -435,11 +474,12 @@ def statistic_view(request):
     books_alphabetical = Book.objects.order_by('title')
 
     done_orders = Order.objects.filter(status='d')
-    total_revenue = done_orders.aggregate(total=Sum('instances__book__price'))['total'] or 0
+    total_revenue = done_orders.aggregate(total=Sum('final_price'))['total'] or 0
 
-    order_total = [o.total_price() for o in done_orders]
+    order_total = list(done_orders.values_list('final_price', flat=True))
 
     if order_total:
+        order_total = [float(x) for x in order_total]
         revenue_mean = statistics.mean(order_total)
         revenue_median = statistics.median(order_total)
 
@@ -467,7 +507,7 @@ def statistic_view(request):
     clients_by_city = Client.objects.values('city').annotate(
         count=Count('id', filter=Q(order__status='d'), distinct=True),
         orders_count=Count('order', filter=Q(order__status='d')),
-        city_revenue=Sum('order__instances__book__price', filter=Q(order__status='d'))
+        city_revenue=Sum('order__final_price', filter=Q(order__status='d'))
     ).filter(count__gt=0).order_by('-city_revenue')
 
     max_clients = max([item['orders_count'] for item in clients_by_city]) if clients_by_city else 1
@@ -496,7 +536,7 @@ def statistic_view(request):
         'loser_book': loser_book,
     })
 
-    monthly_sales_data = Order.objects.filter(status='d').annotate(month=TruncMonth('updated_at')).values('month').annotate(total=Sum('instances__book__price')).order_by('month')
+    monthly_sales_data = Order.objects.filter(status='d').annotate(month=TruncMonth('updated_at')).values('month').annotate(total=Sum('final_price')).order_by('month')
 
     chart_labels = [data['month'].strftime("%b %Y") for data in monthly_sales_data]
     chart_data = [float(data['total']) for data in monthly_sales_data]
@@ -624,6 +664,10 @@ def add_instance(request, pk):
 
 
 
+
+def pickup_points_view(request):
+    points = PickupPoint.objects.all()
+    return render(request, 'store/points.html', {'points': points})
 
 def register(request):
     

@@ -21,3 +21,9 @@
 .order_card p{
     margin: 0;
 }
+.delivery_details{
+    background: #f9f9f9; 
+    padding: 10px; 
+    border-left: 4px solid #630016; 
+    margin: 10px 0;
+}

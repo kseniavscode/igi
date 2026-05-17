@@ -1,10 +1,9 @@
 from django.db import models
 import uuid
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, RegexValidator
 from django.utils import timezone
 
-from django.db.models import Count
+from pages.models import PromoCode
 # Create your models here.
 
 
@@ -133,6 +132,16 @@ class Employee(models.Model):
 
     def __str__(self):
         return self.full_name
+
+class PickupPoint(models.Model):
+    """Pickiiii upiiiii"""
+    address = models.CharField(max_length=255, verbose_name="Address")
+    city = models.CharField(max_length=100, verbose_name="City")
+    opening_hours = models.CharField(max_length=100, verbose_name="Time of work")
+    map_coordinates = models.CharField(max_length=50, help_text="Coordinates in map")
+
+    def __str__(self):
+        return f"{self.city}, {self.address}"
     
 class Order(models.Model):
     """Model of order"""
@@ -142,6 +151,11 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now, verbose_name="Date of order")
     updated_at = models.DateTimeField(null=True, blank=True, verbose_name="Processed at")
+
+    delivery_address = models.TextField(blank=True, null=True, verbose_name="Адрес доставки")
+    pickup_point = models.ForeignKey(PickupPoint, on_delete=models.SET_NULL, null=True, blank=True)
+    promo_code = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True)
+    final_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     STATUS_CHOICE = [
         ('n', 'New'),
@@ -160,7 +174,11 @@ class Order(models.Model):
     delivery_method = models.CharField(max_length=1, choices=DELIVERY_CHOICES, default='s', verbose_name='Delivery method')
         
     def total_price(self):
-        return self.instances.aggregate(total=models.Sum('book__price'))['total'] or 0
+        total = self.instances.aggregate(total=models.Sum('book__price'))['total'] or 0
+        if self.promo_code:
+            discount = (total * self.promo_code.discode) / 100
+            total -= discount
+        return total
     
     def get_group_items(self):
         items =[]
@@ -187,3 +205,4 @@ class Waitlist(models.Model):
         unique_together = ('client', 'book')
     def __str__(self):
         return f"{self.client.user.username} waiting for {self.book.title}"
+    

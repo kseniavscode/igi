@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Author, Genre, Language, Book, BookInstance, Client, Employee, Order, Waitlist
+from .models import Author, Genre, Language, Book, BookInstance, Client, Employee, Order, Waitlist, PickupPoint
 
 # Register your models here.
 class OrderInline(admin.TabularInline):
@@ -59,3 +59,4 @@ class WaitlistAdmin(admin.ModelAdmin):
 admin.site.register(Author)
 admin.site.register(Genre)
 admin.site.register(Language)
+admin.site.register(PickupPoint)

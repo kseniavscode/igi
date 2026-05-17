@@ -1,0 +1,25 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/points.css' %}">
+{% endblock %}
+
+{% block title %}Points{% endblock %}
+
+{% block content %}
+    <h1>PickupPoints</h1>
+
+    <div class="points">
+        {% for point in points %}
+            <div class="point_item">
+                <h3>{{ point.city }}, {{ point.address }}</h3>
+                <small>Schedule: {{ point.opening_hours }}</small>
+                <a href="https://yandex.ru/maps/?text={{ point.address|urlencode }}" target="_blank">
+                    Open maps
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

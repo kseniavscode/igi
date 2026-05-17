@@ -1,0 +1,61 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/my_orders.css' %}">
+{% endblock %}
+
+{% block title %}Points{% endblock %}
+
+{% block content %}
+    <h1>PickupPoints</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="section">
+            <h3>Choose a way to get</h3>
+            <input type="radio" name="delivery_method" value="s" id="type_s" checked onclick="toggleDelivery('s')">
+            <label for="type_s">Pickup</label>
+            
+            <input type="radio" name="delivery_method" value="c" id="type_c" onclick="toggleDelivery('c')">
+            <label for="type_c">To home</label>
+        </div>
+
+        <div id="pickup_section" class="section">
+            <h3>Choose pickup</h3>
+            <select name="pickup_point">
+                {% for point in pickup_points %}
+                    <option value="{{ point.id }}">{{ point.city }}, {{ point.address }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="address_section" class="section" style="display:none;">
+            <h3>Address</h3>
+            <textarea name="delivery_address" rows="3">{{ client_address }}</textarea>
+        </div>
+
+        <div class="section">
+            <h3>PromoCode</h3>
+            <input type="text" name="promo_code" placeholder="Enter...">
+        </div>
+
+        <div style="margin-top: 20px;">
+            <p>In all: <strong>{{ order.total_price }} BYN</strong></p>
+            <button type="submit" class="panel_btn">Confirm</button>
+        </div>
+    </form>
+
+<script>
+function toggleDelivery(type) {
+    if (type === 's') {
+        document.getElementById('pickup_section').style.display = 'block';
+        document.getElementById('address_section').style.display = 'none';
+    } else {
+        document.getElementById('pickup_section').style.display = 'none';
+        document.getElementById('address_section').style.display = 'block';
+    }
+}
+</script>
+
+{% endblock %}
