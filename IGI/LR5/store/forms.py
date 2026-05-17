@@ -15,7 +15,17 @@ class UserRegistrationForm(forms.ModelForm):
         label='Date of Birth',
         widget=forms.DateInput(attrs={'type': 'date'})
     )
-    address = forms.CharField(widget=forms.Textarea, required=False)
+
+    city = forms.ChoiceField(
+        choices=Client.CITY_CHOICES,
+        label="City",
+        initial='Minsk'
+    )
+    address = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Street, house, flat...'}), 
+        required=False,
+        label="Delivery Address")
+    
 
 
     class Meta:

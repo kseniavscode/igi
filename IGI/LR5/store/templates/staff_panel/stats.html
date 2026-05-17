@@ -74,11 +74,43 @@
             </div>
         </div>
     </div>
+
+    <div class="city_report">
+        <h3>Sales Geography</h3>
+
+        <div class="city_diagram">
+            {% for item in clients_by_city %}
+                <div class="city_row">
+                    <div class="city_label">
+                        {{ item.city }}<br>
+                        <small>{{ item.count }} buyers</small>
+                    </div>
+
+                    <div class="bar_container">
+                        <div class="bar_fill">
+                            {{ item.orders_count }} orders
+                        </div>
+                    </div>
+                    <div class="city_revenue">{{ item.city_revenue|default:0|floatformat:0 }} BYN</div>
+
+                </div>
+            {% empty %}
+                <p>No data available</p>
+            {% endfor %}
+        </div>
+    </div>
+
     <hr>
+
 
     <div class="plot">
         <div class="plot_canvas">
-            <canvas id="salesChart"></canvas>
+            <h2>Sales Trend & Forecast</h2>
+            {% if chart_image %}
+                <img src="data:image/png;base64,{{ chart_image }}" alt="Sales Chart" style="max-width: 100%;">
+            {% else %}
+                <p>Not enough data to build a chart.</p>
+            {% endif %}
         </div>
         
         <div class="stat_card">
@@ -91,6 +123,16 @@
             {% else %}
                 <p>▼ Negative trend or stabilization</p>
             {% endif %}
+
+            <h2>Monthly Revenue History</h2>
+            <ul>
+                {% for month, value in monthly_revenue_list %}
+                    <li>
+                        <span>{{ month }}</span>
+                        <strong>{{ value|floatformat:2 }} BYN</strong>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
 
     </div>
@@ -127,36 +169,5 @@
         </table>
     </div>
 
-    <script>
-        const ctx = document.getElementById('salesChart').getContext('2d')
-        const salesChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: {{ chart_labels|safe }},
-                datasets: [{
-                    label: 'Monthly Revenue',
-                    data: {{ chart_data|safe }},
-                    borderColor: 'rgba(99, 0, 22, 1)',
-                    backgroundColor: 'rgba(99, 0, 22, 0.1)',
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.3
-                },
-                {
-                    label: 'Linear Trend',
-                    data: {{ trend_line_data|safe }},
-                    borderColor: 'rgba(54, 162, 235, 0.8)',
-                    borderDash: [5, 5],
-                    fill: false,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                scales: {
-                    y: { beginAtZero: true }
-                }
-            }
-        });
-    </script>
 
 {% endblock %}

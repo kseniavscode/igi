@@ -87,7 +87,31 @@ class Client(models.Model):
 
     birth_date = models.DateField() 
 
-    address = models.TextField(blank=True, verbose_name="Delivery address")
+    address = models.TextField(blank=True, verbose_name="Delivery address (Street, House, Flat)")
+
+    CITY_CHOICES = [
+        ('Minsk', 'Minsk'),
+        ('Brest', 'Brest'),
+        ('Grodno', 'Grodno'),
+        ('Gomel', 'Gomel'),
+        ('Vitebsk', 'Vitebsk'),
+        ('Mogilev', 'Mogilev'),
+        ('Baranovichi', 'Baranovichi'),
+        ('Borisov', 'Borisov'),
+        ('Pinsk', 'Pinsk'),
+        ('Orsha', 'Orsha'),
+        ('Mozyr', 'Mozyr'),
+        ('Soligorsk', 'Soligorsk'),
+        ('Lida', 'Lida'),
+        ('Molodechno', 'Molodechno'),
+    ]
+
+    city = models.CharField(
+        max_length=50, 
+        choices=CITY_CHOICES, 
+        default='Minsk', 
+        verbose_name="City"
+    )
 
     def __str__(self):
         return f"{self.user.username} ({self.phone})"

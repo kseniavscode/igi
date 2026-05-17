@@ -10,6 +10,9 @@ from .forms import UserRegistrationForm
 
 from django.utils import timezone
 import statistics
+import matplotlib.pyplot as plt
+import io
+import base64
 
 from django.conf import settings
 
@@ -354,6 +357,27 @@ def complete_order(request, pk):
         order.save()
     return redirect('order_management')
 
+
+def get_plot(x_labels, y_data, trend_data=None):
+    plt.switch_backend('AGG')
+    plt.figure(figsize=(10, 5))
+    plt.plot(x_labels, y_data, label='Monthly Sales', marker='o', color='#630016', linewidth=2)
+    if trend_data:
+        plt.plot(x_labels, trend_data, label='Linear Trend', linestyle='--', color='#36a2eb')
+    
+    plt.title('Sales Dynamics')
+    plt.xlabel('Month')
+    plt.ylabel('Revenue (BYN)')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    buffer.close()
+    return image_base64
+
 @login_required
 @staff_or_employee_required
 def statistic_view(request):
@@ -391,6 +415,15 @@ def statistic_view(request):
     profitable_genre = Genre.objects.filter(book__bookinstance__order__status='d').annotate(profit=Sum('book__bookinstance__book__price')).order_by('-profit').first()
     
 
+    clients_by_city = Client.objects.values('city').annotate(
+        count=Count('id', filter=Q(order__status='d'), distinct=True),
+        orders_count=Count('order', filter=Q(order__status='d')),
+        city_revenue=Sum('order__instances__book__price', filter=Q(order__status='d'))
+    ).filter(count__gt=0).order_by('-city_revenue')
+
+    max_clients = max([item['orders_count'] for item in clients_by_city]) if clients_by_city else 1
+
+
     context.update({
         'clients': clients_alphabetical,
         'books': books_alphabetical,
@@ -402,10 +435,12 @@ def statistic_view(request):
         'age_median': age_median,
         'popular_genre': popular_genre,
         'profitable_genre': profitable_genre,
+        'clients_by_city': clients_by_city,
+        'max_clients': max_clients,
     })
 
-    top_book = Book.objects.annotate(sales_count=Count('order', filter=Q(bookinstance__order__status='d'))).order_by('sales_count').first()
-    loser_book = Book.objects.annotate(sales_count=Count('order', filter=Q(bookinstance__order__status='d'))).order_by('-sales_count').first()
+    top_book = Book.objects.annotate(sales_count=Count('bookinstance', filter=Q(bookinstance__order__status='d'))).order_by('-sales_count').first()
+    loser_book = Book.objects.annotate(sales_count=Count('bookinstance', filter=Q(bookinstance__order__status='d'))).order_by('sales_count').first()
 
     context.update({
         'top_book': top_book,
@@ -417,9 +452,12 @@ def statistic_view(request):
     chart_labels = [data['month'].strftime("%b %Y") for data in monthly_sales_data]
     chart_data = [float(data['total']) for data in monthly_sales_data]
 
+    monthly_revenue_list = zip(chart_labels, chart_data)
+
     context.update({
         'chart_labels': chart_labels,
         'chart_data': chart_data,
+        'monthly_revenue_list': monthly_revenue_list,
     })
 
     y_values = chart_data
@@ -444,9 +482,14 @@ def statistic_view(request):
         trend_line_data = []
         forecast_value = 0
 
+
+    chart_image = get_plot(chart_labels, chart_data, trend_line_data) if chart_data else None
+
+
     context.update({
         'trend_line_data': trend_line_data,
         'forecast_value': forecast_value,
+        'chart_image': chart_image,
     })
 
     raw_report_data = Genre.objects.filter(book__bookinstance__order__status= 'd').annotate(month=TruncMonth('book__bookinstance__order__updated_at')).values('name', 'month').annotate(total=Sum('book__bookinstance__book__price')).order_by('name', 'month')
@@ -465,6 +508,7 @@ def statistic_view(request):
             annual_report[genre_name] = {m: 0.0 for m in report_months}
 
         annual_report[genre_name][month_date] = profit
+
 
     context.update({
         'table_headers': table_headers,
@@ -539,6 +583,7 @@ def register(request):
                 user=user,
                 phone=form.cleaned_data['phone'],
                 birth_date=form.cleaned_data['birth_date'],
+                city=form.cleaned_data['city'],
                 address=form.cleaned_data['address']
             )
 
