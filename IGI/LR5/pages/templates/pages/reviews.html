@@ -1,0 +1,63 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+{% endblock %}
+
+{% block title %}Reviews{% endblock %}
+
+{% block content %}
+    <h1>Reviews</h1>
+    {% if user.is_authenticated %}
+        <hr>
+        {% if not user.is_staff %}
+            <h2>Write a review</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="add_review">
+                    <p>{{ form.text }}</p>
+                </div>
+                
+                <div class="add_review">
+                    <label>Rating:</label>
+                    <p>{{ form.rating }}</p>
+                </div>
+                <div class="button_send">
+                    <button type="submit" class="panel_btn">Send</button>
+                </div>
+                
+            </form>
+        {% else %}
+            <p>Employees cannot leave reviews.</p>
+        {% endif %}
+    {% else %}
+        <p><a class="panel_btn" href="{% url 'login' %}">Log in</a> 
+            or <a class="panel_btn" href="{% url 'register' %}">Register</a> to write a review</p>
+    {% endif %}
+
+    <hr>
+    <div class="review_list">
+        {% for r in reviews %}
+            <div class="review_card">
+                <strong>{{ r.name }}</strong>
+                <span>
+                    {% if r.rating == 5 %}⭐⭐⭐⭐⭐
+                    {% elif r.rating == 4 %}⭐⭐⭐⭐
+                    {% elif r.rating == 3 %}⭐⭐⭐
+                    {% elif r.rating == 2 %}⭐⭐
+                    {% else %}⭐
+                    {% endif %}
+                </span>
+                <p>{{ r.text }}</p>
+                <small>{{ r.date|date:"d M Y H:i" }}</small>
+            </div>
+        {% empty %}
+            <p>No reviews yet. Be the first!</p>
+        {% endfor %}
+    </div>
+    
+    
+
+{% endblock %}
+

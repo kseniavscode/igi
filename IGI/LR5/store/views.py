@@ -193,8 +193,7 @@ def update_book(request, pk):
 
     if request.method == 'POST':
 
-        title = request.POST.get('title').strip()
-        cover = request.POST.get('cover')  
+        title = request.POST.get('title').strip() 
         imprint = request.POST.get('imprint').strip()
         isbn = request.POST.get('isbn').strip()
         price = request.POST.get('price')

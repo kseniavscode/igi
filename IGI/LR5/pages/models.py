@@ -26,8 +26,10 @@ class Article(models.Model):
     
 class FAQ(models.Model):
 
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
     question = models.CharField(max_length=200, verbose_name="Question/Trem")
-    answer = models.CharField(max_length=400, verbose_name="Answer")
+    answer = models.TextField(max_length=400, verbose_name="Answer", blank=True, null=True)
     date = models.DateField(auto_now_add=True, verbose_name="Date of the last changing")
 
     def __str__(self):
@@ -35,17 +37,22 @@ class FAQ(models.Model):
     
 class Vacancy(models.Model):
     title = models.CharField(max_length=100, verbose_name="Vacancy")
-    description = models.CharField(max_length=1000, verbose_name="Description")
+    description = models.TextField(verbose_name="Description")
 
     def __str__(self):
         return self.title
     
 class Review(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
     name = models.CharField(max_length=100)
     rating = models.PositiveIntegerField()
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review from {self.name}"
     
 class PromoCode(models.Model):
     code = models.CharField(max_length=20, unique=True)

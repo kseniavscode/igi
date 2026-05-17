@@ -1,0 +1,59 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/faq.css' %}">
+{% endblock %}
+
+{% block title %}FAQ{% endblock %}
+
+{% block content %}
+    <h1>FAQ|Dictionary</h1>
+    <hr>
+
+    {% if user.is_authenticated and not user.is_staff %}
+        <div class="ask">
+            <h3>Have a question? Ask us!</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ question_form.question }}
+                <button type="submit" name="ask_question" class="panel_btn">Send Question</button>
+            </form> 
+        </div>
+    {% endif %}
+
+
+    {% if user.is_staff %}
+        <div class="staff">
+            <h3>Unanswered Questions</h3>
+            {% for item in unanswered %}
+                <div class="question">
+                    <p><strong>Question:</strong> {{ item.question }}</p>
+                    <p><small>From: {{ item.user.username }} | {{ item.date }}</small></p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="question_id" value="{{ item.id }}">
+                        {{ answer_form.answer }}
+                        <button type="submit" name="answer_question" class="panel_btn">Submit Answer</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>All questions have been answered!</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    
+    <div class="faq">
+        {% for item in faqs %}
+            <details>
+                <summary>{{ item.question }}</summary>
+                <p>{{ item.answer }}</p>
+                <small>date: {{ item.date }}</small>
+            </details>
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+{% endblock %}
+
+{% block title %}Contacts{% endblock %}
+
+{% block content %}
+    <h1>Our Team</h1>
+    <hr>
+
+    <div class="contacts">
+        {% for emp in employees %}
+            {% if emp.photo %}
+                <img src="{{ emp.photo.url }}" alt="">
+            {% else %}
+                <img src="{% static 'images/book_cover_default.jpg' %}" alt="">
+            {% endif %}
+            <div class="info_employee">
+                <h3>Fill name: <strong>{{ emp.full_name }}</strong></h3>
+                <small>position: {{ emp.position }}</small>
+                <p>{{ emp.description }}</p>
+                <p><i>{{ emp.email }}</i></p>
+                {% if emp.phone %}<p>{{ emp.phone }}</p>{% endif %}
+            </div>
+            
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}
+

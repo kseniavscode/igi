@@ -1,0 +1,32 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/faq.css' %}">
+{% endblock %}
+
+{% block title %}Promo{% endblock %}
+
+{% block content %}
+    <h1>PronoCodes</h1>
+    <hr>
+    <h3>Active PromoCodes</h3>
+    <ul>
+        {% for p in active_promos %}
+            <li><strong>{{ p.code }}</strong> - Discount: {{ p.discode }}%</li>
+        {% endfor %}
+    </ul>
+    {% if user.is_staff %}
+        {% if archived_promos %}
+            <h3>Archived PromoCodes</h3>
+            <ul>
+                {% for p in archived_promos %}
+                    <li>{{ p.code }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+    
+
+{% endblock %}
+

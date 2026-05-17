@@ -127,6 +127,8 @@ class Employee(models.Model):
     full_name = models.CharField(max_length=150, verbose_name="Full- Last- Second name")
     position = models.CharField(max_length=100, verbose_name="Position in this company")
     email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=17, verbose_name="Phone", blank=True)
+    description = models.TextField(verbose_name="Work description", blank=True)
     photo = models.ImageField(upload_to='employees/', null=True, blank=True)
 
     def __str__(self):

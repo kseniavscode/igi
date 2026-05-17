@@ -1,0 +1,25 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/vacancies.css' %}">
+{% endblock %}
+
+{% block title %}Vacancies{% endblock %}
+
+{% block content %}
+    <h1>Vacancies</h1>
+    <hr>
+
+    <div class="vacancies">
+        {% for vac in vacancies %}
+            <div class="vacancy">
+                <h3>{{ vac.title }}</h3>
+                <p>{{ vac.description|linebreaks }}</p>
+            </div>  
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}
+

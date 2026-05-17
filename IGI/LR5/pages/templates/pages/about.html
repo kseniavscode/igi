@@ -1,0 +1,31 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block title %}About Company{% endblock %}
+
+{% block content %}
+    <h1>About company <strong>{{ info.name }}</strong></h1>
+    <hr>
+    <div class="description">
+        <p>{{ info.description|linebreaks }}</p>
+    </div>
+    {% if info.history %}
+        <div class="history">
+            <h3>Our history</h3>
+            <p>{{ info.history|linebreaks }}</p>
+        </div>
+    {% endif %}
+
+    {% if info.requisites %}
+        <div class="requisites">
+            <h3>Our requisites</h3>
+            <p>{{ info.requisites|linebreaks }}</p>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
