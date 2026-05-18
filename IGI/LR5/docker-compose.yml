@@ -12,7 +12,6 @@ services:
 
   web:
     image: kseniavscode/library-app:latest
-    build: .
     env_file:
       - .env  
     environment:
@@ -27,7 +26,6 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/app
       - ./media:/app/media 
     command: >
       sh -c "mkdir -p /app/media && chmod -R 777 /app/media && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py loaddata initial_data.json &&
