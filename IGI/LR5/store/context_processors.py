@@ -13,7 +13,7 @@ def header_data(request):
 
     try:
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
-        res = requests.get(url, timeout=1).json()
+        res = requests.get(url, timeout=5).json()
         weather_data = {
             'temp': round(res['main']['temp']),
             'desc': res['weather'][0]['description'],

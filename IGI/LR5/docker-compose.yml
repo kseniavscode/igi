@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=library_db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+
+  web:
+    image: kseniavscode/library-app:latest
+    build: .
+    env_file:
+      - .env  
+    environment:
+      - DATABASE_URL=postgres://user:pass@db:5432/library_db
+      - DEBUG=True
+      - SECRET_KEY=test-key
+      - WEATHER_KEY=${WEATHER_KEY}
+      - GOOGLE_BOOKS_API_KEY=${GOOGLE_BOOKS_API_KEY}
+    
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - ./media:/app/media 
+    command: >
+      sh -c "mkdir -p /app/media && chmod -R 777 /app/media && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py loaddata initial_data.json &&
+             gunicorn --bind 0.0.0.0:8000 core.wsgi:application"
+
+volumes:
+  postgres_data:

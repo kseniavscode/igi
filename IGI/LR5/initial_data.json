@@ -1,0 +1,1113 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$WgxTfCBxKxLW6nHHQMnQGV$Pwo36A/bsfDcG3h7by9kaWzH3rW9HOVBkKj/Xiwi7C8=",
+    "last_login": "2026-05-17T14:07:03.478Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "ms.ks2007@mail.ru",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-05-10T09:46:53.745Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$UD0zNeI5gs29QsSShOMhS9$l5ebNhVMeBeyW/PYalC/ekWwODJC4sQcl9kkM4Wh2co=",
+    "last_login": "2026-05-17T14:05:59.453Z",
+    "is_superuser": false,
+    "username": "ksenia",
+    "first_name": "Ksenia",
+    "last_name": "Yarosh",
+    "email": "ms.ks2007@mail.ru",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-11T18:33:08.830Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$EkNZvKxc92VKGwudF8xxTr$s13hdElwN/R69fcj5ACjnAUtTJVoYSiPhuWh62wpRS4=",
+    "last_login": "2026-05-16T09:28:42.689Z",
+    "is_superuser": false,
+    "username": "staff",
+    "first_name": "Angelina",
+    "last_name": "Yaroshevich",
+    "email": "kseniayaroshevich14@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-05-12T14:50:38Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$a9Rk9CV7Y1lqgCfSssGEGY$VXMFYg5SHCWh2EtJRT/L047Vxq2kCDabE4SJ9l83498=",
+    "last_login": "2026-05-17T14:06:30.901Z",
+    "is_superuser": false,
+    "username": "ang",
+    "first_name": "Kate",
+    "last_name": "Qwerty",
+    "email": "ddd@mail.ru",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-15T17:34:18.727Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.author",
+  "pk": 1,
+  "fields": {
+    "name": "Leah Arden",
+    "date_of_birth": null,
+    "date_of_death": null
+  }
+},
+{
+  "model": "store.author",
+  "pk": 2,
+  "fields": {
+    "name": "Holly Black",
+    "date_of_birth": null,
+    "date_of_death": null
+  }
+},
+{
+  "model": "store.author",
+  "pk": 3,
+  "fields": {
+    "name": "Sarah J. Maas",
+    "date_of_birth": null,
+    "date_of_death": null
+  }
+},
+{
+  "model": "store.author",
+  "pk": 4,
+  "fields": {
+    "name": "Дориан Лински",
+    "date_of_birth": null,
+    "date_of_death": null
+  }
+},
+{
+  "model": "store.genre",
+  "pk": 1,
+  "fields": {
+    "name": "fantasy"
+  }
+},
+{
+  "model": "store.genre",
+  "pk": 2,
+  "fields": {
+    "name": "romfantasy"
+  }
+},
+{
+  "model": "store.genre",
+  "pk": 3,
+  "fields": {
+    "name": "Fantasy"
+  }
+},
+{
+  "model": "store.genre",
+  "pk": 4,
+  "fields": {
+    "name": "Fiction"
+  }
+},
+{
+  "model": "store.genre",
+  "pk": 5,
+  "fields": {
+    "name": "Romfantasy"
+  }
+},
+{
+  "model": "store.genre",
+  "pk": 6,
+  "fields": {
+    "name": "Coloring books"
+  }
+},
+{
+  "model": "store.genre",
+  "pk": 7,
+  "fields": {
+    "name": "Biography & Autobiography"
+  }
+},
+{
+  "model": "store.language",
+  "pk": 1,
+  "fields": {
+    "name": "Русский"
+  }
+},
+{
+  "model": "store.language",
+  "pk": 2,
+  "fields": {
+    "name": "English"
+  }
+},
+{
+  "model": "store.language",
+  "pk": 3,
+  "fields": {
+    "name": "EN"
+  }
+},
+{
+  "model": "store.language",
+  "pk": 4,
+  "fields": {
+    "name": "RU"
+  }
+},
+{
+  "model": "store.book",
+  "pk": 2,
+  "fields": {
+    "title": "The Cruel Prince",
+    "cover": "books/Снимок_экрана_2026-05-11_130822.png",
+    "summary": "Of course I want to be like them. They’re beautiful as blades forged in some divine fire. They will live forever.  And Cardan is even more beautiful than the rest. I hate him more than all the others. I hate him so much that sometimes when I look at him, I can hardly breathe.  Jude was seven when her parents were murdered and she and her two sisters were stolen away to live in the treacherous High Court of Faerie. Ten years later, Jude wants nothing more than to belong there, despite her mortality. But many of the fey despise humans. Especially Prince Cardan, the youngest and wickedest son of the High King.  To win a place at the Court, she must defy him–and face the consequences.  As Jude becomes more deeply embroiled in palace intrigues and deceptions, she discovers her own capacity for trickery and bloodshed. But as betrayal threatens to drown the Courts of Faerie in violence, Jude will need to risk her life in a dangerous alliance to save her sisters, and Faerie itself.",
+    "imprint": "Exsmo",
+    "isbn": "0586730251854",
+    "language": 2,
+    "price": "45.00",
+    "created_at": "2026-05-16T12:56:44.192Z",
+    "updated_at": "2026-05-16T12:56:44.232Z",
+    "genre": [
+      3
+    ],
+    "authors": [
+      2
+    ]
+  }
+},
+{
+  "model": "store.book",
+  "pk": 3,
+  "fields": {
+    "title": "The Wicked King",
+    "cover": "books/Снимок_экрана_2026-05-11_130837.png",
+    "summary": "You must be strong enough to strike and strike and strike again without tiring.  The first lesson is to make yourself strong.  After the jaw-dropping revelation that Oak is the heir to Faerie, Jude must keep her brother safe. To do so, she has bound the wicked king, Cardan, to her, and made herself the power behind the throne. Navigating the constantly shifting political alliances of Faerie would be difficult enough if Cardan were easy to control. But he does everything in his power to humiliate and undermine her even as his fascination with her remains undiminished.  When it becomes all too clear that someone close to Jude means to betray her, threatening her own life and the lives of everyone she loves, Jude must uncover the traitor and fight her own complicated feelings for Cardan to maintain control as a mortal in a Faerie world.",
+    "imprint": "Exsmo",
+    "isbn": "0123456789099",
+    "language": 2,
+    "price": "47.33",
+    "created_at": "2026-05-16T12:56:44.192Z",
+    "updated_at": "2026-05-16T12:56:44.232Z",
+    "genre": [
+      3
+    ],
+    "authors": [
+      2
+    ]
+  }
+},
+{
+  "model": "store.book",
+  "pk": 4,
+  "fields": {
+    "title": "The Queen of Nothing",
+    "cover": "books/Снимок_экрана_2026-05-11_130851.png",
+    "summary": "Power is much easier to acquire than it is to hold onto. Jude learned this lesson when she released her control over the wicked king, Cardan, in exchange for immeasurable power.  Now as the exiled mortal Queen of Faerie, Jude is powerless and left reeling from Cardan’s betrayal. She bides her time determined to reclaim everything he took from her. Opportunity arrives in the form of her deceptive twin sister, Taryn, whose mortal life is in peril.  Jude must risk venturing back into the treacherous Faerie Court, and confront her lingering feelings for Cardan, if she wishes to save her sister. But Elfhame is not as she left it. War is brewing. As Jude slips deep within enemy lines she becomes ensnared in the conflict’s bloody politics.  And, when a dormant yet powerful curse is unleashed, panic spreads throughout the land, forcing her to choose between her ambition and her humanity…  From the #1 New York Times bestselling author Holly Black, comes the highly anticipated and jaw-dropping finale to The Folk of the Air trilogy.",
+    "imprint": "Exsmo",
+    "isbn": "8510045381003",
+    "language": 2,
+    "price": "47.90",
+    "created_at": "2026-05-16T12:56:44.192Z",
+    "updated_at": "2026-05-16T12:56:44.232Z",
+    "genre": [
+      3
+    ],
+    "authors": [
+      2
+    ]
+  }
+},
+{
+  "model": "store.book",
+  "pk": 5,
+  "fields": {
+    "title": "The Stolen Heir",
+    "cover": "books/Снимок_экрана_2026-05-11_130903.png",
+    "summary": "Eight years have passed since the Battle of the Serpent. But in the icy north, Lady Nore of the Court of Teeth has reclaimed the Ice Needle Citadel. There, she is using an ancient relic to create monsters of stick and snow who will do her bidding and exact her revenge.  Suren, child queen of the Court of Teeth, and the one person with power over her mother, fled to the human world. There, she lives feral in the woods. Lonely, and still haunted by the merciless torments she endured in the Court of Teeth, she bides her time by releasing mortals from foolish bargains. She believes herself forgotten until the storm hag, Bogdana chases her through the night streets. Suren is saved by none other than Prince Oak, heir to Elfhame, to whom she was once promised in marriage and who she has resented for years.  Now seventeen, Oak is charming, beautiful, and manipulative. He’s on a mission that will lead him into the north, and he wants Suren’s help. But if she agrees, it will mean guarding her heart against the boy she once knew and a prince she cannot trust, as well as confronting all the horrors she thought she left behind.",
+    "imprint": "Exsmo",
+    "isbn": "4545281076685",
+    "language": 2,
+    "price": "45.20",
+    "created_at": "2026-05-16T12:56:44.192Z",
+    "updated_at": "2026-05-16T12:56:44.232Z",
+    "genre": [
+      3
+    ],
+    "authors": [
+      2
+    ]
+  }
+},
+{
+  "model": "store.book",
+  "pk": 6,
+  "fields": {
+    "title": "The Prisoner`s throne",
+    "cover": "books/Снимок_экрана_2026-05-11_125424.png",
+    "summary": "An imprisoned prince. A vengeful queen. And a battle that will determine the future of Elfhame.   Prince Oak is paying for his betrayal. Imprisoned in the icy north and bound to the will of a monstrous new queen, he must rely on charm and calculation to survive. With High King Cardan and High Queen Jude willing to use any means necessary to retrieve their stolen heir, Oak will have to decide whether to attempt regaining the trust of the girl he’s always loved or to remain loyal to Elfhame and hand over the means to end her reign—even if it means ending Wren, too.     With a new war looming on the horizon and treachery lurking in every corner, neither Oak’s guile nor his wit will be enough to keep everyone he loves alive. It’s just a question of whom he will doom.  From the #1 New York Times bestselling author Holly Black comes the stunning blood-soaked conclusion to the Stolen Heir duology.",
+    "imprint": "Exsmo",
+    "isbn": "2314200653845",
+    "language": 2,
+    "price": "53.90",
+    "created_at": "2026-05-16T12:56:44.192Z",
+    "updated_at": "2026-05-16T12:56:44.232Z",
+    "genre": [
+      3
+    ],
+    "authors": [
+      2
+    ]
+  }
+},
+{
+  "model": "store.book",
+  "pk": 7,
+  "fields": {
+    "title": "Mara and Morok",
+    "cover": "books/Снимок_экрана_2026-05-11_125732.png",
+    "summary": "Welcome to the world of belligerent kingdoms of Serat and Araken, where on the border of good and evil Mara is resurrected for revenge. Grey haired, wearing a scarlet cape, she is tied to the one who has brought her from the grave.  The perfect blend of dark epic fantasy and romance swirls “Corpse Bride” and “Van Helsing” under the scarlet cape of the one, whose spirit is free.  “There were seven of us. Maras – the ones marked by Morana, the goddess of death herself. Once in the world, Maras had their own way. Back then, people respected us and asked for mercy. They brought us offerings and prayed to us. But 200 years ago everything changed when Prince of Serat dared to raise his hand against one of us. That’s how one of us died. Driven by vengeance, the six of us came to the bloody Prince, but were all killed”  Moroks are marked by The Shadow, the non-existence, where the most rotten souls disappear. Prince of Araken, Daniel orders a Morok to revive a Mara called Agatha. Daniel wants Agatha to use her magic to save the heir to the throne, Nikolay, who’s thought to have been poisoned by the King of Serat.  Agatha knows, that she is tied to Morok, and that this is her only chance to take revenge. She is going to help Prince of Araken, but the price of her help will be very high.",
+    "imprint": "Exsmo",
+    "isbn": "7676859400123",
+    "language": 2,
+    "price": "43.79",
+    "created_at": "2026-05-16T12:56:44.192Z",
+    "updated_at": "2026-05-17T04:36:52.969Z",
+    "genre": [
+      3
+    ],
+    "authors": [
+      1
+    ]
+  }
+},
+{
+  "model": "store.book",
+  "pk": 8,
+  "fields": {
+    "title": "A Court of Thorns and Roses",
+    "cover": "books/A_Court_of_Thorns_an.jpg",
+    "summary": "Lose yourself in a world so sumptuous that you may never return home ... The tantalising start to a seductive fantasy series from global #1 bestselling author Sarah J. Maas for fans of E.L. James and Deborah Harkness",
+    "imprint": "Bloomsbury Publishing",
+    "isbn": "9781408857878",
+    "language": 3,
+    "price": "37.00",
+    "created_at": "2026-05-16T12:56:44.192Z",
+    "updated_at": "2026-05-16T12:56:44.232Z",
+    "genre": [
+      3,
+      4,
+      5
+    ],
+    "authors": [
+      3
+    ]
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "0064a867-fcd3-4209-881a-9681a68f4ed7",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": 10,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "010935e5-7587-4f3f-a83f-46b9308aa48c",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "02d58f68-49b2-4a9e-811d-73d5a6752536",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "0306898e-4893-45a5-a0b4-d1d16c2eda7d",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": 7,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "04ad2a90-866b-4fa3-ac14-e49e69e411c8",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "069da162-b59f-4260-ba43-2b9f99242b08",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "0aeba33a-ba45-4042-a68d-56af166b5a58",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "0cd1b479-6164-4433-a7a2-0b8cb3157f61",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "15983e51-74c7-4faa-86d6-e5b1cd864c2b",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "22c1906e-8488-4e4f-b5fd-d2db6fd0dd9b",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "39fe30c9-a842-48b0-993b-23567716b319",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "3bb35b7d-ad93-47ad-b4aa-4eaee6946c9d",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "3ec14746-1519-40a6-bf49-299843474a46",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 6,
+    "order": 7,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "40c280b0-1b1c-4dab-93dd-726d5385ed99",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 5,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "434d16e3-1d09-4cfc-afec-ab6d0e1e0c68",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 2,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "445d961f-fec2-48a5-9fc5-504ec418dc61",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 4,
+    "order": 6,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "4fb8e568-eb36-49aa-a4ba-95ada7b35c5a",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 4,
+    "order": 5,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "545c8be5-8c23-4b4a-b4a2-23167f16edc4",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 4,
+    "order": 6,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "555a9009-20b1-4787-9e52-281ca79bf4be",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 6,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "614a23fe-98ef-4b10-9ea1-55c118e6d772",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "63103bd0-15a1-430f-ac30-520236d62437",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "69dc695f-ea66-4bd2-b79d-be220f7e746c",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 2,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "6f81cccb-1a45-4f3e-bb58-2d5b125e1244",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 4,
+    "order": 5,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "700b8a44-85f9-4c1d-9f43-14176ff370d7",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "71973fbc-988b-44f5-953b-0743d3a0b98b",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "71ac3efd-3c00-4d90-a133-0cac1d462833",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 4,
+    "order": 9,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "75b8bdd3-62d2-4a96-9066-ad2b62c3ff30",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "78ef8f1b-cb4b-45a2-962f-192849417782",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 6,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "7a49d25f-5460-4f67-a828-c36e9ce6e0b8",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "80e2a684-25dc-4536-8c85-5422ebb0be76",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 4,
+    "order": 9,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "837a6e2a-ad78-46f6-8777-6c3ef7d9bc8e",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "87ca4825-bcbc-49ea-886e-5094717a3398",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "89997d0f-69e1-4144-b631-06b06f2fafd5",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "a25669fc-3c88-48e3-9765-76f04e1928ae",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "baf6953c-e1fd-4345-b045-d9c57775f5f9",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "bd5aa992-49d2-424a-bb06-b29bc06693bd",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "bfb9c0f1-5a9c-474b-abd9-cc89eb7c1f18",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "c03f914a-954d-41c0-95ba-99dd8df7f2e3",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 3,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "c8c1644a-17ca-4c25-a57e-84d8755f966d",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 2,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "cb45a8d8-7890-40d2-97b8-9afc1ae990ab",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "d4bdc048-0c48-4fba-a90c-ae64ae9daeb5",
+  "fields": {
+    "imprint": "Bloomsbury Publishing",
+    "due_back": null,
+    "book": 8,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "daf15ab2-824a-4e42-a992-d97fcf4b18ca",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 2,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "de2a714b-23d7-4803-97d7-666bb8568b03",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "de65990c-a1f7-43dd-9aea-4158ba459977",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 2,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "ef7998ed-4172-48a3-af20-d6c9684c470f",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 4,
+    "order": 9,
+    "status": "s"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "f6e16b3b-1514-4249-8c72-289f799ccc01",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 7,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.bookinstance",
+  "pk": "f902cc03-913c-4064-ba9c-6749d46c2912",
+  "fields": {
+    "imprint": "Exsmo",
+    "due_back": null,
+    "book": 2,
+    "order": null,
+    "status": "a"
+  }
+},
+{
+  "model": "store.client",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "phone": "+375295903843",
+    "birth_date": "2007-03-02",
+    "address": "",
+    "city": "Minsk"
+  }
+},
+{
+  "model": "store.client",
+  "pk": 2,
+  "fields": {
+    "user": 5,
+    "phone": "+375(29)590-38-46",
+    "birth_date": "2008-05-15",
+    "address": "",
+    "city": "Minsk"
+  }
+},
+{
+  "model": "store.employee",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "full_name": "Angelina Yaroshevich",
+    "position": "director",
+    "email": "ang@gmail.com",
+    "phone": "+375(29)5903545",
+    "description": "The main person in the whole world",
+    "photo": "employees/Снимок_экрана_2026-05-11_203600_BPLgYzM.png"
+  }
+},
+{
+  "model": "store.pickuppoint",
+  "pk": 1,
+  "fields": {
+    "address": "Nikoly Tesly Street, 30",
+    "city": "Minsk",
+    "opening_hours": "7:00-22:00",
+    "map_coordinates": "53.865289, 27.556414"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 5,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-04-15T06:52:23Z",
+    "updated_at": "2026-04-15T06:52:46Z",
+    "delivery_address": "",
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": "95.78",
+    "status": "d",
+    "delivery_method": "s",
+    "books": [
+      4
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 6,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-05-15T06:53:38Z",
+    "updated_at": "2026-05-16T09:28:28Z",
+    "delivery_address": "",
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": "95.80",
+    "status": "d",
+    "delivery_method": "s",
+    "books": [
+      4
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 7,
+  "fields": {
+    "client": 2,
+    "created_at": "2026-03-15T17:34:25Z",
+    "updated_at": "2026-03-15T17:34:46Z",
+    "delivery_address": "",
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": "97.69",
+    "status": "d",
+    "delivery_method": "s",
+    "books": [
+      6,
+      7
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 8,
+  "fields": {
+    "client": 2,
+    "created_at": "2026-05-15T17:36:58Z",
+    "updated_at": null,
+    "delivery_address": "",
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": null,
+    "status": "c",
+    "delivery_method": "s",
+    "books": [
+      4
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 9,
+  "fields": {
+    "client": 2,
+    "created_at": "2026-05-15T18:32:24Z",
+    "updated_at": "2026-05-15T18:32:49Z",
+    "delivery_address": "",
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": "143.70",
+    "status": "d",
+    "delivery_method": "s",
+    "books": [
+      4
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 10,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-05-17T10:43:15Z",
+    "updated_at": "2026-05-17T13:45:37Z",
+    "delivery_address": "",
+    "pickup_point": 1,
+    "promo_code": 1,
+    "final_price": "33.30",
+    "status": "d",
+    "delivery_method": "s",
+    "books": [
+      8
+    ]
+  }
+},
+{
+  "model": "pages.companyinfo",
+  "pk": 1,
+  "fields": {
+    "name": "BookLife",
+    "description": "BookLife isn't a bookstore. It's a curated world of extraordinary books, chosen by one woman who has read them all — and coded the website herself.\r\n\r\n\"I code so this store exists. I read so it means something.\" — Ksenia, BookLife!",
+    "history": "Ksenia never planned to sell books.\r\nShe studied computer science — not because she loved code, but because she loved logic. And because books, back then, felt like a hobby, not a life. For years, she wrote. Novels, short stories, messy drafts hidden in folders named final_real_final_v3. She dreamed of becoming a writer. But the publishing world was cold, and Ksenia was too honest to write what didn't burn inside her. \r\nSo she became a programmer instead. She built systems, databases, and backend logic for other people's dreams. It was stable. It was fine. But every night, she read. Two books a week. Sometimes three. And she kept a secret list: \"Books I would sell if I had my own store.\"\r\n\r\nOne evening, her husband came home with a strange gift: a small, almost bankrupt online bookstore with twelve customers and a broken checkout.\r\n\"You always say you'd do it differently. Now show me.\"\r\nHe didn't give her a company. He gave her a question. Ksenia quit her job three weeks later.\r\n\r\nKsenia made one rule, and she never broke it: \"I will only sell books I have read myself — and loved.\"\r\n\r\nNo algorithms. No \"trending now.\" No auto-generated recommendations.\r\nEvery single book on BookLife has survived Ksenia's midnight reading sessions. If she didn't cry, laugh, or stare at the ceiling for an hour after finishing it — it doesn't go on the site. Today, BookLife has thousands of titles. Ksenia has read every single one.\r\n\r\nMost bookstore owners hire developers.\r\nKsenia is the developer.\r\nShe built the entire BookLife platform from scratch — the search, the recommendation engine, the beautiful responsive layouts, even the typography settings. She handles back-end, front-end, and database optimization between cups of tea and chapters.\r\n\r\n\"I write code so I can spend more time reading. Wait. That's not how it worked out.\"\r\n\r\nWhen something breaks at 2 AM, Ksenia fixes it.\r\nWhen a new feature launches, Ksenia deployed it.\r\nWhen the site looks impossibly beautiful — that's her design, too.\r\n\r\nShe calls herself \"accidental CTO by passion.\"",
+    "requisites": "2026, pr-t Nezavisimosti 45-82, Minsk, 220012, Belarus. ms.ks2007@mail.ru \"Write to me. I read every email. Usually between 1 AM and 3 AM. With tea.\""
+  }
+},
+{
+  "model": "pages.article",
+  "pk": 1,
+  "fields": {
+    "title": "Start your life with book",
+    "full_text": "It`s something strange? when only your thoughts is directed on everything about books? their titles, main charecters, worlds with magic. I forgot about reality in one moment, five years ago, and now i see myself in the mirrow and now i seriously can say thanks that i`m not like everyone....  I just a one little girl? who extreamly belive that and your story will have a good ending, but life decided overwise. Books are always will be my home, does not matter what happend, this is my tiny world with adventures.",
+    "image": "news/IMG_5350_2.JPG",
+    "publishing_date": "2026-05-10"
+  }
+},
+{
+  "model": "pages.article",
+  "pk": 2,
+  "fields": {
+    "title": "Sarah J. Maas",
+    "full_text": "Bloomsbury acquired Throne of Glass in 2010 and the first book in the series hit shelves in 2012. Two more installments followed in quick succession, each climbing higher on the New York Times’ best-seller lists. But it was the 2015 debut of ACOTAR, originally marketed as a darker reimagining of Beauty and the Beast, that would propel Maas’ success to new heights. In addition to the series’ popularity online—where fans gush over its strong female leads, steamy romances, and trio of Fae-warrior love interests (affectionately known as the “Bat Boys”)—a TV adaptation co-written by Maas is currently in development at Hulu. \r\nWhen it comes to the romance aspect of her romantasy tales, Maas doesn’t skimp on what the genre’s fans refer to as “spice.” But her on-page love stories largely strike a chord because of the deep emotional connections that underlie her characters’ physical attraction to each other. “Romance isn’t usually my thing,” 25-year-old Isabella Scala says of her preferred genres. “But these books are my escape.”\r\n\r\nMaas attributes her ability to craft male characters who appeal to so many of her female readers to the relationship she has with her husband, Josh, who she’s been with since she was 18 and with whom she shares two children, Taran and 2-year-old Sloane. As Maas chats with me from her New York City home office, Josh briefly interrupts our video call to bring her a matcha latte. On release night, he’s by her side smiling and fielding questions from fans throughout the evening.\r\n\r\n“I'm really blessed to have someone who treats me like an equal and celebrates all my successes,” she says. “The baseline standard is that these males respect and cheer for the women in their lives, and know that they're these incredible people who deserve to feel special and loved.”\r\n\r\n“I'm constantly learning and trying to do my best,” Maas says of the criticism, noting that she now employs sensitivity readers to help ensure respectful representation. “When I make a mistake, I learn from it. I want my writing to be reflective of how diverse my fantasy worlds are and for every person who picks up my books to feel seen and welcome.”",
+    "image": "news/Снимок_экрана_2026-05-11_203600.png",
+    "publishing_date": "2026-05-11"
+  }
+},
+{
+  "model": "pages.faq",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "question": "What`s booksore`s time of work?",
+    "answer": "Every day from 7 a.m. to 22 p.m",
+    "date": "2026-05-17"
+  }
+},
+{
+  "model": "pages.faq",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "question": "When will 'The queen og nothing' be in store?",
+    "answer": "We are waiting for delivery of 20.05.2026",
+    "date": "2026-05-17"
+  }
+},
+{
+  "model": "pages.vacancy",
+  "pk": 1,
+  "fields": {
+    "title": "Consultant",
+    "description": "Location: Remote / Minsk\r\nType: Part-time / Full-time\r\nAt: BookLife (beautiful books, curated by people who actually read them)\r\nBook Consultant at BookLife – We're looking for a passionate reader to help customers discover amazing books. You'll give honest, personal recommendations (no scripts). You must read at least one book per week, love talking about stories, and have fluent English. No retail robots – just real readers. Send your favorite book and a book you hated to jobs@booklife.by.\r\nSalary: 3000 BYN"
+  }
+},
+{
+  "model": "pages.vacancy",
+  "pk": 2,
+  "fields": {
+    "title": "Seller",
+    "description": "Seller at BookLife – We need a book lover to help customers choose great books. You'll work in a beautiful space, talk about stories all day, and only sell books you genuinely love. No pressure, no scripts – just real conversations. Must love reading and have fluent English. Send your favorite book to jobs@booklife.by.\r\nSalary: 2500 BYN"
+  }
+},
+{
+  "model": "pages.review",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "name": "ksenia",
+    "rating": 5,
+    "text": "This store is so magnifisent $$",
+    "date": "2026-05-17T09:30:00.067Z"
+  }
+},
+{
+  "model": "pages.review",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "name": "ksenia",
+    "rating": 5,
+    "text": "loooove",
+    "date": "2026-05-17T09:40:02.215Z"
+  }
+},
+{
+  "model": "pages.promocode",
+  "pk": 1,
+  "fields": {
+    "code": "SPRING",
+    "discode": 10,
+    "is_active": true
+  }
+},
+{
+  "model": "pages.promocode",
+  "pk": 2,
+  "fields": {
+    "code": "2008",
+    "discode": 8,
+    "is_active": true
+  }
+}
+]

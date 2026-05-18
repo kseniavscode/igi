@@ -12,12 +12,12 @@ from django.contrib.messages import get_messages
 
 @pytest.fixture
 def regular_user(db):
-    """Создаем обычного пользователя"""
+    """Create user"""
     return User.objects.create_user(username='testuser', password='password')
 
 @pytest.fixture
 def staff_user(db):
-    """Создаем администратора"""
+    """Create staff"""
     return User.objects.create_user(username='staff', password='password', is_staff=True)
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def user_client(db, regular_user):
 
 @pytest.fixture
 def book_with_instance(db):
-    """Создаем книгу и один доступный экземпляр"""
+    """Create a book and an instance"""
     book = Book.objects.create(title="Test Book", isbn="1112223334445", price=100.0)
     instance = BookInstance.objects.create(book=book, status='a')
     return book, instance
@@ -197,6 +197,7 @@ class TestOrderProcess:
         response = client.get(url)
         
         instance.refresh_from_db()
+        
         assert instance.status == 'r'
         assert Order.objects.filter(client=user_client, status='n').exists()
         assert response.url == reverse('my_orders')

@@ -1,6 +1,9 @@
 from django.urls import re_path
 from . import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     re_path(r'^news/$$', views.news_page, name='news'),
     re_path(r'^about_company/$', views.about_company, name='about'),

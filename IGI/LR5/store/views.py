@@ -104,7 +104,7 @@ def import_books(request):
 
     if request.method == 'POST':
 
-        logger.info(f"Book '{new_book.title}' (ISBN: {new_book.isbn}) successfully imported by {request.user.username}")
+        
 
         title = request.POST.get('title')
         description = request.POST.get('description')
@@ -150,6 +150,8 @@ def import_books(request):
                     new_book.cover.save(file_name, ContentFile(img_temp.content), save=True)
             except Exception as e:
                 logger.error(f"Failed to download cover for book {title}: {str(e)}")
+
+        logger.info(f"Book '{new_book.title}' (ISBN: {new_book.isbn}) successfully imported by {request.user.username}")
 
         return redirect('book_list')
     
