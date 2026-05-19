@@ -36,7 +36,7 @@ class Book(models.Model):
     title = models.CharField(max_length=150, verbose_name="Title of book")
     cover = models.ImageField(upload_to='books/', null=True, blank=True, verbose_name="Book cover")
     summary = models.TextField(verbose_name="Annotation")
-    imprint = models.CharField(max_length=100, blank=True, verbose_name="Publishing House")
+    imprint = models.CharField(max_length=100, blank=True, null=True, verbose_name="Publishing House")
     isbn = models.CharField(max_length=13, verbose_name="ISBN")
 
     genre = models.ManyToManyField(Genre, verbose_name="Genres")
