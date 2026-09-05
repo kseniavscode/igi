@@ -19,7 +19,7 @@ body {
 
 .header_timezone{
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     gap: 30px;
     align-items: center;
     margin: 3px;
@@ -32,12 +32,44 @@ body {
     box-shadow: 0 0 5px #472801;
     border-radius: 4px;
 }
-
+.header_right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
 .header_timezone b{
     display: block; 
     margin: 3px;
 }
 
+
+
+.logo_bookstore{
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+}
+.logo_bookstore img{
+    height: 70px;
+    width: 70px;
+    border-radius: 100px;
+    border: 2px solid #472801;
+    box-shadow: 0 0 5px #472801;
+}
+
+.logo_bookstore h1{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 40px;
+    color: #472801;
+    text-shadow: 2px 0 5px rgba(71, 40, 1, 0.3),
+        0 -3px 2px rgba(71, 40, 1, 0.2),
+        0 0 4px rgba(185, 118, 36, 0.474);
+    margin: 0;
+}
 .info_date p{
     margin: 3px;
 }
@@ -98,9 +130,7 @@ body {
     margin: 0 10px;
     font-size: 20px;
 }
-
-
-.container {
+.container{
     width: 1500px;
     margin: 0 auto;
     background-color: #fff;
@@ -110,6 +140,8 @@ body {
 
     flex-grow: 1; 
 }
+
+/* Advertisement */
 
 
 

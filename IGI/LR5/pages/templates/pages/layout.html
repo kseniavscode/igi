@@ -8,32 +8,42 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     {% block extra_css %}{% endblock %}
+
+    <link rel="icon" type="image/jpg" href="{% static 'images/logo_bookstore.jpg' %}">
     
 </head>
 <body>
     <div class="header_timezone">
-        <div class="info_date">
-            {% block info_date %}{% endblock %}
+        <div class="logo_bookstore">
+            <img src="{% static 'images/logo_bookstore.jpg' %}" alt="LOGO">
+            <h1>Book Store</h1>
         </div>
-        <div class="time_box">
-            <b>Date & Time:</b>
-            <p>UTC: {{ utc_time|date:"d/m/Y H:i" }}</p>
-            <p>Local ({{ city_name }}): {{ local_time|date:"d/m/Y H:i" }}</p>
-        </div>
-        <div class="weather_box">
-            <b>Weather</b>
 
-            {% if header_weather %}
-                <span class="weather_info">
-                    {{ city_name }}: {{ header_weather.temp }}°C, {{ header_weather.desc }}
-                </span>
-            {% else %}
-                Service temporarily unavailable
-            {% endif %}
+        <div class="header_right">
+            <div class="info_date">
+                {% block info_date %}{% endblock %}
+            </div>
+            <div class="time_box">
+                <b>Date & Time:</b>
+                <p>UTC: {{ utc_time|date:"d/m/Y H:i" }}</p>
+                <p>Local ({{ city_name }}): {{ local_time|date:"d/m/Y H:i" }}</p>
+            </div>
+            <div class="weather_box">
+                <b>Weather</b>
+
+                {% if header_weather %}
+                    <span class="weather_info">
+                        {{ city_name }}: {{ header_weather.temp }}°C, {{ header_weather.desc }}
+                    </span>
+                {% else %}
+                    Service temporarily unavailable
+                {% endif %}
+            </div>
+            <div class="calendar_box">
+                <pre>{{ header_calendar }}</pre>
+            </div>
         </div>
-        <div class="calendar_box">
-            <pre>{{ header_calendar }}</pre>
-        </div>
+        
         
         
     </div>
@@ -79,13 +89,19 @@
         </div>
     </div>
     
-
+    {% block adves %}
+    {% endblock %}
+    
 
     <div class="container">
         {% block content %}
         {% endblock %}
     </div>
 
+    {% block article %}
+    {% endblock %}
+
+    
     <div class="control_buttons">
         <a href="{% url 'book_list' %}" class="panel_btn">Main Store</a>
         <a href="{% url 'about' %}" class="panel_btn">About Company</a>

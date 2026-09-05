@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Client 
+from .models import Client, Advertisement
 from datetime import date
 import re
 
@@ -54,3 +54,32 @@ class UserRegistrationForm(forms.ModelForm):
         if cleaned_data.get("password") != cleaned_data.get("confirm_password"):
             raise forms.ValidationError("Passwords do not match")
         return cleaned_data
+
+
+class AdvertisementForm(forms.ModelForm):
+    class Meta:
+        model = Advertisement
+        fields = '__all__'
+
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Название рекламы'
+            }),
+            'image': forms.FileInput(attrs={
+                'class': 'form-control-file',
+                'accept': 'image/*'
+            }),
+            'link': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://example.com'
+            }),
+            'order': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': 0,
+                'placeholder': '0'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+        }

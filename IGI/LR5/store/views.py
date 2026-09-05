@@ -3,11 +3,11 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Sum, Count
 from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
-from .models import Book, BookInstance, Client, Order, Genre, Author, Language, Waitlist, PickupPoint
-from pages.models import PromoCode
+from .models import Book, BookInstance, Client, Order, Genre, Author, Language, Waitlist, PickupPoint, Advertisement
+from pages.models import PromoCode, Article, CompanyPartner
 
 from django.contrib.auth import login
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, AdvertisementForm
 
 from django.utils import timezone
 import statistics
@@ -31,6 +31,7 @@ from functools import wraps
 import logging
 
 logger = logging.getLogger('store')
+
 
 def staff_or_employee_required(view_func):
     @wraps(view_func)
@@ -186,10 +187,31 @@ def book_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    ads = Advertisement.objects.filter(is_active=True).order_by('order')
+
+    form = AdvertisementForm()
+
+    if request.method == 'POST' and request.user.is_staff:
+        form = AdvertisementForm(request.POST, request.FILES)
+        if form.is_valid():
+            ad = form.save()
+            logger.info(f"Advertisement '{ad.title}' successfully added")
+            return redirect('book_list')
+        else:
+            logger.error(f"Advertisement error '{ad.title}' ")
+
+
+    article = Article.objects.all().order_by('-publishing_date').first()
+    partners = CompanyPartner.objects.all()
+
     context = {
         'page_obj': page_obj,
         'search_query': search_query,
         'current_sort': sort_option,
+        'ads': ads,
+        'form': form,
+        'article': article,
+        'partners': partners,
     }
 
     logger.debug(f"MAIN BOOKS STORE page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")

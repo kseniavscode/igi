@@ -205,4 +205,19 @@ class Waitlist(models.Model):
         unique_together = ('client', 'book')
     def __str__(self):
         return f"{self.client.user.username} waiting for {self.book.title}"
+
+
+class Advertisement(models.Model):
+
+    title = models.CharField(max_length=150, verbose_name='Name')
+    image = models.ImageField(upload_to='ads/', verbose_name='Banner')
+    link = models.URLField(blank=True, verbose_name='URL')
+    order = models.PositiveIntegerField(default=0, verbose_name='Order')
+    is_active = models.BooleanField(default=True, verbose_name='Active')
+
+    class Meta:
+        ordering = ['order']
+
+        def __str__(self):
+            return self.title
     

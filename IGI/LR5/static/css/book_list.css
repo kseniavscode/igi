@@ -1,3 +1,60 @@
+.advertisement{
+    width: 1480px;
+    margin: 15px;
+    background-color: #7b5f0c;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(43, 43, 43, 0.5);
+
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.ad_item{
+    flex: 0 0 300px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(54, 31, 4, 0.7);
+
+    display: block;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+.ad_item:hover {
+    transform: scale(1.02);    
+}
+
+.ad_item a{
+    text-decoration: none;    
+    color: #333;  
+    display: block;      
+}
+
+.ad_item img {         
+    height: 180px;        
+    object-fit: cover;  
+    display: block;        
+}
+
+.ad_item p {
+    padding: 10px 15px;
+    margin: 0;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.add_ad{
+    background-color: #fff;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(54, 31, 4, 0.7);
+}
+
 .book_grid {
     background-color: #fff;
     margin: 0;
@@ -65,4 +122,10 @@
     color: rgb(0, 0, 0);
     border: 1px solid rgb(58, 33, 2);
     border-radius: 4px;
+}
+
+.last_new_and_partners{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

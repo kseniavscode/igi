@@ -4,6 +4,42 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/book_list.css' %}">
     <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    <link rel="stylesheet" href="{% static 'css/news.css' %}">
+    <link rel="stylesheet" href="{% static 'css/read_more.css' %}">
+    <link rel="stylesheet" href="{% static 'css/partners.css' %}">
+{% endblock %}
+
+{% block adves %}
+    <div class="advertisement">
+        {% for ad in ads %}
+            <div class="ad_item">
+                <a href="{{ ad.link|default:'#' }}" target="_blank">
+                    <img src="{{ ad.image.url }}" alt="{{ ad.title }}">
+                    <p>{{ ad.title }}</p>
+                </a>
+            </div>
+        {% empty %}
+            <p>Now we are surviving without advertisement.</p>
+        {% endfor %}
+    </div>
+    {% if user.is_staff %}
+        <div class="add_ad">
+            <details>
+                <summary>Add an advertisement</summary>
+                <form class="search_form" action="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <p>{{ form.title.label }} {{ form.title }}</p>
+                    <p>{{ form.image.label }} {{ form.image }}</p>
+                    <p>{{ form.link.label }} {{ form.link }}</p>
+                    <p>{{ form.order.label }} {{ form.order }}</p>
+                    <p>{{ form.is_active.label }} {{ form.is_active }}</p>
+                    <button type="submit">Submit</button>
+                    
+                </form>
+
+            </details>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -65,4 +101,65 @@
         {% endif %}
     </div>
 
+{% endblock %}
+
+{% block article %}
+    <div class="last_new_and_partners">
+        <div class="news">
+            <div class="caption_to_new_article">
+                <h3>THE LAST ARTICLE SEE IT ASAP</h3>
+            </div>
+            <div class="image_of_article">
+                {% if article.image %}
+                    <img src="{{ article.image.url }}" width="200">
+                {% endif %}
+            </div>
+            <div class="info_article">
+                <h2>{{ article.title }}</h2>
+                <p id="text-{{  article.id }}" data-fulltext="{{ article.full_text }}">{{ article.full_text|truncatechars:200 }}</p>
+
+                {% if article.full_text|length > 200 %}
+                    <button id="read_more_btn" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
+                {% endif %}
+
+                <p class="date_of_article">{{ article.publishing_date }}</p>
+            </div>
+        </div>
+        {% if partners %}
+            <div class="partners">
+                <h3 class="partners_h3">Our partners</h3>
+                {% for par in partners %}
+                    <div class="partner">
+                        <div class="logo_partner">
+                            {% if par.image %}
+                                <img src="{{ par.image.url }}" alt="">
+                            {% endif %}
+                        </div>
+                        <!-- <div class="inf_partner"> -->
+                            <a href="{{ par.link }}" target="_blank"><h3>{{ par.name }}</h3></a>
+                        <!-- </div> -->
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+    
+
+    <script>
+        function toggleNewsText(articleId) {
+            const textElement = document.getElementById('text-' + articleId);
+            const btn = document.getElementById('read_more_btn');
+            const fullText = textElement.getAttribute('data-fulltext');
+            
+            if (btn.innerText === "Read more") {
+                textElement.innerText = fullText;
+                btn.innerText = "Show less";
+            } else {
+                textElement.innerText = fullText.substring(0, 200) + '...';
+                btn.innerText = "Read more";
+            }
+        }
+    </script>
 {% endblock %}

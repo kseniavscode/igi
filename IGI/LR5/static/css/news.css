@@ -1,3 +1,11 @@
+.caption_to_new_article{
+    width: 50px;
+    color: rgb(134, 20, 20);
+    text-shadow: 2px -1px 5px rgba(0, 0, 0, 0.566);
+    align-items: center;
+    padding: 5px;
+}
+
 .news_title{
     color: rgb(134, 20, 20);
 }
@@ -9,6 +17,7 @@
     margin: 10px 0 30px 15px;
     border-radius: 15px 0 0 15px;
     box-shadow: 0 5px 10px rgba(134, 20, 20, 0.722);
+    background-color: white;
 }
 .image_of_article{
     margin: 20px 0 20px 20px;

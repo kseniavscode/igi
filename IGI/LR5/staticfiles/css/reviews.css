@@ -1,0 +1,24 @@
+.add_review{
+    border-radius: 10px;
+    box-shadow: 0 0 10px #666;
+    margin: 10px;
+    padding: 5px;
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+
+.review_list{
+    margin: 10px;
+}
+.review_card{
+    border-radius: 10px;
+    box-shadow: 0 0 10px #630015c4;
+    margin: 10px;
+    padding: 5px;
+}
+.button_send{
+    margin: 0 0 0 200px;
+}

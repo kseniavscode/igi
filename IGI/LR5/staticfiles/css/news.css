@@ -1,0 +1,40 @@
+.news_title{
+    color: rgb(134, 20, 20);
+}
+.news{
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+
+    margin: 10px 0 30px 15px;
+    border-radius: 15px 0 0 15px;
+    box-shadow: 0 5px 10px rgba(134, 20, 20, 0.722);
+}
+.image_of_article{
+    margin: 20px 0 20px 20px;
+    width: 250px;
+
+}
+.image_of_article img{
+    width: 250px;
+    object-fit: cover;
+}
+.info_article h2 p{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+}
+
+.read_more_btn_article{
+    background-color: none;
+    border: none;
+    color: #610303;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.date_of_article{
+    width: 100px;
+    margin: auto 200px 50px auto;
+    text-decoration-style: wavy;
+    font-style: italic;
+}

@@ -12,6 +12,15 @@ class CompanyInfo(models.Model):
 
     def __str__(self):
         return self.name
+
+class CompanyPartner(models.Model):
+
+    name = models.CharField(max_length=100, verbose_name="Partner company name")
+    image = models.ImageField(upload_to='companies/', verbose_name='Logo of company')
+    link = models.URLField(blank=True, verbose_name='Link about this company')
+
+    def __str__(self):
+        return self.name
     
 class Article(models.Model):
     """News"""

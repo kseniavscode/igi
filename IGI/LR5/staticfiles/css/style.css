@@ -1,0 +1,150 @@
+html, body{
+    width: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    box-sizing: border-box;
+}
+
+
+.header_timezone{
+    display: flex;
+    justify-content: end;
+    gap: 30px;
+    align-items: center;
+    margin: 3px;
+    padding: 0 30px;
+
+    background: #ffffff;
+    font-family: 'Lucida Sans', sans-serif;
+    font-size: 13px;
+    border: 2px solid #472801;
+    box-shadow: 0 0 5px #472801;
+    border-radius: 4px;
+}
+
+.header_timezone b{
+    display: block; 
+    margin: 3px;
+}
+
+.info_date p{
+    margin: 3px;
+}
+.time_box p{
+    margin: 3px;
+}
+
+.weather_box{
+    color: #7b5f0c;
+}
+
+.calendar_box pre{
+
+    margin: 0;
+    font-family: monospace;
+    background: rgba(255,255,255,0.05);
+}
+
+
+
+
+.header_container {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+
+.info_buttons{
+    margin: 0 10px 30px;
+    padding: 10px 100px 10px 10px;
+    border-radius: 20px;
+    box-shadow: 0 10px 10px #333;
+    background-color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info_buttons p{
+    margin: 0 20px 0 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(71, 40, 1);
+}
+.log_bar{
+
+    margin: 0 10px 30px;
+    padding: 10px 10px 10px 100px;
+    border-radius: 20px;
+    box-shadow: 0 10px 10px #333;
+    background-color: white;
+}
+
+.log_bar span {
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+
+.container {
+    width: 1500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(43, 43, 43, 0.5);
+
+    flex-grow: 1; 
+}
+
+
+
+
+/* Footer with control buttons */
+
+.control_buttons{
+    margin: 10px 250px 10px;
+    padding: 10px;
+    background-color: #ffff;
+    border-radius: 80px;
+    box-shadow: 0 10px 10px #333;
+
+    display: flex;
+    justify-content: center;
+}
+.panel_btn{
+    margin: 5px;
+    padding: 5px;
+    text-decoration: none;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    color: rgb(71, 40, 1);
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+}
+.panel_btn:hover{
+    background-color: #610303;
+    border-radius: 6px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(97, 3, 3, 0.3);
+}
+
+
+
+
