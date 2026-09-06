@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$1200000$WgxTfCBxKxLW6nHHQMnQGV$Pwo36A/bsfDcG3h7by9kaWzH3rW9HOVBkKj/Xiwi7C8=",
-    "last_login": "2026-05-17T14:07:03.478Z",
+    "last_login": "2026-09-06T16:00:44.349Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -22,7 +22,7 @@
   "pk": 2,
   "fields": {
     "password": "pbkdf2_sha256$1200000$UD0zNeI5gs29QsSShOMhS9$l5ebNhVMeBeyW/PYalC/ekWwODJC4sQcl9kkM4Wh2co=",
-    "last_login": "2026-05-17T14:05:59.453Z",
+    "last_login": "2026-09-06T13:43:47.616Z",
     "is_superuser": false,
     "username": "ksenia",
     "first_name": "Ksenia",
@@ -40,7 +40,7 @@
   "pk": 3,
   "fields": {
     "password": "pbkdf2_sha256$1200000$EkNZvKxc92VKGwudF8xxTr$s13hdElwN/R69fcj5ACjnAUtTJVoYSiPhuWh62wpRS4=",
-    "last_login": "2026-05-16T09:28:42.689Z",
+    "last_login": "2026-09-04T13:27:42.040Z",
     "is_superuser": false,
     "username": "staff",
     "first_name": "Angelina",
@@ -341,6 +341,7 @@
     "due_back": null,
     "book": 8,
     "order": 10,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -352,6 +353,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -363,6 +365,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -374,6 +377,7 @@
     "due_back": null,
     "book": 7,
     "order": 7,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -385,6 +389,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -395,8 +400,9 @@
     "imprint": "Exsmo",
     "due_back": null,
     "book": 7,
-    "order": null,
-    "status": "a"
+    "order": 13,
+    "quantity": 3,
+    "status": "r"
   }
 },
 {
@@ -407,6 +413,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -418,6 +425,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -429,6 +437,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -440,6 +449,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -451,6 +461,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -462,6 +473,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -473,6 +485,7 @@
     "due_back": null,
     "book": 6,
     "order": 7,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -483,8 +496,9 @@
     "imprint": "Exsmo",
     "due_back": null,
     "book": 5,
-    "order": null,
-    "status": "a"
+    "order": 12,
+    "quantity": 1,
+    "status": "r"
   }
 },
 {
@@ -494,8 +508,9 @@
     "imprint": "Exsmo",
     "due_back": null,
     "book": 2,
-    "order": null,
-    "status": "a"
+    "order": 15,
+    "quantity": 2,
+    "status": "r"
   }
 },
 {
@@ -506,6 +521,7 @@
     "due_back": null,
     "book": 4,
     "order": 6,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -517,6 +533,7 @@
     "due_back": null,
     "book": 4,
     "order": 5,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -528,6 +545,7 @@
     "due_back": null,
     "book": 4,
     "order": 6,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -539,6 +557,7 @@
     "due_back": null,
     "book": 6,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -550,6 +569,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -561,6 +581,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -572,6 +593,7 @@
     "due_back": null,
     "book": 2,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -583,6 +605,7 @@
     "due_back": null,
     "book": 4,
     "order": 5,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -594,6 +617,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -605,6 +629,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -616,6 +641,7 @@
     "due_back": null,
     "book": 4,
     "order": 9,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -627,6 +653,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -638,6 +665,7 @@
     "due_back": null,
     "book": 6,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -649,6 +677,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -660,6 +689,7 @@
     "due_back": null,
     "book": 4,
     "order": 9,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -671,6 +701,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -682,6 +713,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -693,6 +725,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -704,6 +737,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -715,6 +749,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -726,6 +761,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -737,6 +773,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -747,8 +784,9 @@
     "imprint": "Exsmo",
     "due_back": null,
     "book": 3,
-    "order": null,
-    "status": "a"
+    "order": 15,
+    "quantity": 1,
+    "status": "r"
   }
 },
 {
@@ -759,6 +797,7 @@
     "due_back": null,
     "book": 2,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -770,6 +809,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -781,6 +821,7 @@
     "due_back": null,
     "book": 8,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -792,6 +833,7 @@
     "due_back": null,
     "book": 2,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -803,6 +845,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -814,6 +857,7 @@
     "due_back": null,
     "book": 2,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -825,6 +869,7 @@
     "due_back": null,
     "book": 4,
     "order": 9,
+    "quantity": 1,
     "status": "s"
   }
 },
@@ -836,6 +881,7 @@
     "due_back": null,
     "book": 7,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -847,6 +893,7 @@
     "due_back": null,
     "book": 2,
     "order": null,
+    "quantity": 1,
     "status": "a"
   }
 },
@@ -1005,13 +1052,194 @@
   }
 },
 {
+  "model": "store.order",
+  "pk": 11,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-09-05T15:11:46.960Z",
+    "updated_at": null,
+    "delivery_address": null,
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": null,
+    "status": "c",
+    "delivery_method": "s",
+    "books": [
+      2
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 12,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-09-05T15:12:08.630Z",
+    "updated_at": "2026-09-05T15:12:19.955Z",
+    "delivery_address": "",
+    "pickup_point": 1,
+    "promo_code": null,
+    "final_price": "45.20",
+    "status": "p",
+    "delivery_method": "s",
+    "books": [
+      5
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 13,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-09-06T11:27:42.051Z",
+    "updated_at": "2026-09-06T11:27:56.663Z",
+    "delivery_address": "",
+    "pickup_point": 1,
+    "promo_code": null,
+    "final_price": "131.37",
+    "status": "p",
+    "delivery_method": "s",
+    "books": [
+      7
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 14,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-09-06T11:30:30.820Z",
+    "updated_at": null,
+    "delivery_address": null,
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": null,
+    "status": "c",
+    "delivery_method": "s",
+    "books": [
+      6
+    ]
+  }
+},
+{
+  "model": "store.order",
+  "pk": 15,
+  "fields": {
+    "client": 1,
+    "created_at": "2026-09-06T11:53:50.895Z",
+    "updated_at": null,
+    "delivery_address": null,
+    "pickup_point": null,
+    "promo_code": null,
+    "final_price": null,
+    "status": "n",
+    "delivery_method": "s",
+    "books": [
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "store.waitlist",
+  "pk": 6,
+  "fields": {
+    "client": 1,
+    "book": 5,
+    "added_at": "2026-09-05T15:13:16.057Z"
+  }
+},
+{
+  "model": "store.advertisement",
+  "pk": 1,
+  "fields": {
+    "title": "World Book Day",
+    "image": "ads/Vintage_banners_for_the_world_book_day___Free_Vector.jpg",
+    "link": "http://127.0.0.1:8000/",
+    "order": 1,
+    "is_active": true
+  }
+},
+{
+  "model": "store.advertisement",
+  "pk": 2,
+  "fields": {
+    "title": "World",
+    "image": "ads/Vintage_banners_for_the_world_book_day___Free_Vector_RwOHHBO.jpg",
+    "link": "http://127.0.0.1:8000/",
+    "order": 2,
+    "is_active": true
+  }
+},
+{
+  "model": "store.advertisement",
+  "pk": 3,
+  "fields": {
+    "title": "WORLD",
+    "image": "ads/Vintage_banners_for_the_world_book_day___Free_Vector_kF9ZEd3.jpg",
+    "link": "http://127.0.0.1:8000/",
+    "order": 3,
+    "is_active": true
+  }
+},
+{
   "model": "pages.companyinfo",
   "pk": 1,
   "fields": {
     "name": "BookLife",
+    "logo": "company/logo/logo_bookstore.jpg",
+    "video": "company/videos/book_life.mp4",
+    "audio": "company/audio/heroes_music.mp3",
     "description": "BookLife isn't a bookstore. It's a curated world of extraordinary books, chosen by one woman who has read them all — and coded the website herself.\r\n\r\n\"I code so this store exists. I read so it means something.\" — Ksenia, BookLife!",
     "history": "Ksenia never planned to sell books.\r\nShe studied computer science — not because she loved code, but because she loved logic. And because books, back then, felt like a hobby, not a life. For years, she wrote. Novels, short stories, messy drafts hidden in folders named final_real_final_v3. She dreamed of becoming a writer. But the publishing world was cold, and Ksenia was too honest to write what didn't burn inside her. \r\nSo she became a programmer instead. She built systems, databases, and backend logic for other people's dreams. It was stable. It was fine. But every night, she read. Two books a week. Sometimes three. And she kept a secret list: \"Books I would sell if I had my own store.\"\r\n\r\nOne evening, her husband came home with a strange gift: a small, almost bankrupt online bookstore with twelve customers and a broken checkout.\r\n\"You always say you'd do it differently. Now show me.\"\r\nHe didn't give her a company. He gave her a question. Ksenia quit her job three weeks later.\r\n\r\nKsenia made one rule, and she never broke it: \"I will only sell books I have read myself — and loved.\"\r\n\r\nNo algorithms. No \"trending now.\" No auto-generated recommendations.\r\nEvery single book on BookLife has survived Ksenia's midnight reading sessions. If she didn't cry, laugh, or stare at the ceiling for an hour after finishing it — it doesn't go on the site. Today, BookLife has thousands of titles. Ksenia has read every single one.\r\n\r\nMost bookstore owners hire developers.\r\nKsenia is the developer.\r\nShe built the entire BookLife platform from scratch — the search, the recommendation engine, the beautiful responsive layouts, even the typography settings. She handles back-end, front-end, and database optimization between cups of tea and chapters.\r\n\r\n\"I write code so I can spend more time reading. Wait. That's not how it worked out.\"\r\n\r\nWhen something breaks at 2 AM, Ksenia fixes it.\r\nWhen a new feature launches, Ksenia deployed it.\r\nWhen the site looks impossibly beautiful — that's her design, too.\r\n\r\nShe calls herself \"accidental CTO by passion.\"",
     "requisites": "2026, pr-t Nezavisimosti 45-82, Minsk, 220012, Belarus. ms.ks2007@mail.ru \"Write to me. I read every email. Usually between 1 AM and 3 AM. With tea.\""
+  }
+},
+{
+  "model": "pages.certificate",
+  "pk": 1,
+  "fields": {
+    "title": "STARLIGHT AWARD 2026",
+    "company": 1,
+    "image": "company/certificates/STARLIGHT_AWARDS_2026___SEASON_ONE.jpg"
+  }
+},
+{
+  "model": "pages.certificate",
+  "pk": 2,
+  "fields": {
+    "title": "Little Women Certificate",
+    "company": 1,
+    "image": "company/certificates/Little_Women_Certificate_of_Completion___Vintage_Literary_Reading_A_47uU6Wc.jpg"
+  }
+},
+{
+  "model": "pages.certificate",
+  "pk": 3,
+  "fields": {
+    "title": "Best Poetry",
+    "company": 1,
+    "image": "company/certificates/download.jpg"
+  }
+},
+{
+  "model": "pages.companypartner",
+  "pk": 1,
+  "fields": {
+    "name": "StartShop",
+    "image": "companies/StartShop.jpg",
+    "link": "https://www.pinterest.com/pin/457045062207507296/"
+  }
+},
+{
+  "model": "pages.companypartner",
+  "pk": 2,
+  "fields": {
+    "name": "GoToBookClub",
+    "image": "companies/StartShop_1hjYqSh.jpg",
+    "link": "https://bookclubs.com/"
   }
 },
 {
