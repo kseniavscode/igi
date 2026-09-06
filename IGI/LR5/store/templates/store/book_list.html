@@ -74,7 +74,7 @@
                 
 
                 <h3><a href="{% url 'book_details' book.pk %}">{{ book.title }}</a></h3>
-                <p class="price">{{ book.price }} BYN</p>
+                <p class="price">{{ book.price }} <abbr title="Belarusian ruble">BYN</abbr></p>
             </div>
 
         {% empty %}
@@ -127,7 +127,7 @@
         </div>
         {% if partners %}
             <div class="partners">
-                <h3 class="partners_h3">Our partners</h3>
+                <h2 class="partners_h2">Our partners</h2>
                 {% for par in partners %}
                     <div class="partner">
                         <div class="logo_partner">

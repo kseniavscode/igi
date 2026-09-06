@@ -43,7 +43,7 @@
     align-items: center;
 }
 
-.book_in_order a{
+.book_in_order_a{
     text-decoration: none;
     color: #630016;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -52,6 +52,22 @@
     width: 100px;
     object-fit: cover;
 }
+
+
+
+.quantity_buttons{
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.566);
+
+    display: inline-flex;    
+    align-items: center;
+    gap: 5px;                 
+    border-radius: 4px;
+    background-color: white;
+}
+
 
 .order_footer{
     margin: 5px;

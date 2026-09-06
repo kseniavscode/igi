@@ -4,6 +4,7 @@
     margin: 5px 0 5px 20px;
     box-shadow: 5px 7px 5px rgba(0, 0, 0, 0.566);
     border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.566);
 }
 .partner{
     display: flex;
@@ -11,12 +12,18 @@
     align-items: center;
     padding: 5px;
     background-color: white;
-    margin: 5px;
+    margin: 10px 5px;
     box-shadow: 0 5px 5px #007bff;
     border-radius: 5px;
+    gap: 10px;
+
+    transition: transform 0.5s;
 }
-.partners_h3{
-    text-shadow: 2px -1px 5px rgba(0, 0, 0, 0.566);
+.partner:hover{
+    transform: scale(1.1);
+}
+.partners_h2{
+    text-shadow: 1px 0 2px rgba(0, 0, 0, 0.566);
     color: rgb(93, 88, 88);
 }
 .partner h3{
@@ -28,4 +35,6 @@
 .logo_partner img{
     width: 50px;
     object-fit: cover;
+    border-radius: 100%;
+    box-shadow: 2px -1px 5px rgba(0, 0, 0, 0.566);
 }

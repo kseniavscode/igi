@@ -19,7 +19,67 @@
             </div>  
         {% endfor %}
     </div>
-    
+    <br><hr><br>
+
+    <section class="application_form">
+        <h2>Submit your application</h2>
+        
+        <form action="#" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <fieldset>
+                <legend>Personal Information</legend>
+                
+                <div class="form_item">
+                    <label for="id_name">Full Name: <mark>*</mark></label>
+                    <input type="text" id="id_name" name="name" placeholder="Ivanov Ivan" required>
+                </div>
+
+                <div class="form_item">
+                    <label for="id_email">Email: <mark>*</mark></label>
+                    <input type="email" id="id_email" name="email" placeholder="example@mail.com" required>
+                </div>
+
+                <div class="form_item">
+                    <label for="id_phone">Phone: <mark>*</mark></label>
+                    <input type="tel" id="id_phone" name="phone" 
+                           placeholder="+375 (XX) XXX-XX-XX"
+                           pattern="\+375[0-9]{9}" 
+                           title="Format: +375 followed by 9 digits" required>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Experience & Skills</legend>
+                
+                <div class="form_item">
+                    <label for="id_vacancy">Select Vacancy:</label>
+                    <select id="id_vacancy" name="vacancy_select">
+                        {% for vac in vacancies %}
+                            <option value="{{ vac.id }}">{{ vac.title }}</option>
+                        {% endfor %}
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form_item">
+                    <label for="id_experience">Experience (years):</label>
+                    <input type="number" id="id_experience" name="experience" 
+                           min="0" max="50" value="0">
+                </div>
+
+                <div class="form_item">
+                    <label for="id_cv">Attach CV (PDF/DOC):</label>
+                    <input type="file" id="id_cv" name="cv_file" accept=".pdf,.doc,.docx">
+                </div>
+            </fieldset>
+
+            <div class="form_buttons">
+                <input type="submit" value="Send Application" class="panel_btn">
+                <input type="reset" value="Clear Form" class="panel_btn">
+            </div>
+        </form>
+    </section>
 
 {% endblock %}
 

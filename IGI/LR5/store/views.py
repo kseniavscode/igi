@@ -4,7 +4,7 @@ from django.db.models import Q, Sum, Count
 from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
 from .models import Book, BookInstance, Client, Order, Genre, Author, Language, Waitlist, PickupPoint, Advertisement
-from pages.models import PromoCode, Article, CompanyPartner
+from pages.models import PromoCode, Article, CompanyPartner, CompanyInfo
 
 from django.contrib.auth import login
 from .forms import UserRegistrationForm, AdvertisementForm
@@ -325,27 +325,37 @@ def delete_book(request, pk):
 def add_to_orders(request, pk):
     book = get_object_or_404(Book, pk=pk)
     client = get_object_or_404(Client, user=request.user)
-    
-    book_instance = BookInstance.objects.filter(book=book, status='a').first()
 
-    if book_instance:
-        order, _ = Order.objects.get_or_create(client=client, status='n')
-        
-        book_instance.status = 'r'
-        book_instance.order = order
-        book_instance.save()
+    order, _ = Order.objects.get_or_create(client=client, status='n')
 
-        order.books.add(book)
+    existing_instance = BookInstance.objects.filter(book=book, status='r', order=order).first()
 
-        logger.info(f"Book '{book.title}' RESERVED for user {request.user.username}")
+    if existing_instance:
+        existing_instance.quantity += 1
+        existing_instance.save()
+        logger.info(f"Book '{book.title}' quantity increased to {existing_instance.quantity} for user {request.user.username}")
 
-        return redirect('my_orders')
     else:
-        Waitlist.objects.get_or_create(client=client, book=book)
+        book_instance = BookInstance.objects.filter(book=book, status='a').first()
 
-        logger.info(f"User {request.user.username} added to WAITLIST for '{book.title}'")
+        if book_instance:
+            book_instance.status = 'r'
+            book_instance.order = order
+            book_instance.save()
+
+            order.books.add(book)
+
+            logger.info(f"Book '{book.title}' RESERVED for user {request.user.username}")
+
+            return redirect('my_orders')
+        else:
+            Waitlist.objects.get_or_create(client=client, book=book)
+
+            logger.info(f"User {request.user.username} added to WAITLIST for '{book.title}'")
 
         return redirect('book_details', pk=pk)
+
+    return redirect('my_orders')
 
 @login_required
 def my_orders(request):
@@ -355,6 +365,26 @@ def my_orders(request):
     logger.debug(f"MY ORDERS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
     return render(request, 'store/my_orders.html', {'orders': orders})
 
+@login_required
+def update_my_order(request, pk, action):
+
+    book_instance = get_object_or_404(BookInstance, pk=pk)
+    order = book_instance.order
+
+    if order.client.user != request.user:
+        return redirect('my_orders')
+
+    if action == 'increase':
+        available = BookInstance.objects.filter(book=book_instance.book, status='a')
+        if available:
+            book_instance.quantity += 1
+            book_instance.save()
+
+    elif action == 'decrease':
+        if book_instance.quantity > 1:
+            book_instance.quantity -= 1
+            book_instance.save()
+    return redirect('my_orders')
 
 @login_required
 def confirm_order(request, pk):
@@ -412,6 +442,7 @@ def cancel_order(request, pk):
         for ins in instances:
             ins.status = 'a'
             ins.order = None
+            ins.quantity = 1
             ins.save()
 
         order.status = 'c'

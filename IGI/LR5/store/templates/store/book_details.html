@@ -4,6 +4,7 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/book_details.css' %}">
     <link rel="stylesheet" href="{% static 'css/read_more.css' %}">
+    <link rel="stylesheet" href="{% static 'css/back_link.css' %}">
 {% endblock %}
 
 {% block title %}{{ book.title }}{% endblock %}
@@ -91,7 +92,7 @@
                     <img src="{% static 'images/default_book.png' %}" alt="No cover" class="details_cover">
                 {% endif %}
             </div>
-            <div class="details_info">
+            <article class="details_info">
                 <h1>{{ book.title }}</h1>
                 
                 <div class="info">
@@ -108,7 +109,7 @@
                         </p>
                         <p><strong>Language:</strong> {{ book.language }}</p>
                         {% if book.imprint %}
-                            <p><strong>Publisher:</strong> {{ book.imprint }}</p>
+                            <p><i>Publisher: <dfn title="The company that prints the book"></dfn></i>{{ book.imprint }}</p>
                         {% endif %}
                         <p><strong>ISBN:</strong> {{ book.isbn }}</p>
                         
@@ -125,7 +126,7 @@
                 
                 
                 <div class="price_card">
-                    <h3>Price: {{ book.price }} BYN</h3>
+                    <h3>Price: {{ book.price }} <abbr title="Belarusian ruble">BYN</abbr></h3>
 
                     {% if user.is_authenticated %}
                         {% if not user.is_staff %}
@@ -140,7 +141,7 @@
                     {% endif %}
                 </div>
                 
-            </div>
+            </article>
         </div>
     {% endif %}
 

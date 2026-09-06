@@ -14,6 +14,7 @@ urlpatterns = [
 
     re_path(r'^add-to-orders/(?P<pk>\d+)/$', views.add_to_orders, name='add_to_orders'),
     re_path(r'^my-orders/$', views.my_orders, name='my_orders'),
+    re_path(r'^my-order/update/(?P<pk>[0-9a-f-]+)/(?P<action>increase|decrease)/$', views.update_my_order, name='update_my_order'),
     re_path(r'^order/confirm/(?P<pk>\d+)/$', views.confirm_order, name='confirm_order'),
     re_path(r'^order/cancel/(?P<pk>\d+)/$', views.cancel_order, name='cancel_order'),
     re_path(r'^order/complete/(?P<pk>\d+)/$', views.complete_order, name='complete_order'),

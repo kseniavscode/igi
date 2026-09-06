@@ -20,7 +20,7 @@
             <div class="order_books">
                 {% for item in order.get_group_items %}
                     <div class="book_in_order">
-                        <a href="{% url 'book_details' item.book.pk %}">
+                        <a class="book_in_order_a" href="{% url 'book_details' item.book.pk %}">
                             {% if item.book.cover %}
                                 <img class="book_cover_order" src="{{ item.book.cover.url }}" alt="{{ item.book.title }}" >
 
@@ -29,9 +29,18 @@
                             {% endif %}
                         </a>
                         
-                        <h5><a href="{% url 'book_details' item.book.pk %}">{{ item.book.title }}</a></h5>
-                        <p class="price">{{ item.book.price }} BYN x {{ item.count }} count</p>
-                        <p class="price">In all: {{ item.total_item_price|floatformat:2 }} BYN</p>
+                        <h5><a class="book_in_order_a" href="{% url 'book_details' item.book.pk %}">{{ item.book.title }}</a></h5>
+                        <p class="price">{{ item.book.price }} <abbr title="Belarusian ruble">BYN</abbr> x {{ item.count }} count</p>
+                        <p class="price">In all: {{ item.total_item_price|floatformat:2 }}<abbr title="Belarusian ruble">BYN</abbr></p>
+
+                        {% if order.status == 'n' %}
+                            <div class="quantity_buttons">
+                                <a href="{% url 'update_my_order' item.instance_id 'decrease' %}" class="panel_btn">-</a>
+                                <span>{{ item.count }}</span>
+                                <a href="{% url 'update_my_order' item.instance_id 'increase' %}" class="panel_btn">+</a>
+                            </div>
+                        {% endif %}
+                        
                     </div>
                 {% endfor %}
             </div>

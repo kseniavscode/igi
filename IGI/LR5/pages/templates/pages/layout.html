@@ -4,19 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Book Store{% endblock %}</title>
+
+    <meta name="description" content="{% block meta_description %}{% if company_info %}{{ company_info.description|truncatechars:150 }}{% else %}Online book store with pleasant prices and a wonderful atmosphere{% endif %}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}book store, buy books, literature, best-sellers, read{% endblock %}">
+    <meta name="author" content="Book Store Team, Ksenia Yaroshevich">
+    <meta name="robots" content="index, follow">
+
+
+    <meta property="og:title" content="{% block og_title %}{% if company_info %}{{ company_info.name }}{% else %}Book Store{% endif %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Book store with a huge selection of literature{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% if company_info and company_info.logo %}{{ company_info.logo.url }}{% else %}{% static 'images/logo_bookstore.jpg' %}{% endif %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <title>{% block title %}{% if company_info %}{{ company_info.name }}{% else %}Book Store{% endif %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     {% block extra_css %}{% endblock %}
 
-    <link rel="icon" type="image/jpg" href="{% static 'images/logo_bookstore.jpg' %}">
+    <link rel="icon" type="image/jpg" href="{% if company_info and company_info.logo %}{{ company_info.logo.url }}{% else %}{% static 'images/logo_bookstore.jpg' %}{% endif %}">
     
 </head>
 <body>
-    <div class="header_timezone">
+    <header class="header_timezone" itemscope itemtype="https://schema.org/BookStore">
         <div class="logo_bookstore">
-            <img src="{% static 'images/logo_bookstore.jpg' %}" alt="LOGO">
-            <h1>Book Store</h1>
+            <img class="logo_bookstore_img" src="{% if company_info and company_info.logo %}{{ company_info.logo.url }}{% else %}{% static 'images/logo_bookstore.jpg' %}{% endif %}" alt="LOGO" itemprop="logo">
+            <h1 itemprop="name">{% if company_info %}{{ company_info.name }}{% else %}Book Store{% endif %}</h1>
         </div>
 
         <div class="header_right">
@@ -46,11 +59,11 @@
         
         
         
-    </div>
+    </header>
 
 
     <div class="header_container">
-        <div class="info_buttons">
+        <nav class="info_buttons" aria-label="Control panel">
             {% if user.is_authenticated %}
                 {% if user.is_staff %}
                     <p>Emploee`s panel</p>
@@ -67,7 +80,7 @@
                     <a href="{% url 'points' %}" class="panel_btn">Self-diaming points</a>
                 {% endif %}
             {% endif %}
-        </div>
+        </nav>
 
         <div class="log_bar">
 
@@ -89,20 +102,21 @@
         </div>
     </div>
     
-    {% block adves %}
-    {% endblock %}
+    <aside class="adves_aside">
+        {% block adves %}{% endblock %}
+    </aside>
     
 
-    <div class="container">
+    <main class="container">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
 
     {% block article %}
     {% endblock %}
 
     
-    <div class="control_buttons">
+    <nav class="control_buttons">
         <a href="{% url 'book_list' %}" class="panel_btn">Main Store</a>
         <a href="{% url 'about' %}" class="panel_btn">About Company</a>
         <a href="{% url 'news' %}" class="panel_btn">News</a>
@@ -112,6 +126,6 @@
         <a href="{% url 'vacancies' %}" class="panel_btn">Vacancies</a>
         <a href="{% url 'reviews' %}" class="panel_btn">Reviews</a>
         <a href="{% url 'promo' %}" class="panel_btn">PromoCodes</a>
-    </div>
+    </nav>
 </body>
 </html>

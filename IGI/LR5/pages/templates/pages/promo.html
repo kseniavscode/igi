@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/faq.css' %}">
+    <link rel="stylesheet" href="{% static 'css/promo.css' %}">
 {% endblock %}
 
 {% block title %}Promo{% endblock %}
@@ -10,22 +10,51 @@
 {% block content %}
     <h1>PronoCodes</h1>
     <hr>
-    <h3>Active PromoCodes</h3>
-    <ul>
-        {% for p in active_promos %}
-            <li><strong>{{ p.code }}</strong> - Discount: {{ p.discode }}%</li>
-        {% endfor %}
-    </ul>
-    {% if user.is_staff %}
-        {% if archived_promos %}
-            <h3>Archived PromoCodes</h3>
+    <p>
+        <dfn>Promo Code</dfn> — is a unique combination of letters and numbers that gives you a discount on books in our store.
+    </p>
+    <hr>
+
+    <div class="ver_promo">
+        <aside class="promo_sidebar">
+            <nav class="vertical_nav" aria-label="Promo Navigation">
+                <h3>Discount Categories</h3>
+                <ul>
+                    <li><a href="#" title="Discounts for new users">Welcome Bonuses</a></li>
+                    <li><a href="#" title="Seasonal book sales">Seasonal Offers</a></li>
+                    <li><a href="#" title="Coupons for loyal readers">Loyalty Program</a></li>
+                    <li><a href="#" title="Special holiday deals">Holiday Specials</a></li>
+                    <li><a href="#" title="Bulk purchase discounts">Wholesale Coupons</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <section class="section_promo">
+            <h3>Active PromoCodes</h3>
             <ul>
-                {% for p in archived_promos %}
-                    <li>{{ p.code }}</li>
+                {% for p in active_promos %}
+                    <li><strong>{{ p.code }}</strong> - Discount: {{ p.discode }}%</li>
                 {% endfor %}
             </ul>
-        {% endif %}
-    {% endif %}
+            {% if user.is_staff %}
+                {% if archived_promos %}
+                    <h3>Archived PromoCodes</h3>
+                    <ul>
+                        {% for p in archived_promos %}
+                            <li>{{ p.code }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+    </div>
+    
+    
+
+    
+
+    <div class="info_box">
+        <p><mark>Note:</mark> Promo codes cannot be combined with other offers.</p>
+    </div>
     
 
 {% endblock %}

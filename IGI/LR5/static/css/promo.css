@@ -1,0 +1,46 @@
+.ver_promo{
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+}
+
+.promo_sidebar {
+    padding: 15px;
+    background-color: #47270161; 
+    border-right: 2px solid #472801;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.vertical_nav ul {
+    list-style: none; 
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column; 
+    gap: 1px;
+}
+
+.vertical_nav a {
+    display: block;
+    padding: 10px 15px;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #472801;
+    transition: all 0.3s;
+}
+
+.vertical_nav a:hover {
+    background-color: #472801;
+    color: #fff;
+    transform: translateX(5px); 
+}
+
+.sidebar_banner {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.8em;
+    color: #666;
+}

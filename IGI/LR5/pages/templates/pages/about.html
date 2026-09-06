@@ -3,29 +3,97 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/back_link.css' %}">
 {% endblock %}
 
 {% block title %}About Company{% endblock %}
 
 {% block content %}
+    <div id="about-top"></div>
+    {% if info.logo %}
+        <div class="logo_company"><img class="logo_bookstore_img" src="{{ info.logo.url }}" alt="{{ info.name }}"></div>
+    {% endif %}
     <h1>About company <strong>{{ info.name }}</strong></h1>
     <hr>
-    <div class="description">
+    <blockquote cite="https://example.com/founder-speech">
+        "Books are a uniquely portable magic."
+        <footer>— <cite>Stephen King</cite></footer>
+    </blockquote>
+
+    <section id="description" class="description">
         <p>{{ info.description|linebreaks }}</p>
-    </div>
+    </section>
+
+    
+    {% if info.video %}
+        <div class="video">
+            <video controls class="video_player">
+                <source src="{{ info.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    {% endif %}
+    {% if info.audio %}
+        <div class="audio_container">
+            <h3>Listen to our story (Audio)</h3>
+            <audio controls>
+                <source src="{{ info.audio.url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    {% endif %}
+
     {% if info.history %}
-        <div class="history">
+        <section id="history" class="history">
             <h3>Our history</h3>
             <p>{{ info.history|linebreaks }}</p>
+        </section>
+    {% endif %}
+
+    {% if info.certificates.exists %}
+        <h3>Our certificates</h3>
+        <div class="certificates">
+            {% for cert in info.certificates.all %}
+                <figure class="certificate">
+                    {% if cert.image %}
+                        <img src="{{ cert.image.url }}" alt="{{ cert.title }}">
+                    {% endif %}
+                    <figcaption>{{ cert.title }}</figcaption>
+                </figure >
+            {% endfor %}
         </div>
     {% endif %}
 
     {% if info.requisites %}
-        <div class="requisites">
+        <section id="requisites" class="requisites">
             <h3>Our requisites</h3>
             <p>{{ info.requisites|linebreaks }}</p>
-        </div>
+            
+        </section>
     {% endif %}
+    <hr>
+    <section class="company_interactions">
+        <h3>Connect with us</h3>
+        <address class="contact_links">
+            <p>
+                <strong>Email:</strong> 
+                <a href="mailto:info@bookstore.by" title="Write us an email">info@bookstore.by</a>
+            </p>
+            <p>
+                <strong>Phone:</strong> 
+                <a href="tel:+375291234567" title="Call our office">+375 (29) 123-45-67</a>
+            </p>
+            <p>
+                <strong>Documents:</strong> 
+                <a href="{% static 'docs/book_life.mp4' %}" download title="Download video in mp4">
+                    Download Video About Books (MP4)
+                </a>
+            </p>
+        </address>
+    </section>
 
+    <div class="back_to_top_zone">
+        <a href="#about-top" class="back_link">↑ Back to top</a>
+    </div>
 {% endblock %}
 

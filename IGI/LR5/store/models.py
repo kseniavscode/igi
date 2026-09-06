@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 import uuid
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -62,6 +63,8 @@ class BookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True, verbose_name="Book")
 
     order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, blank=True, related_name='instances')
+
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Count")
 
     LOAN_STATUS = [
         ("m", "maintenance"),
@@ -174,7 +177,9 @@ class Order(models.Model):
     delivery_method = models.CharField(max_length=1, choices=DELIVERY_CHOICES, default='s', verbose_name='Delivery method')
         
     def total_price(self):
-        total = self.instances.aggregate(total=models.Sum('book__price'))['total'] or 0
+        total = 0
+        for instance in self.instances.all():
+            total += instance.book.price * instance.quantity
         if self.promo_code:
             discount = (total * self.promo_code.discode) / 100
             total -= discount
@@ -182,16 +187,18 @@ class Order(models.Model):
     
     def get_group_items(self):
         items =[]
-        for book in self.books.all():
-            count = self.instances.filter(book=book).count()
-            if count > 0:
-                items.append({
-                    'book': book,
-                    'count': count,
-                    'total_item_price': book.price * count
-                })
+        for instance in self.instances.all():
+            items.append({
+                'book': instance.book,
+                'count': instance.quantity,
+                'total_item_price': instance.book.price,
+                'instance_id': instance.id,
+                'instance': instance,
+            })
         return items
 
+    def get_total_items_count(self):
+        return self.instances.filter(status='r').aggregate(total=Sum('quantity'))['total'] or 0
     def __str__(self):
         return f"Order #{self.id} from {self.client.user.username}"
 

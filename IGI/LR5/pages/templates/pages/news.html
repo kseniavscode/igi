@@ -12,7 +12,7 @@
     <h1 class="news_title">Latest Company News</h1>
     <hr>
     {% for article in articles %}
-        <div class="news">
+        <article class="news">
             <div class="image_of_article">
                 {% if article.image %}
                     <img src="{{ article.image.url }}">
@@ -28,7 +28,7 @@
 
                 <p class="date_of_article">{{ article.publishing_date }}</p>
             </div>
-        </div>
+        </article>
         
         
 

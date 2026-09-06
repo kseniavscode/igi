@@ -17,7 +17,7 @@ def news_page(request):
     return render(request, 'pages/news.html', {'articles': articles})
 
 def about_company(request):
-    company_info = CompanyInfo.objects.first()
+    company_info = CompanyInfo.objects.prefetch_related('certificates').first()
     logger.debug(f"ABOUT COMPANY page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
     return render(request, 'pages/about.html', {'info': company_info})
 

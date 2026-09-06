@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 class CompanyInfo(models.Model):
 
     name = models.CharField(max_length=200, verbose_name="Company name")
+    logo = models.ImageField(upload_to='company/logo/', blank=True, null=True, verbose_name='Logo')
+    video = models.FileField(upload_to='company/videos/', blank=True, null=True, verbose_name='Video')
+    audio = models.FileField(upload_to='company/audio/', blank=True, null=True, verbose_name='Audio Presentation')
     description = models.TextField(verbose_name="Company description")
     history = models.TextField(verbose_name="History", blank=True)
     requisites = models.TextField(verbose_name="Details", blank=True)
@@ -13,6 +16,15 @@ class CompanyInfo(models.Model):
     def __str__(self):
         return self.name
 
+class Certificate(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Certificate title")
+    company = models.ForeignKey(CompanyInfo, on_delete=models.CASCADE, related_name='certificates', verbose_name="Company")
+    image = models.ImageField(upload_to='company/certificates/', blank=True, null=True, verbose_name='Certificates')
+
+    def __str__(self):
+            return self.title
+
+    
 class CompanyPartner(models.Model):
 
     name = models.CharField(max_length=100, verbose_name="Partner company name")

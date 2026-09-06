@@ -143,19 +143,19 @@
         <table>
             <thead>
                 <tr>
-                    <th>Genre</th>
+                    <th id="h-genre">Genre</th>
                     {% for header in table_headers %}
-                        <th>{{ header }}</th>
+                        <th id="h-month-{{ forloop.counter }}">{{ header }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for genre, month_data in annual_report.items %}
                     <tr>
-                        <td>{{ genre }}</td>
+                        <td id="row-{{ forloop.counter }}" headers="h-genre">{{ genre }}</td>
 
                         {% for month, profit in month_data.items %}
-                            <td>
+                            <td headers="h-month-{{ forloop.counter }} row-{{ forloop.parentloop.counter }}">
                                 {% if profit > 0 %}
                                     {{ profit }} BYN
                                 {% else %}
@@ -166,6 +166,17 @@
                     </tr>
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr class="total_row">
+                    <th id="h-total-label" colspan="{{ table_headers|length|add:1 }}">
+                        Grand Total Annual Revenue:
+                    </th>
+                    
+                    <td headers="h-total-label">
+                        <strong>{{ total_revenue|floatformat:2 }} BYN</strong>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 
