@@ -20,9 +20,9 @@
         <footer>— <cite>Stephen King</cite></footer>
     </blockquote>
 
-    <section id="description" class="description">
-        <p>{{ info.description|linebreaks }}</p>
-    </section>
+    <div class="description">
+        <p>{{ info.description|linebreaksbr }}</p>
+    </div>
 
     
     {% if info.video %}
@@ -33,8 +33,8 @@
             </video>
             <iframe width="560" height="315" 
                     src="https://www.youtube.com/embed/iAkOMw_3zVs?si=18BRmITWzZNshsJW" 
-                    title="YouTube video player" 
-                    frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" 
+                    title="YouTube video player"
+                    allow="autoplay; encrypted-media; picture-in-picture" 
                     referrerpolicy="strict-origin-when-cross-origin" 
                     allowfullscreen>
 
@@ -43,7 +43,7 @@
     {% endif %}
     {% if info.audio %}
         <div class="audio_container">
-            <h3>Listen to our story (Audio)</h3>
+            <h2>Listen to our story (Audio)</h2>
             <audio controls>
                 <source src="{{ info.audio.url }}" type="audio/mpeg">
                 Your browser does not support the audio element.
@@ -54,7 +54,7 @@
     {% if info.history %}
         <section id="history" class="history">
             <h3>Our history</h3>
-            <p>{{ info.history|linebreaks }}</p>
+            <p>{{ info.history|linebreaksbr }}</p>
         </section>
     {% endif %}
 
@@ -75,7 +75,7 @@
     {% if info.requisites %}
         <section id="requisites" class="requisites">
             <h3>Our requisites</h3>
-            <p>{{ info.requisites|linebreaks }}</p>
+            <p>{{ info.requisites|linebreaksbr }}</p>
             
         </section>
     {% endif %}

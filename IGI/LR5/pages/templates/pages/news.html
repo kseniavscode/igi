@@ -15,7 +15,7 @@
         <article class="news">
             <div class="image_of_article">
                 {% if article.image %}
-                    <img src="{{ article.image.url }}">
+                    <img src="{{ article.image.url }}" alt="Article image">
                 {% endif %}
             </div>
             <div class="info_article">
@@ -23,7 +23,7 @@
                 <p id="text-{{  article.id }}" data-fulltext="{{ article.full_text }}">{{ article.full_text|truncatechars:200 }}</p>
 
                 {% if article.full_text|length > 200 %}
-                    <button id="read_more_btn" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
+                    <button class="read_more_btn" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
                 {% endif %}
 
                 <p class="date_of_article">{{ article.publishing_date }}</p>
