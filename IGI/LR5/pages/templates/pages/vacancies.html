@@ -14,8 +14,8 @@
     <div class="vacancies">
         {% for vac in vacancies %}
             <div class="vacancy">
-                <h3>{{ vac.title }}</h3>
-                <p>{{ vac.description|linebreaks }}</p>
+                <h2>{{ vac.title }}</h2>
+                <p>{{ vac.description|linebreaksbr }}</p>
             </div>  
         {% endfor %}
     </div>
