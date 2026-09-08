@@ -57,11 +57,11 @@
         <div class="display">
             <div>
                 <h4>Clients</h4>
-                <ul>
+                <ol>
                     {% for client in clients %}
                         <li>{{ client.user.username }} ({{ client.phone }})</li>
                     {% endfor %}
-                </ul>
+                </ol>
             </div>
             <hr>
             <div>

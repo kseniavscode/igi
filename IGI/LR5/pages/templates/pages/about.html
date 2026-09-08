@@ -27,10 +27,18 @@
     
     {% if info.video %}
         <div class="video">
-            <video controls class="video_player">
+            <video controls class="video_player" autoplay loop preload="auto">
                 <source src="{{ info.video.url }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <iframe width="560" height="315" 
+                    src="https://www.youtube.com/embed/iAkOMw_3zVs?si=18BRmITWzZNshsJW" 
+                    title="YouTube video player" 
+                    frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+
+            </iframe>
         </div>
     {% endif %}
     {% if info.audio %}
