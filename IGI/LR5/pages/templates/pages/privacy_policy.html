@@ -10,6 +10,29 @@
 {% block content %}
     <h1>Privacy policy</h1>
     <hr>
+
+    <h2>Our Privacy Commitment</h2>
+    <figure>
+        <picture>
+            <source media="(max-width: 600px)" 
+                    srcset="{% static 'images/logo_bookstore.jpg' %}" 
+                    type="image/jpg">
+            
+            <source media="(max-width: 1200px)" 
+                    srcset="{% static 'images/book_cover_default.jpg' %}" 
+                    type="image/jpg">
+            
+            <source media="(min-width: 1201px)" 
+                    srcset="{% static 'images/banner_book.jpg' %}" 
+                    type="image/jpeg">
+            
+            <img src="{% static 'images/download.jpg' %}" 
+                 alt="Data protection standards illustration">
+        </picture>
+        <figcaption>Your confidence = our treatment</figcaption>
+    </figure>
+
+
     <dl>
         <dt><dfn>Cookies</dfn></dt>
         <dd>Small data files stored on your device to improve experience.</dd>
