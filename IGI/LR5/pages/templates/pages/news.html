@@ -20,13 +20,13 @@
             </div>
             <div class="info_article">
                 <h2>{{ article.title }}</h2>
-                <p id="text-{{  article.id }}" data-fulltext="{{ article.full_text }}">{{ article.full_text|truncatechars:200 }}</p>
+                <p id="text-{{  article.id }}" data-fulltext="{{ article.full_text }}">{{ article.full_text|truncatechars:500 }}</p>
 
-                {% if article.full_text|length > 200 %}
+                {% if article.full_text|length > 500 %}
                     <button class="read_more_btn" id="read_more_btn-{{  article.id }}" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
                 {% endif %}
 
-                <p class="date_of_article">{{ article.publishing_date }}</p>
+                <p>{{ article.publishing_date }}</p>
             </div>
         </article>
         
@@ -46,7 +46,7 @@
                 textElement.innerText = fullText;
                 btn.innerText = "Show less";
             } else {
-                textElement.innerText = fullText.substring(0, 200) + '...';
+                textElement.innerText = fullText.substring(0, 500) + '...';
                 btn.innerText = "Read more";
             }
         }

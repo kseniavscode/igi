@@ -82,7 +82,7 @@
     margin-bottom: 5px;
 }
 .city_label{
-    width: 150px;
+    /* width: 150px; */
     font-weight: bold;
     font-size: 18px;
 }
@@ -91,13 +91,12 @@
 }
 
 .bar_container{
-    flex-grow: 1;
+    flex: 1;
     background-color: #f0f0f0;
     border-radius: 10px;
     height: 24px;
     margin: 0 15px;
     position: relative;
-    overflow: hidden;
 }
 .bar_fill{
     background: linear-gradient(90deg, #630016, #a00024);
@@ -108,8 +107,10 @@
     transition: width 1s ease-in-out;
     color: white;
     padding: 0 25px;
+    box-sizing: border-box;
 
-    width: {% widthratio item.count max_clients 100 %}%
+    min-width: 40px;
+    /* width: {% widthratio item.count max_clients 100 %}% */
 }
 
 .city_revenue{

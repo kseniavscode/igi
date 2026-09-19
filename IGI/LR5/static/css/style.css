@@ -1,3 +1,5 @@
+
+
 html, body{
     width: 100%;
     margin: 0;
@@ -70,6 +72,8 @@ body {
         0 0 4px rgba(185, 118, 36, 0.474);
     margin: 0;
 }
+
+
 .info_date p{
     margin: 3px;
 }
@@ -117,6 +121,7 @@ body {
     font-weight: bold;
     color: rgb(71, 40, 1);
 }
+
 .log_bar{
 
     margin: 0 10px 30px;
@@ -158,23 +163,47 @@ body {
     display: flex;
     justify-content: center;
 }
+
 .panel_btn{
     margin: 5px;
-    padding: 5px;
+    padding: 10px;
     text-decoration: none;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 16px;
-    transition: all 0.3s ease;
-    color: rgb(71, 40, 1);
     border: none;
-    background-color: #fff;
+    background-color: #ffffff;
+    color: #610303;
     cursor: pointer;
+    transition: color 0.2s ease,
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.1s ease;
+}
+a.panel_btn:link{
+    border: 2px solid #898888;
+    border-radius: 4px;
+    color: black;
+}
+a.panel_btn:visited{
+    border: 1px solid rgb(136, 40, 56);
 }
 .panel_btn:hover{
     background-color: #610303;
     border-radius: 6px;
     color: white;
     box-shadow: 0 4px 8px rgba(97, 3, 3, 0.3);
+}
+
+a.panel_btn:active{
+    background-color: #610303;
+    border-radius: 6px;
+    color: white;
+    box-shadow: 0 20px 16px rgba(198, 57, 57, 0.793);
+}
+a.panel_btn:focus-visible{
+    outline: 2px solid #610303;
+    outline-offset: 3px;
 }
 
 
