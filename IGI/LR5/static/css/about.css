@@ -2,11 +2,20 @@ h1{
     color: #472801;
     font-size: 40px;
     text-align: center;
+    text-transform: uppercase;
 }
+h2, h3{
+    margin: 0;
+    color: #630016;
+    text-shadow: 0 0 5px #630015bc;
+    text-transform: capitalize;
+}
+
 .logo_company{
     display: flex;
     justify-content: center;
 }
+
 .video{
     margin: 10px auto;
     max-width: 800px;
@@ -40,6 +49,11 @@ h1{
     font-style: italic;
     text-align: center;
     color: rgb(85, 52, 52);
+    font-variant-caps: small-caps;
+}
+.description p::after{
+    content: '𑣲';
+    font-size: 26px;
 }
 
 .history{
@@ -48,6 +62,13 @@ h1{
     border-radius: 15px;
     margin: 15px;
     padding: 15px;
+}
+.history p:first-of-type{
+    text-indent: 32px;
+    hyphens: auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    text-align: justify;
 }
 
 .certificates{
@@ -76,17 +97,11 @@ h1{
     height: 200px;
     object-fit: cover;
 }
+
+
 .requisites{
-    margin: 30px 0 0 0;
+    margin: 0;
     text-align: center;
-}
-.requisites h3{
-    margin: 0;
-    color: #630016;
-    text-shadow: 0 0 5px #630015bc;
-}
-.requisites p{
-    margin: 0;
 }
 
 .company_interactions {

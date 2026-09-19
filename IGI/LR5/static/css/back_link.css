@@ -1,3 +1,7 @@
+.back_link::before{
+    content: '↑';
+}
+
 .back_link {
     display: inline-block;
     margin: 0 0 15px 0;
@@ -28,7 +32,10 @@ a.back_link:hover{
     box-shadow: 0 4px 8px rgba(97, 3, 3, 0.3);
     transform: translateY(-2px);
 }
-
+/* a.back_link:hover::before {
+  left: 5px;
+  color: white;
+} */
 a.back_link:active{
     background-color: #610303;
     border-radius: 6px;

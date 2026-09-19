@@ -63,6 +63,8 @@
     font-weight: 400;
     font-style: normal;
     letter-spacing: 0.2em;
+    word-spacing: 15px;
+    letter-spacing: 0.01px;
 }
 .info_article::selection{
     background-color: #610303;

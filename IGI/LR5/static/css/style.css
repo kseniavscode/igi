@@ -8,6 +8,8 @@ html, body{
 body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     line-height: 1.6;
+    word-spacing: 2px;
+    letter-spacing: 0.3px;
     margin: 0;
     padding: 20px;
     background-color: #f4f4f4;
