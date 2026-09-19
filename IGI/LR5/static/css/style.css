@@ -172,38 +172,32 @@ body {
     font-size: 16px;
     border: none;
     background-color: #ffffff;
-    color: #610303;
+    color: #472801;
     cursor: pointer;
     transition: color 0.2s ease,
-                background-color 0.2s ease,
+                background-color 0.4s ease,
                 border-color 0.2s ease,
+                border-radius 0.5s ease,
                 box-shadow 0.2s ease,
-                transform 0.1s ease;
+                transform 0.3s ease;
 }
-a.panel_btn:link{
-    border: 2px solid #898888;
-    border-radius: 4px;
-    color: black;
-}
-a.panel_btn:visited{
-    border: 1px solid rgb(136, 40, 56);
-}
+
 .panel_btn:hover{
     background-color: #610303;
     border-radius: 6px;
     color: white;
     box-shadow: 0 4px 8px rgba(97, 3, 3, 0.3);
+    transform: translateY(-2px);
 }
-
 a.panel_btn:active{
     background-color: #610303;
     border-radius: 6px;
     color: white;
     box-shadow: 0 20px 16px rgba(198, 57, 57, 0.793);
 }
-a.panel_btn:focus-visible{
+.panel_btn:focus-visible{
     outline: 2px solid #610303;
-    outline-offset: 3px;
+    outline-offset: 2px;
 }
 
 
