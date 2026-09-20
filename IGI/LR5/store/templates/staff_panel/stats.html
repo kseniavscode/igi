@@ -138,9 +138,10 @@
     </div>
 
     <div class="table_report">
-        <h3>Annual Financial Report (by Genre)</h3>
+        
 
         <table>
+            <caption>Annual Financial Report (by Genre)</caption>
             <thead>
                 <tr>
                     <th id="h-genre">Genre</th>
@@ -155,7 +156,8 @@
                         <td id="row-{{ forloop.counter }}" headers="h-genre">{{ genre }}</td>
 
                         {% for month, profit in month_data.items %}
-                            <td headers="h-month-{{ forloop.counter }} row-{{ forloop.parentloop.counter }}">
+                            <td headers="h-month-{{ forloop.counter }} row-{{ forloop.parentloop.counter }}"
+                                class="{% if profit <= 0 %}empty_td{% endif %}">
                                 {% if profit > 0 %}
                                     {{ profit }} BYN
                                 {% else %}

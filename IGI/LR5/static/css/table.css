@@ -1,20 +1,47 @@
 .table_report{
-    margin: 10px;
+    margin: 10px auto;
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0.1, 0.3);
 }
 
-.table_report h3{
-    padding: 10px;
+.table_report > table > caption {
+    padding: 20px;
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 24px;
+
 }
 .table_report table{
     width: 100%;
     border-collapse: collapse;
 }
 
-.table_report tbody td{
+.table_report tbody td,
+.table_report thead th,
+.table_report tfoot td{
+    padding: 10px;
     text-align: center;
+    vertical-align: middle;
+    transition: border 0.3s ease, background-color 0.2s ease, transform 0.4s ease;
+    border-radius: 2px;
+}
+.table_report tbody td:hover,
+.table_report tbody td.empty_td:hover{
+    background-color: #007bff;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.table_report tbody td[headers^="h-genre"]:hover + td,
+.table_report tbody td[headers^="h-genre"]:hover ~ td{
+    border-bottom: 2px solid #007bff;
+}
+
+.table_report tbody td.empty_td {
+    background-color: #f5e7b1; 
+    color: #610303;   
 }
 thead th:nth-child(3n+1) {
     border: 2px solid #610303;

@@ -7,7 +7,7 @@ h1{
 h2, h3{
     margin: 0;
     color: #630016;
-    text-shadow: 0 0 5px #630015bc;
+    text-shadow: 0 0 5px #630015;
     text-transform: capitalize;
 }
 
@@ -57,7 +57,12 @@ h2, h3{
 }
 
 .history{
-    background-color: rgb(249, 239, 239);
+    background-image: radial-gradient(
+        circle closest-side at 70% 50%,
+        #fff 0%,
+        #f7ecf4 70%,
+        #ecd7e5 100%
+    );
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
     border-radius: 15px;
     margin: 15px;
@@ -77,6 +82,11 @@ h2, h3{
     align-items: center;
 
     background-color: rgb(249, 239, 239);
+    background-image: url("../images/paper_texture.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-blend-mode: multiply; 
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
     border-radius: 15px;
     margin: 15px;
@@ -84,14 +94,28 @@ h2, h3{
 }
 .certificate{
     padding: 10px;
-    background-color: rgb(249, 239, 239);
-    box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
+    
+    background-image: linear-gradient(
+        to bottom,
+        #F5F1EE,
+        #faf9f8
+        
+    );
+
+    border: 15px solid transparent;
+    -moz-border-image: url("../images/border_ornament.jpg") 30 round;
+    -webkit-border-image: url("../images/border_ornament.jpg") 30 round;
+    border-image: url("../images/border_ornament.jpg") 30 round;
+
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 .certificate:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 20px rgba(99, 0, 22, 0.3);
+    z-index: 10;
 }
 .certificate img{
     height: 200px;
