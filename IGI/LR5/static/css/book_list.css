@@ -1,5 +1,6 @@
 .advertisement{
-    width: 1480px;
+    max-width: 1480px;
+    width: 100%;
     margin: 15px;
     background-color: #7b5f0c;
     padding: 10px;
@@ -149,15 +150,16 @@
 }
 
 
-@media (max-width: 767px){
+@media (max-width: 768px){
     .book_grid {
         grid-template-columns: 1fr;
+        width: 90%;
         gap: 20px;
         padding: 15px;
     }
 
     .book_card {
-        max-width: 100%;
+        max-width: 200px;
         width: 100%;
         margin: 0 auto;
     }
@@ -166,6 +168,7 @@
         height: auto;
         aspect-ratio: 2 / 3; 
         object-fit: cover;
+        display: block;
         border-radius: 4px;
 
     }
@@ -178,5 +181,8 @@
         margin-left: 0; 
         margin-top: 10px;
     }
-
+    .last_new_and_partners{
+        flex-direction: column;
+        align-items: center;
+    }
 }

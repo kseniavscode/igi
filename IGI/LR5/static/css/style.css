@@ -150,7 +150,8 @@ body {
     font-size: 20px;
 }
 .container{
-    width: 1500px;
+    max-width: 1500px;
+    width: 100%;
     margin: 0 auto;
     background-color: #fff;
     padding: 20px;
@@ -219,5 +220,78 @@ a.panel_btn:active{
 }
 
 
-
+@media (max-width: 768px){
+    body{
+        padding: 5px;
+    }
+    .header_timezone {
+        flex-direction: column;          
+        padding: 10px;
+        gap: 10px;
+        text-align: center;
+    }
+    .header_right {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    .logo_bookstore {
+        gap: 15px;
+        justify-content: center;
+    }
+    
+    .logo_bookstore h1 {
+        font-size: 20px;                
+    }
+    .logo_bookstore_img {
+        height: 50px;
+        width: 50px;
+    }
+    .header_container {
+        flex-direction: column;         
+        margin: 5px;
+        position: static;                
+    }
+    
+    .info_buttons {
+        margin: 5px 0;
+        padding: 10px;                 
+        flex-direction: column;
+        gap: 5px;
+        border-radius: 10px;
+    }
+    
+    .info_buttons p {
+        font-size: 16px;                
+        margin: 0;
+    }
+    
+    .log_bar {
+        margin: 5px 0;
+        padding: 10px;                  
+        flex-direction: column;
+        gap: 5px;
+        border-radius: 10px;
+        position: static;                
+    }
+    
+    .log_bar span {
+        font-size: 16px;
+        margin: 0;
+    }
+    
+    .control_buttons {
+        margin: 10px 5px;               
+        padding: 5px;
+        border-radius: 20px;
+        flex-wrap: wrap;               
+        gap: 5px;
+    }
+    
+    .panel_btn {
+        font-size: 12px;                
+        padding: 3px;
+        margin: 3px;
+    }
+}
 
