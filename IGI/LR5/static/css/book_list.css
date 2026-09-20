@@ -152,14 +152,14 @@
 
 @media (max-width: 768px){
     .book_grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         width: 90%;
         gap: 20px;
         padding: 15px;
     }
 
     .book_card {
-        max-width: 200px;
+        max-width: 150px;
         width: 100%;
         margin: 0 auto;
     }
