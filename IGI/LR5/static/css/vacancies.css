@@ -54,6 +54,31 @@ legend {
     border-radius: 4px;
     box-sizing: border-box; 
 }
+input:required,
+select:required{
+    border: 2px solid #610303;
+    background-color: #fff8f8;
+}
+input:optional,
+select:optional{
+    border-color: #ccc;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #f5f5f5;
+    color: #888;
+    border-color: #ddd;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+input:out-of-range {
+    border-color: #d9534f;
+    background-color: #fdf7f7;
+    color: #a94442;
+}
 
 input:invalid:not(:placeholder-shown) {
     border-color: red;
@@ -64,7 +89,80 @@ input:valid:not(:placeholder-shown) {
     border-color: green;
 }
 
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+input[type="checkbox"].styled-cb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="checkbox"].styled-cb:checked {
+    border-color: #610303;
+    background-color: #610303;
+}
+
+input[type="checkbox"].styled-cb:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+}
+
+
+.radio-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+input[type="radio"].styled-radio {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="radio"].styled-radio:checked {
+    border-color: #610303;
+    background-color: #610303;
+}
+
+input[type="radio"].styled-radio:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+
+
 .form_buttons {
     display: flex;
     gap: 10px;
 }
+
+

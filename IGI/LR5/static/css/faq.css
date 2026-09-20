@@ -23,3 +23,16 @@ small{
     color: #888;
     margin: 0 10px;
 }
+
+
+q:lang(ru), q:lang(fr) {
+  quotes: "\00AB" "\00BB";
+}
+
+q:lang(en) {
+  quotes: "\201C" "\201D";
+}
+
+q:lang(de) {
+  quotes: "\201E" "\201C";
+}

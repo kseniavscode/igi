@@ -1,10 +1,10 @@
-#btn_top::before{
+#back_top::before{
     content: '↑';
 }
-#btn_catalog::before{
+#back_catalog::before{
     content: '←';
 }
-.back_link {
+[id^="back"] {
     display: inline-block;
     margin: 0 0 15px 0;
     padding: 5px;
@@ -14,18 +14,18 @@
     transition: all 0.3s ease;
 }
 
-a.back_link:link{
+[id^="back"]:link{
     background-color: transparent;
     text-decoration: underline;
     border-radius: 4px;
 }
-a.back_link:visited{
+[id^="back"]:visited{
     border-color: rgb(115, 86, 91);
     background-color: transparent;
     color: rgb(115, 86, 91);
 }
 
-a.back_link:hover{
+[id^="back"]:hover{
     background-color: #402727;
     border-color: none;
     border-radius: 6px;
@@ -35,7 +35,7 @@ a.back_link:hover{
     transform: translateY(-2px);
     transform: translateX(-4px);
 }
-a.back_link:active{
+[id^="back"]:active{
     background-color: #402727;
     border-radius: 6px;
     color: white;

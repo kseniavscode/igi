@@ -38,6 +38,21 @@
     transform: translateX(5px); 
 }
 
+.section_promo ul{
+    list-style: none;
+    padding-left: 0;
+}
+.section_promo li{
+    padding-left: 10px;
+}
+.section_promo li::before{
+    content: "\2605";
+    color: gold;
+    left: 0;
+    margin-right: 3px;
+    font-size: 1.2em;
+}
+
 .sidebar_banner {
     margin-top: 30px;
     text-align: center;
