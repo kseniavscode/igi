@@ -13,9 +13,14 @@
     <hr>
     {% for article in articles %}
         <article class="news">
-            <div class="image_of_article">
+            <div class="image_of_article {% if forloop.first %}image_with_caption{% endif %}">
                 {% if article.image %}
                     <img src="{{ article.image.url }}" alt="Article image">
+                {% endif %}
+                {% if forloop.first %}
+                    <div class="caption">
+                        <span>The last article</span>
+                    </div>
                 {% endif %}
             </div>
             <div class="info_article">

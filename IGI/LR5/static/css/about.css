@@ -110,6 +110,17 @@ h2, h3{
     border-radius: 8px;
     margin: 20px;
 }
+.company_interactions::before{
+    content: 'Connect with us';
+    display: block;
+    margin: 5px;
+    padding: 3px;
+    color: #472801;
+    font-family: "Cinzel Decorative", serif;
+    font-weight: 700;
+    font-size: 28px;
+    font-style: normal;
+}
 
 .contact_links a {
     color: #007bff;

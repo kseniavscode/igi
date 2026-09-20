@@ -1,7 +1,9 @@
-.back_link::before{
+#btn_top::before{
     content: '↑';
 }
-
+#btn_catalog::before{
+    content: '←';
+}
 .back_link {
     display: inline-block;
     margin: 0 0 15px 0;
@@ -24,21 +26,18 @@ a.back_link:visited{
 }
 
 a.back_link:hover{
-    background-color: #610303;
+    background-color: #402727;
     border-color: none;
     border-radius: 6px;
     color: white;
     text-decoration: none;
     box-shadow: 0 4px 8px rgba(97, 3, 3, 0.3);
     transform: translateY(-2px);
+    transform: translateX(-4px);
 }
-/* a.back_link:hover::before {
-  left: 5px;
-  color: white;
-} */
 a.back_link:active{
-    background-color: #610303;
+    background-color: #402727;
     border-radius: 6px;
     color: white;
-    box-shadow: 0 20px 16px rgba(198, 57, 57, 0.793);
+    box-shadow: 0 20px 16px rgba(32, 24, 24, 0.793);
 }

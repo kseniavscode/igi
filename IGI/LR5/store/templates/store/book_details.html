@@ -16,7 +16,7 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    <a href="{% url 'book_list' %}" class="back_link">← Back to catalog</a>
+    <a href="{% url 'book_list' %}" id="btn_catalog" class="back_link">Back to catalog</a>
     <hr>
     {% if messages %}
         {% for message in messages %}
