@@ -102,6 +102,10 @@
         </div>
     </div>
     
+    {% block book_scene %}
+    {% endblock %}
+    
+
     <aside class="adves_aside">
         {% block adves %}{% endblock %}
     </aside>
@@ -115,6 +119,10 @@
     {% block article %}
     {% endblock %}
 
+    <div class="squares_container">
+        <div class="square square_outer"></div>
+        <div class="square square_inner"></div>
+    </div>
     
     <nav class="control_buttons">
         <a accesskey="q" tabindex="1" href="{% url 'book_list' %}" class="panel_btn">Main Store</a>

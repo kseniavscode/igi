@@ -7,7 +7,49 @@
     <link rel="stylesheet" href="{% static 'css/news.css' %}">
     <link rel="stylesheet" href="{% static 'css/read_more.css' %}">
     <link rel="stylesheet" href="{% static 'css/partners.css' %}">
+    <link rel="stylesheet" href="{% static 'css/book_scene.css' %}">
 {% endblock %}
+
+{% block book_scene %}
+    <div class="book-scene">
+        <div class="book">
+
+            <div class="book-page book-page-left">
+                <div class="page-content">
+                    <div class="text-line"></div>
+                    <div class="text-line"></div>
+                    <div class="text-line short"></div>
+                    <div class="page-image"></div>
+                </div>
+            </div>
+            
+            <div class="book-cover">
+                <div class="cover-title">BookStore</div>
+                <div class="cover-subtitle">Книжный магазин</div>
+            </div>
+            
+            
+            <div class="book-page book-page-right">
+                <div class="page-content">
+                    <div class="text-line"></div>
+                    <div class="text-line"></div>
+                    <div class="text-line"></div>
+                    <div class="text-line short"></div>
+                    <div class="page-image"></div>
+                    <div class="text-line"></div>
+                    <div class="text-line"></div>
+                </div>
+            </div>
+            <div class="company-name">
+                <h1>BookStore</h1>
+                <p>Книги, которые меняют жизнь</p>
+            </div>
+            
+        </div>
+    </div>
+    
+{% endblock %}
+
 
 {% block adves %}
     <div class="advertisement">

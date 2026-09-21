@@ -2,6 +2,8 @@
     border-radius: 10px;
     box-shadow: 1px 2px 10px #666;
     background-color: antiquewhite;
+
+    width: 100%;
 }
 .vacancy{
     border-radius: 10px;
@@ -10,7 +12,17 @@
     padding: 10px;
     margin: 10px;
 
+    float: left;
+    width: 30%; 
+    box-sizing: border-box
+
 }
+.vacancies::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
 
 .application_form {
     background-color: #fff;
@@ -30,7 +42,7 @@ legend {
     font-weight: bold;
     padding: 0 10px;
     color: #444;
-    font-size: 1.1em;
+    font-size: x-large;
 }
 
 .form_item {
@@ -41,6 +53,7 @@ legend {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    font-size: medium;
 }
 
 .form_item input[type="text"],
@@ -79,7 +92,14 @@ input:out-of-range {
     background-color: #fdf7f7;
     color: #a94442;
 }
-
+input:focus,
+textarea:focus {
+  outline: 2px solid #630016;
+  outline-offset: 2px;
+}
+button:focus {
+  outline: 2px solid rgba(255,255,255,0.8);
+}
 input:invalid:not(:placeholder-shown) {
     border-color: red;
     background-color: #fff0f0;

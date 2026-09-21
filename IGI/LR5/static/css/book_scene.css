@@ -1,0 +1,51 @@
+.book-scene{
+    width: 600px;
+    height: 300px;
+    margin: 10px auto;
+    box-shadow: 2px 4px 5px gray;
+    background-color: white;
+
+    position: relative;
+    perspective: 1000px;
+}
+.book{
+    width: 300px;
+    height: 200px;
+}
+.book-cover{
+    margin: auto;
+    width: 50%;
+    height: 80%;
+    background-color: rgb(84, 44, 44);
+    border-radius: 30px;
+    border: 10px solid rgb(56, 32, 32);
+    padding: auto;
+    align-items: center;
+
+    transform-origin: right center;
+}
+
+.cover-title, .cover-subtitle{
+    color: rgb(255, 230, 87);
+    text-shadow: 0 0 5px rgb(255, 229, 80);
+}
+.cover-subtitle{
+    font-size: smaller;
+}
+
+.book-page{
+    position: absolute;
+}
+
+.book-page-left{
+
+}
+
+.book-page-right{
+
+}
+
+.company-name{
+    position: absolute;
+    
+}

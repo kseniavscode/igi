@@ -13,19 +13,20 @@
 
     <div class="contacts">
         {% for emp in employees %}
-            {% if emp.photo %}
-                <img src="{{ emp.photo.url }}" alt="">
-            {% else %}
-                <img src="{% static 'images/book_cover_default.jpg' %}" alt="">
-            {% endif %}
-            <div class="info_employee">
-                <h2>Fill name: <strong>{{ emp.full_name }}</strong></h2>
-                <small>position: {{ emp.position }}</small>
-                <p>{{ emp.description }}</p>
-                <p><i>{{ emp.email }}</i></p>
-                {% if emp.phone %}<p>{{ emp.phone }}</p>{% endif %}
+            <div class="contact">
+                {% if emp.photo %}
+                    <img src="{{ emp.photo.url }}" alt="">
+                {% else %}
+                    <img src="{% static 'images/book_cover_default.jpg' %}" alt="">
+                {% endif %}
+                <div class="info_employee">
+                    <h2>Fill name: <strong>{{ emp.full_name }}</strong></h2>
+                    <small>position: {{ emp.position }}</small>
+                    <p>{{ emp.description }}</p>
+                    <p><i>{{ emp.email }}</i></p>
+                    {% if emp.phone %}<p>{{ emp.phone }}</p>{% endif %}
+                </div>
             </div>
-            
         {% endfor %}
     </div>
     

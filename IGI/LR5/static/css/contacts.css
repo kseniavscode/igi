@@ -1,4 +1,4 @@
-.contacts{
+.contact{
     border-radius: 4px;
     box-shadow: 0 0 10px #888;
     margin: 10px;
@@ -6,9 +6,10 @@
 
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     gap: 20px;
 }
-.contacts img{
+.contact img{
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -18,7 +19,7 @@
     border-left: 3px solid #630016;
     padding: 10px;
 }
-.info_employee h3{
+.info_employee h2{
     margin: 0;
 }
 .info_employee strong{

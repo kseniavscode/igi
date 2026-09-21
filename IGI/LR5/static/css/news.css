@@ -71,8 +71,47 @@
     font-weight: 400;
     font-style: normal;
 }
+.info_article > p:first-of-type{
+    padding: 10px;
+    font-variant-caps: small-caps;
+    font-style: italic;
+    color: #666;
+    margin: 10px 0;
+    line-height: 1.5;
 
-.info_article p:first-of-type::first-letter{
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    transition: all 0.3s ease;
+}
+.info_article > p:first-of-type:hover{
+    color: #333;
+}
+.article_full_text{
+    display: block;
+    
+    column-count: 3;                 
+    column-gap: 40px;                
+    column-rule: 1px solid #ddd; 
+    column-fill: balance;
+    column-span: all;   
+    
+    text-align: justify;             
+    line-height: 1.6;
+    margin: 15px 0;
+    padding: 15px;
+    background: #fafafa;
+    border-radius: 8px;
+    
+    animation: fadeIn 0.9s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.article_full_text p:first-of-type::first-letter{
     float: left;
     font-size: 3.8em;
     color: #610303;
@@ -84,7 +123,7 @@
     font-style: normal;
 }
 
-.info_article p:first-of-type::first-line{
+.article_full_text p:first-of-type::first-line{
 
     font-family: "Cinzel Decorative", serif;
     font-weight: 400;
@@ -93,13 +132,14 @@
     word-spacing: 15px;
     letter-spacing: 0.01px;
 }
-.info_article::selection{
+.info_article::selection,
+.image_of_article > .caption::selection{
     background-color: #610303;
     color: aliceblue;
 }
 
 
-.info_article p:last-of-type{
+.info_article > p:last-of-type{
     width: 100px;
     margin: auto 200px 50px auto;
     text-decoration-style: wavy;
@@ -142,13 +182,19 @@
         object-fit: cover;
     }
 
-    .info_article p:first-of-type::first-letter{
+    .article_full_text{
+        display: block;
+        
+        column-count: 2;                 
+        column-gap: 10px;
+    }
+    .article_full_text p:first-of-type::first-letter{
         font-size: 2.8em;
     }
 
 
 
-    .info_article p:last-of-type{
+    .info_article > p:last-of-type{
         width: 100%;
         margin: auto 20px 5px auto;
     }
