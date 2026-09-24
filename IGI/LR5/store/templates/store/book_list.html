@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block book_scene %}
+    
     <div class="book-scene">
         <div class="book">
 
@@ -22,10 +23,9 @@
                     <div class="page-image"></div>
                 </div>
             </div>
-            
-            <div class="book-cover">
-                <div class="cover-title">BookStore</div>
-                <div class="cover-subtitle">Книжный магазин</div>
+
+            <div>
+                
             </div>
             
             
@@ -106,13 +106,16 @@
         {% for book in page_obj %}
             <div class="book_card">
                 <a href="{% url 'book_details' book.pk %}">
+                    <div class="heart">❤︎</div>
                     {% if book.cover %}
                         <img class="book_cover" src="{{ book.cover.url }}" alt="{{ book.title }}" >
 
                     {% else %}
                         <img class="book_cover" src="{% static 'images/book_cover_default.jpg' %}" alt="{{ book.title }}" >
                     {% endif %}
+                    
                 </a>
+                
                 
 
                 <h3><a href="{% url 'book_details' book.pk %}">{{ book.title }}</a></h3>
