@@ -8,9 +8,26 @@
     }
 
 }
+@keyframes cartoonJump {
+    0% {
+        transform: translateY(-150px) scale(1, 1); /* Висит высоко */
+    }
+    40% {
+        transform: translateY(0px) scale(0.9, 1.1); /* Летит вниз, вытянулась от скорости */
+    }
+    43% {
+        transform: translateY(10px) scale(1.3, 0.7); /* БАЦ! Ударилась о пол и сплющилась */
+    }
+    60% {
+        transform: translateY(-50px) scale(0.95, 1.05); /* Отскочила вверх */
+    }
+    100% {
+        transform: translateY(-150px) scale(1, 1); /* Вернулась в исходную точку */
+    }
+}
 
-.book-scene{
-    width: 600px;
+.scene{
+    width: 400px;
     height: 300px;
     margin: 10px auto;
     box-shadow: 2px 4px 5px gray;
@@ -18,45 +35,6 @@
 
     position: relative;
     perspective: 1000px;
-}
-.book{
-    width: 300px;
-    height: 200px;
-}
-.book-cover{
-    margin: auto;
-    width: 50%;
-    height: 80%;
-    background-color: rgb(84, 44, 44);
-    border-radius: 30px;
-    border: 10px solid rgb(56, 32, 32);
-    padding: auto;
-    align-items: center;
-
-    transform-origin: right center;
-}
-
-.cover-title, .cover-subtitle{
-    color: rgb(255, 230, 87);
-    text-shadow: 0 0 5px rgb(255, 229, 80);
-}
-.cover-subtitle{
-    font-size: smaller;
-}
-
-.book-page{
-    position: absolute;
-}
-
-.book-page-left{
-
-}
-
-.book-page-right{
-
-}
-
-.company-name{
-    position: absolute;
-    
+    transform-style: preserve-3d;
+    transform: rotateX(20deg) rotateY(-30deg);
 }
