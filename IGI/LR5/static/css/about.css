@@ -91,6 +91,22 @@ h2, h3{
     border-radius: 15px;
     margin: 15px;
     padding: 15px;
+
+
+    animation: change_background 4s linear infinite alternate ;
+}
+
+@keyframes change_background {
+    0%{
+        background-color: rgb(233, 190, 190);
+    }
+    50%{
+        background-color: rgb(230, 197, 197);
+    }
+    100%{
+        background-color: rgb(254, 254, 254);
+    }
+    
 }
 .certificate{
     padding: 10px;
