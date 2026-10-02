@@ -275,6 +275,10 @@
     
 
     <script>
+        let pinkBook = document.querySelector('.shelf-book-pink');
+        pinkBook.addEventListener('click', function() {
+            pinkBook.classList.toggle('book-pulled');
+        });
         function toggleNewsText(articleId) {
             const textElement = document.getElementById('text-' + articleId);
             const btn = document.getElementById('read_more_btn');

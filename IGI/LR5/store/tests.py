@@ -1,6 +1,7 @@
 from django.test import TestCase
 import pytest
 from django.urls import reverse
+from unittest.mock import patch, MagicMock
 
 from django.contrib.auth.models import User
 from .models import Book, Client, BookInstance, Genre, Order, Waitlist, PickupPoint
@@ -307,4 +308,100 @@ def test_statistic_view_renders(client, staff_user):
 
 
 
+@pytest.mark.django_db
+class TestIntegrationAndStateTransitions:
 
+    @patch('store.views.requests.get')
+    def test_import_books_integration_with_external_api(self, mock_get, client, staff_user):
+        
+        client.login(username='staff', password='password')
+
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'items': [
+                {
+                    'volumeInfo': {
+                        'title': 'API Python Book',
+                        'authors': ['Guido van Rossum'],
+                        'description': 'A book about Python from API.',
+                        'publisher': 'O Reilly',
+                        'language': 'en',
+                        'industryIdentifiers': [{'identifier': '9876543210123'}],
+                        'imageLinks': {'thumbnail': 'https://example.com/cover.jpg'}
+                    }
+                }
+            ]
+        }
+        mock_get.return_value = mock_response
+
+        response = client.get(reverse('import_books'), {'q': 'Python'})
+
+        assert response.status_code == 200
+        assert 'API Python Book' in response.content.decode()
+
+        import_data = {
+            'title': 'API Python Book',
+            'description': 'A book about Python from API.',
+            'isbn': '9876543210123',
+            'publisher': 'O Reilly',
+            'language': 'EN',
+            'cover_url': 'https://example.com/cover.jpg',
+            'authors': ['Guido van Rossum'],
+            'categories': ['Programming']
+        }
+        
+        response_post = client.post(reverse('import_books'), import_data)
+        assert response_post.status_code == 302 
+
+        created_book = Book.objects.filter(isbn='9876543210123').first()
+        assert created_book is not None
+        assert created_book.title == 'API Python Book'
+        assert created_book.imprint == 'O Reilly'
+
+        assert BookInstance.objects.filter(book=created_book).count() > 0
+
+    @pytest.mark.django_db
+    def test_order_full_state_lifecycle_scenario(self, client, regular_user, user_client, book_with_instance):
+        
+        book, instance = book_with_instance
+        client.login(username='testuser', password='password')
+
+        add_url = reverse('add_to_orders', kwargs={'pk': book.pk})
+        response = client.get(add_url)
+        assert response.status_code == 302
+
+        # Проверяем переход в начальное состояние 'n'
+        order = Order.objects.filter(client=user_client, status='n').first()
+        assert order is not None
+        instance.refresh_from_db()
+        assert instance.status == 'r' 
+
+        point = PickupPoint.objects.create(
+            address="Test St. 10", city="Minsk", opening_hours="10-20", map_coordinates="1,1"
+        )
+        confirm_url = reverse('confirm_order', kwargs={'pk': order.pk})
+        confirm_data = {
+            'delivery_method': 's',
+            'pickup_point': point.id,
+            'promo_code': ''
+        }
+        response_confirm = client.post(confirm_url, confirm_data)
+        assert response_confirm.status_code == 302
+
+        order.refresh_from_db()
+        assert order.status == 'p'
+        assert order.pickup_point == point
+
+        staff = User.objects.create_user(username='manager_staff', password='password', is_staff=True)
+        client.logout()
+        client.login(username='manager_staff', password='password')
+
+        complete_url = reverse('complete_order', kwargs={'pk': order.pk})
+        response_complete = client.get(complete_url)
+        assert response_complete.status_code == 302
+
+        order.refresh_from_db()
+        instance.refresh_from_db()
+        assert order.status == 'd'
+        assert instance.status == 's'
