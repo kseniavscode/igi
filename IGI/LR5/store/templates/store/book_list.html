@@ -21,31 +21,31 @@
                 </div>
                 <div class="shelf shelf-2">
                     <div class="shelf-book shelf-book-pink"></div>
-                    <div class="shelf-book shelf-book-longer shelf-book-animated-3"></div>
-                    <div class="shelf-book shelf-book-jump"></div>
-                    <div class="shelf-book shelf-book-wide shelf-book-green"></div>
+                    <div class="shelf-book shelf-book-longer shelf-book-purple shelf-book-animated-3"></div>
+                    <div class="shelf-book shelf-book-gray shelf-book-jump"></div>
+                    <div class="shelf-book shelf-book-wide"></div>
                     <div class="shelf-book shelf-book-longer shelf-book-red shelf-book-jump-2"></div>
                     <div class="shelf-book shelf-book-longer shelf-book-gray shelf-book-animated-5"></div>
-                    <div class="shelf-book shelf-book-animated"></div>
+                    <div class="shelf-book"></div>
                     <div class="shelf-book shelf-book-gray shelf-book-animated-1"></div>
                 </div>
                 <div class="shelf shelf-3">
                     <div class="shelf-book shelf-book-longer"></div>
                     <div class="shelf-book shelf-book-wide shelf-book-purple shelf-book-jump-4"></div>
-                    <div class="shelf-book shelf-book-wide shelf-book-animated-1"></div>
+                    <div class="shelf-book shelf-book-wide shelf-book-gray shelf-book-animated-1"></div>
                     <div class="shelf-book "></div>
                     <div class="shelf-book shelf-book-red shelf-book-animated"></div>
                     <div class="shelf-book shelf-book-pink"></div>
                 </div>
                 <div class="shelf shelf-4">
-                    <div class="shelf-book shelf-book-animated"></div>
+                    <div class="shelf-book shelf-book-gray shelf-book-animated"></div>
                     <div class="shelf-book "></div>
-                    <div class="shelf-book shelf-book-longer shelf-book-red"></div>
+                    <div class="shelf-book shelf-book-longer"></div>
                     <div class="shelf-book shelf-book-longer shelf-book-purple shelf-book-animated-3"></div>
                     <div class="shelf-book shelf-book-longer shelf-book-green shelf-book-jump"></div>
-                    <div class="shelf-book shelf-book-green"></div>
+                    <div class="shelf-book shelf-book-pink"></div>
                     <div class="shelf-book "></div>
-                    <div class="shelf-book shelf-book-animated-5"></div>
+                    <div class="shelf-book shelf-book-red shelf-book-animated-5"></div>
                 </div>
             </div>
             <div class="side-panel panel-2"></div>
@@ -275,10 +275,37 @@
     
 
     <script>
-        let pinkBook = document.querySelector('.shelf-book-pink');
-        pinkBook.addEventListener('click', function() {
-            pinkBook.classList.toggle('book-pulled');
+        let allBooks = document.querySelectorAll('.shelf-book');
+        let mainTitle = document.querySelector('.title-book');
+        allBooks.forEach(function(book) {
+            if (!book.className.includes('jump') && !book.className.includes('animated')){
+                book.addEventListener('click', function() {
+
+                    allBooks.forEach(function(otherBook) {
+                        if (otherBook !== book){
+                            otherBook.classList.remove('book-pulled');
+                        }
+                    });
+
+                    book.classList.toggle('book-pulled');
+
+                    if (book.className.includes('pink')){
+                        mainTitle.textContent = 'PINK DREAM';
+                    }
+                    else if (!book.className.includes('pink')){
+                        mainTitle.textContent = 'BLUE NIGHT';
+                    }
+                    else{
+                        mainTitle.textContent = 'BOOKSTORE';
+                    }
+                });
+                book.style.cursor = 'pointer';
+
+                
+            }
+            
         });
+        
         function toggleNewsText(articleId) {
             const textElement = document.getElementById('text-' + articleId);
             const btn = document.getElementById('read_more_btn');

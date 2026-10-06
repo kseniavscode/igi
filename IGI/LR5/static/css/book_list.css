@@ -185,9 +185,7 @@
     }
 
     .book_card {
-        max-width: 150px;
         width: 100%;
-        margin: 0 auto;
     }
     .book_cover {
         width: 100%;
@@ -220,13 +218,6 @@
         padding: 10px;
     }
     
-    .book_card {
-        max-width: 150px;
-    }
-    
-    .book_cover {
-        height: 200px;                 
-    }
     
     .book_card h3 {
         font-size: 13px;
