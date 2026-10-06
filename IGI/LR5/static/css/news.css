@@ -81,6 +81,7 @@
 
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 
     transition: all 0.3s ease;
 }
@@ -93,8 +94,7 @@
     column-count: 3;                 
     column-gap: 40px;                
     column-rule: 1px solid #ddd; 
-    column-fill: balance;
-    column-span: all;   
+    column-fill: balance;   
     
     text-align: justify;             
     line-height: 1.6;
@@ -141,7 +141,10 @@
 .info_article > p:last-of-type{
     width: 100px;
     margin: auto 200px 50px auto;
+    text-decoration-line: underline;
     text-decoration-style: wavy;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
     font-style: italic;
 }
 
