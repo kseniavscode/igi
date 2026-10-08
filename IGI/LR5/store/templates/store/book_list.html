@@ -293,6 +293,8 @@
                 this.btnPrev = document.querySelector('.prev_btn');    
                 this.counter = document.querySelector('.slider_counter'); 
 
+                this.pagination = document.querySelector('.slider_pagination');
+
                 if (this.slides.length === 0) return;
 
                 this.currentIndex = 0; 
@@ -300,9 +302,12 @@
                 
                 this.slideWidth = 500; 
 
+                this.dots = [];
+
                 this.init();
             }
             init(){
+                this.createDots();
                 this.updateCounter();
 
                 this.btnNext.addEventListener('click', () => {
@@ -324,9 +329,30 @@
                 let distance = - this.currentIndex * this.slideWidth;
                 this.track.style.transform = `translateX(${distance}px)`;
                 this.updateCounter();
+                this.updateDots();
             }
             updateCounter() {
                 this.counter.textContent = `${this.currentIndex + 1} / ${this.totalSlides}`;
+            }
+            createDots(){
+                for (let i = 0; i < this.totalSlides; i++){
+                    let dot = document.createElement('div');
+                    dot.classList.add('dot');
+
+                    dot.addEventListener('click', () => {
+                        this.currentIndex = i;
+                        this.moveTrack();
+                    });
+
+                    this.pagination.appendChild(dot);
+                    this.dots.push(dot);
+                }
+                this.updateDots();
+            }
+
+            updateDots(){
+                this.dots.forEach(dot => dot.classList.remove('active'));
+                this.dots[this.currentIndex].classList.add('active');
             }
         }
 

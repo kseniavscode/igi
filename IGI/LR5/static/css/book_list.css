@@ -97,6 +97,33 @@
 }
 
 
+.slider_pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    padding-bottom: 5px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: #fff6de; 
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.dot:hover {
+    transform: scale(1.2);
+}
+
+.dot.active {
+    background-color: #aa8822; /* Твой фирменный золотой цвет */
+    transform: scale(1.2);
+}
+
 
 
 
