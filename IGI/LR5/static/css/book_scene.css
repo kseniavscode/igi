@@ -418,7 +418,7 @@
 .shelf-book-purple{
     background: linear-gradient(to right, #868ee6, #d5c0e7 50%, #868ee6);
 }
-.shelf-book-gray{
+.shelf-book-blue{
     background: linear-gradient(to right, #86c9e6, #c0d7e7 50%, #86c9e6);
 }
 
@@ -488,4 +488,23 @@
         transform: translateY(0) rotateY(-12deg) scale(1);
         filter: brightness(1);
     }
+}
+
+
+.theme-pink .cover-front-outside,
+.theme-pink .cover-front-inside,
+.theme-pink .book-cover-back {
+    background: linear-gradient(135deg, #e7c0e6 0%, #c84564 100%);
+}
+.theme-pink .book-spine {
+    background: linear-gradient(to right, #c84564, #e7c0e6, #c84564);
+}
+
+.theme-blue .cover-front-outside,
+.theme-blue .cover-front-inside,
+.theme-blue .book-cover-back {
+    background: linear-gradient(135deg, #c0d1e7 0%, #1f3e5c 100%);
+}
+.theme-blue .book-spine {
+    background: linear-gradient(to right, #1f3e5c, #c0d1e7, #1f3e5c);
 }

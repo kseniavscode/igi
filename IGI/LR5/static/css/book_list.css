@@ -1,21 +1,27 @@
-.advertisement{
-    max-width: 1480px;
-    width: 100%;
-    margin: 15px;
+.slider_container{
+    position: relative;
+    /* max-width: 1480px;  */
+    width: 490px;
+    margin: 15px auto;
     background-color: #7b5f0c;
-    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(43, 43, 43, 0.5);
+    padding: 8px;
+    overflow: hidden;
+}
 
+
+.advertisement{  
+    padding: 5px;
     display: flex;
     gap: 20px;
-    overflow-x: auto;
-    white-space: nowrap;
+
+    transition: transform 0.4s ease-in-out; 
 }
 
 .ad_item{
     flex: 0 0 300px;
-    background-color: #fff;
+    background-color: #fff6de;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(54, 31, 4, 0.7);
@@ -36,8 +42,9 @@
 }
 
 .ad_item img {         
-    height: 180px;        
-    object-fit: cover;  
+    height: 180px; 
+    width: 450px;       
+    object-fit: contain;  
     display: block;        
 }
 
@@ -47,6 +54,38 @@
     text-align: center;
     font-weight: 500;
     font-size: 14px;
+}
+.slider_btn{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    color: #aa8822;
+    border: none;
+    font-size: 24px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+    transition: background 0.3s;
+}
+.slider_btn:hover{
+    background: #fff;
+}
+.prev_btn { left: 10px; }
+.next_btn { right: 10px; }
+
+.slider_counter {
+    position: absolute;
+    top: 6px;
+    right: 18px;
+    color: white;
+    background-color: #aa8822;
+    border-radius: 3px;
+    box-shadow: 0 0 15px rgba(43, 43, 43, 0.5);
+    padding: 5px;
+    font-weight: bold;
+    z-index: 10;
 }
 
 .add_ad{
@@ -58,6 +97,11 @@
 }
 
 
+
+
+
+
+/* Books grid */
 
 .book_grid {
     background-color: #fff;
