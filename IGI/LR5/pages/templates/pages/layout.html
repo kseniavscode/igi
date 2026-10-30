@@ -19,6 +19,7 @@
 
     <title>{% block title %}{% if company_info %}{{ company_info.name }}{% else %}Book Store{% endif %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark_mode.css' %}">
 
     {% block extra_css %}{% endblock %}
 
@@ -55,6 +56,7 @@
             <div class="calendar_box">
                 <pre>{{ header_calendar }}</pre>
             </div>
+            <button id="theme_toggle" class="theme_btn">Dark Mode</button>
         </div>
         
         
@@ -136,4 +138,43 @@
         <a tabindex="4" href="{% url 'promo' %}" class="panel_btn">PromoCodes</a>
     </nav>
 </body>
+<script>
+    class ThemeManager{
+        constructor(){
+
+            this.btn = document.getElementById('theme_toggle');
+            this.body = document.body;
+            if (!this.btn) return;
+
+            this.currentTheme = localStorage.getItem('site_theme');
+            if (this.currentTheme === 'dark') {
+                this.body.classList.add('dark-theme');
+                this.btn.textContent = 'Light Mode';
+            }
+
+            this.init();
+        }
+
+        init(){
+            this.btn.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+        }
+
+        toggleTheme(){
+            this.body.classList.toggle('dark-theme');
+
+            if (this.body.classList.contains('dark-theme')) {
+                this.btn.textContent = 'Light Mode';
+                localStorage.setItem('site_theme', 'dark');
+            } else {
+                this.btn.textContent = 'Dark Mode';
+                localStorage.setItem('site_theme', 'light');
+            }
+        }
+    }
+
+    const myTheme = new ThemeManager();
+</script>
 </html>
+

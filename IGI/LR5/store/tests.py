@@ -31,6 +31,25 @@ def user_client(db, regular_user):
         birth_date="1990-01-01"
     )
 
+@pytest.mark.django_db
+def test_user_registration_success(client):
+    url = reverse('register')
+    data = {
+        'username': 'newuser',
+        'email': 'new@mail.com',
+        'first_name': 'Test',
+        'last_name': 'User',
+        'password': 'StrongPassword123',
+        'confirm_password': 'StrongPassword123',
+        'phone': '+375(29)123-45-67',
+        'birth_date': '2000-01-01',
+        'city': 'Minsk',
+        'address': 'Street 1'
+    }
+    response = client.post(url, data)
+    assert response.status_code == 302 # Успешный редирект после регистрации
+    assert User.objects.filter(username='newuser').exists()
+    
 @pytest.fixture
 def book_with_instance(db):
     """Create a book and an instance"""
@@ -72,7 +91,12 @@ def test_book_details(client):
     assert "Title" in response.content.decode()
 
 
-
+@pytest.mark.django_db
+def test_book_search(client):
+    Book.objects.create(title="Python for Beginners", isbn="1234567890123", price=20.0)
+    response = client.get(reverse('book_list'), {'search': 'Python'})
+    assert response.status_code == 200
+    assert "Python for Beginners" in response.content.decode()
 
 @pytest.mark.parametrize("price_input, expected_result", [
     ("10.50", True),  

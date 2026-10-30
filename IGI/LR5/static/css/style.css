@@ -2,8 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Felipa&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
 
-
-
 html, body{
     width: 100%;
     margin: 0;
@@ -163,10 +161,16 @@ body {
 
 /* Preloader */
 .squares_container{
+    display: none;
     width: 100px;
     height: 100px;
-    margin: 50px auto;
-    position: relative;
+    position: fixed;       
+    top: 50%;              
+    left: 50%;                
+    transform: translate(-50%, -50%); 
+    
+    margin: 0;                
+    z-index: 99999;           
 }
 .square{
     position: absolute;

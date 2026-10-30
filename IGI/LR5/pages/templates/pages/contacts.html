@@ -11,25 +11,113 @@
     <h1>Our Team</h1>
     <hr>
 
-    <div class="contacts">
-        {% for emp in employees %}
-            <div class="contact">
-                {% if emp.photo %}
-                    <img src="{{ emp.photo.url }}" alt="">
-                {% else %}
-                    <img src="{% static 'images/book_cover_default.jpg' %}" alt="">
-                {% endif %}
-                <div class="info_employee">
-                    <h2>Fill name: <strong>{{ emp.full_name }}</strong></h2>
-                    <small>position: {{ emp.position }}</small>
-                    <p>{{ emp.description }}</p>
-                    <p><i>{{ emp.email }}</i></p>
-                    {% if emp.phone %}<p>{{ emp.phone }}</p>{% endif %}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
     
+    
+    
+    {% if user.is_staff %}
+        <div class="contacts_controls">
+            <button id="toggle_form_btn" class="panel_btn">Add Employee</button>
+            <div class="search_box">
+                <input type="text" id="search_input" placeholder="Filter by text...">
+                <button id="search_btn" class="panel_btn">Find</button>
+                <button id="reset_search_btn" class="panel_btn" style="display:none;">Reset</button>
+            </div>
+        </div>
 
+        <div id="add_employee_form_container" class="add_ad" style="display: none;">
+            <h3>Add New Employee</h3>
+            <form id="employee_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>
+                    <label>Full Name:</label><br>
+                    <input type="text" name="full_name" required>
+                </p>
+                <p>
+                    <label>Position:</label><br>
+                    <input type="text" name="position" placeholder="e.g. Senior Bookseller" required>
+                </p>
+                <p>
+                    <label>Work Description:</label><br>
+                    <textarea name="description" placeholder="Describe responsibilities..." rows="3" required></textarea>
+                </p>
+                <p>
+                    <label>Email:</label><br>
+                    <input type="email" name="email" required>
+                </p>
+                <p>
+                    <label>Phone (e.g. +375291112233 or 80291112233):</label><br>
+                    <input type="type" name="phone" id="phone_input" placeholder="+375 (29) 111-22-33">
+                    <span id="phone_error" class="error_msg"></span>
+                </p>
+                <p>
+                    <label>Photo URL (Optional website link / format check):</label><br>
+                    <input type="text" name="url_check" id="url_input" placeholder="http://site.ru/index.php">
+                    <span id="url_error" class="error_msg"></span>
+                </p>
+                <p>
+                    <label>Photo File:</label><br>
+                    <input type="file" name="photo">
+                </p>
+                <button type="submit" id="submit_employee_btn" class="panel_btn" disabled>Add to Table</button>
+            </form>
+        </div>
+
+        <div id="preloader" class="squares_container" style="display: none;">
+            <div class="square square_outer"></div>
+            <div class="square square_inner"></div>
+        </div>
+
+        <table class="contacts_table" id="contactsTable">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select_all"></th>
+                    <th>Photo</th>
+                    <th data-sort="full_name" class="sortable">Full Name</th>
+                    <th data-sort="position" class="sortable">Position</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody id="table_body">
+                
+            </tbody>
+        </table>
+
+        <div class="pagination_box" id="paginationBox"></div>
+
+        <div class="award_box">
+            <button id="award_btn" class="panel_btn">Award Selected</button>
+            <div id="award_result" class="award_result"></div>
+        </div>
+
+        <div class="employee_details_box" id="detailsBox" style="display: none;">
+            <h3>Employee Details</h3>
+            <div id="detailsContent"></div>
+        </div>
+        <script id="employees_data" type="application/json">
+            {{ employees_json|safe }}
+        </script>
+
+        <script src="{% static 'js/contacts.js' %}"></script>
+    {% else %}
+        <div class="contacts">
+            {% for emp in employees %}
+                <div class="contact">
+                    {% if emp.photo %}
+                        <img src="{{ emp.photo.url }}" alt="">
+                    {% else %}
+                        <img src="{% static 'images/book_cover_default.jpg' %}" alt="">
+                    {% endif %}
+                    <div class="info_employee">
+                        <h2>Fill name: <strong>{{ emp.full_name }}</strong></h2>
+                        <small>position: {{ emp.position }}</small>
+                        <p>{{ emp.description }}</p>
+                        <p><i>{{ emp.email }}</i></p>
+                        {% if emp.phone %}<p>{{ emp.phone }}</p>{% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
 

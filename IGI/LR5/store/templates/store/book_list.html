@@ -253,9 +253,11 @@
             </div>
             <div class="info_article">
                 <h2>{{ article.title }}</h2>
-                <p id="text-{{  article.id }}" data-fulltext="{{ article.full_text }}">{{ article.full_text|truncatechars:200 }}</p>
-
-                {% if article.full_text|length > 200 %}
+                <p>{{ article.summary|truncatechars:100 }}</p>
+                <div class="article_full_text">
+                    <p id="text-{{  article.id }}" data-fulltext="{{ article.full_text }}">{{ article.full_text|truncatechars:500 }}</p>
+                </div> 
+                {% if article.full_text|length > 500 %}
                     <button id="read_more_btn" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
                 {% endif %}
 
@@ -286,77 +288,186 @@
 
     <script>
         class AdSlider{
-            constructor(){
+            constructor(options = {}){
+                this.container = document.querySelector('.slider_container');
                 this.track = document.querySelector('.advertisement'); 
-                this.slides = document.querySelectorAll('.ad_item');   
+                this.originalSlides = document.querySelectorAll('.ad_item');   
                 this.btnNext = document.querySelector('.next_btn');    
                 this.btnPrev = document.querySelector('.prev_btn');    
                 this.counter = document.querySelector('.slider_counter'); 
 
                 this.pagination = document.querySelector('.slider_pagination');
 
-                if (this.slides.length === 0) return;
+                if (this.originalSlides.length === 0) return;
 
-                this.currentIndex = 0; 
-                this.totalSlides = this.slides.length; 
+                this.realSlidesCount = this.originalSlides.length; 
                 
+
+                let firstClone = this.originalSlides[0].cloneNode(true);
+                let lastClone = this.originalSlides[this.realSlidesCount - 1].cloneNode(true);
+
+                this.track.appendChild(firstClone);
+                this.track.insertBefore(lastClone, this.originalSlides[0]);
+
+                this.slides = document.querySelectorAll('.ad_item');
+                this.totalSlides = this.slides.length; 
+
+
+                this.currentIndex = 1;
                 this.slideWidth = 500; 
-
                 this.dots = [];
+                this.timer = null;
+                this.isMoving = false;
+                
+                this.track.style.transition = 'none';
+                this.track.style.transform = `translateX(${-(this.currentIndex * this.slideWidth)}px)`;
 
+                
+                
+
+                this.settings = Object.assign({
+                    loop: false,
+                    navs: true,
+                    pags: true,
+                    auto: false,
+                    delay: 3,
+                    stopMouseHover: false
+                }, options);
                 this.init();
             }
             init(){
-                this.createDots();
-                this.updateCounter();
+
+                if (this.settings.navs === false){
+                    this.btnNext.style.display = 'none';
+                    this.btnPrev.style.display = 'none';
+                }
+
+                if (this.settings.pags === false){
+                    this.pagination.style.display = 'none';
+                }
+                else{
+                    this.createDots();
+                }
+                
+                this.updateInterface();
 
                 this.btnNext.addEventListener('click', () => {
-                    if (this.currentIndex < this.totalSlides - 1) {
-                        this.currentIndex++;
-                        this.moveTrack();
-                    }
+                    this.nextSlide();
                 });
 
                 this.btnPrev.addEventListener('click', () => {  
-                    if (this.currentIndex > 0) {
-                        this.currentIndex--;
-                        this.moveTrack();
+                    this.prevSlide();
+                });
+
+
+                this.track.addEventListener('transitionend', () => {
+                    this.isMoving = false;
+
+                    if (this.slides[this.currentIndex].isEqualNode(this.slides[this.totalSlides - 1])){
+                        this.track.style.transition = 'none';
+                        this.currentIndex = 1;
+                        this.track.style.transform = `translateX(${-(this.currentIndex * this.slideWidth)}px)`;
+                    }
+                    if (this.slides[this.currentIndex].isEqualNode(this.slides[0])){
+                        this.track.style.transition = 'none';
+                        this.currentIndex = this.realSlidesCount;
+                        this.track.style.transform = `translateX(${-(this.currentIndex * this.slideWidth)}px)`;
                     }
                 });
+
+                if (this.settings.auto === true){
+                    this.startAutoPlay();
+                    if (this.settings.stopMouseHover === true){
+                        this.container.addEventListener('mouseenter', () => {
+                            this.stopAutoPlay();    
+                        });
+                        this.container.addEventListener('mouseleave', () => {
+                            this.startAutoPlay();   
+                        });
+                    }
+
+                }
             }
 
+            nextSlide(){
+                if (this.isMoving) return;
+                this.isMoving = true;
+                this.currentIndex++;
+                this.moveTrack();
+            }
+
+            prevSlide(){
+                if (this.isMoving) return;
+                this.isMoving = true;
+                this.currentIndex--;
+                this.moveTrack();
+            }
             moveTrack(){
+                this.track.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
                 let distance = - this.currentIndex * this.slideWidth;
                 this.track.style.transform = `translateX(${distance}px)`;
-                this.updateCounter();
-                this.updateDots();
+                this.updateInterface();
             }
-            updateCounter() {
-                this.counter.textContent = `${this.currentIndex + 1} / ${this.totalSlides}`;
+            updateInterface() {
+
+                let realIndex = this.currentIndex - 1;
+
+                if (this.currentIndex === 0){
+                    realIndex = this.realSlidesCount - 1;
+                }
+                if (this.currentIndex === this.totalSlides - 1){
+                    realIndex = 0;
+                }
+
+                this.counter.textContent = `${realIndex + 1} / ${this.realSlidesCount}`;
+
+                if (this.settings.pags === true){
+                    this.dots.forEach(dot => dot.classList.remove('active'));
+                    if (this.dots[realIndex]){
+                        this.dots[realIndex].classList.add('active');
+                    }
+                    
+                }
             }
             createDots(){
-                for (let i = 0; i < this.totalSlides; i++){
+                for (let i = 0; i < this.realSlidesCount; i++){
                     let dot = document.createElement('div');
                     dot.classList.add('dot');
 
                     dot.addEventListener('click', () => {
-                        this.currentIndex = i;
+                        if (this.isMoving) return;
+                        this.isMoving = true;
+                        this.currentIndex = i + 1;
                         this.moveTrack();
                     });
 
                     this.pagination.appendChild(dot);
                     this.dots.push(dot);
                 }
-                this.updateDots();
             }
 
-            updateDots(){
-                this.dots.forEach(dot => dot.classList.remove('active'));
-                this.dots[this.currentIndex].classList.add('active');
+
+            startAutoPlay(){
+                this.stopAutoPlay();
+
+                let ms = this.settings.delay * 1000;
+                this.timer = setInterval(() => {
+                    this.nextSlide();
+                }, ms);
+            }
+            stopAutoPlay(){
+                clearInterval(this.timer);
             }
         }
 
-        const mySlider = new AdSlider();
+        const mySlider = new AdSlider({
+            loop: true, 
+            navs: true, 
+            pags: true,
+            auto: true,
+            delay: 3,
+            stopMouseHover: true
+        });
 
 
         class MagicBookcase{

@@ -1,0 +1,242 @@
+.theme_btn {
+    margin: auto;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #0211b9;
+    background-color: #fff;
+    color: #0211b9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+}
+.theme_btn:hover{
+    color: #ccc;
+    background-color: rgb(4, 4, 71);
+    border: 1px solid #f2f4ff;
+    box-shadow: 0px 2px 5px #f4f5fd;
+}
+
+
+body.dark-theme {
+    background-color: #0b1144;
+    color: #ccc;
+}
+
+
+body.dark-theme [class$=_timezone]{
+
+    background: #010637;
+    color: #ccc;
+    border: 2px solid #fafaff;
+    box-shadow: 0 0 5px #ffffff;
+}
+
+
+body.dark-theme .logo_bookstore_img{
+    border: 2px solid #dbd6f1;
+    box-shadow: 0 0 5px #ffffff;
+}
+
+body.dark-theme .logo_bookstore h1{
+    color: #c5bdfc;
+    text-shadow: 2px 0 5px rgba(114, 109, 147, 0.3),
+        0 -3px 2px rgba(190, 188, 216, 0.2),
+        0 0 4px rgba(244, 242, 253, 0.474);
+}
+
+body.dark-theme .weather_box{
+    color: #cccffe;
+}
+
+body.dark-theme .calendar_box pre{
+
+    background: rgba(0, 1, 32, 0.05);
+}
+
+
+body.dark-theme .info_buttons{
+    box-shadow: 0 10px 10px #e7e6e6;
+    background-color: rgb(11, 1, 60);
+
+}
+
+body.dark-theme .info_buttons p{
+    color: rgb(243, 242, 252);
+}
+
+body.dark-theme .log_bar{
+    box-shadow: 0 10px 10px #eeeded;
+    background-color: rgb(11, 1, 60);
+}
+
+body.dark-theme .log_bar span {
+    color: #ccc;
+}
+body.dark-theme .container{
+    color: #ccc;
+    background-color: rgb(11, 1, 60);
+    box-shadow: 0 0 15px rgb(241, 239, 239);
+}
+
+body.dark-theme .square_inner{
+    border-color: rgb(177, 117, 117);
+}
+body.dark-theme .square_outer{
+    border-color: rgb(168, 219, 194);
+}
+
+
+
+
+/* Footer with control buttons */
+
+body.dark-theme .control_buttons{
+    color: white;
+    background-color: rgb(11, 1, 60);
+    box-shadow: 0 10px 10px #ffffff;
+}
+
+body.dark-theme .panel_btn{
+    background-color: rgb(11, 1, 60);
+    color: #f5f4f9;
+}
+
+body.dark-theme .panel_btn:hover{
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    box-shadow: 0 4px 8px rgba(124, 121, 190, 0.3);
+}
+body.dark-theme a.panel_btn:active{
+    background-color: #deddf8;
+    border-radius: 6px;
+    color: rgb(6, 0, 45);
+    box-shadow: 0 20px 16px rgba(255, 255, 255, 0.793);
+}
+body.dark-theme .panel_btn:focus-visible{
+    outline: 2px solid #a89bff;
+}
+
+
+/* Book List CSS */
+
+body.dark-theme .slider_container{
+    background-color: #7b0c5d;
+    box-shadow: 0 0 15px rgb(255, 255, 255);
+}
+
+body.dark-theme .ad_item{
+    background-color: #faa9e8;
+    box-shadow: 0 0 10px rgba(54, 4, 42, 0.7);
+}
+
+body.dark-theme .ad_item a{  
+    color: #ffffff;       
+}
+
+body.dark-theme .slider_btn{
+    background: rgba(3, 0, 35, 0.8);
+    color: #aa227a;
+}
+body.dark-theme .slider_btn:hover{
+    background: #03002a;
+}
+body.dark-theme .slider_counter {
+    color: white;
+    background-color: #aa2276;
+    box-shadow: 0 0 15px rgb(255, 255, 255);
+}
+
+body.dark-theme .add_ad{
+    background-color: #040028;
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+}
+body.dark-theme .dot.active {
+    background-color: #aa2281; 
+}
+/* Books grid */
+
+body.dark-theme .book_grid {
+    background-color: #070024;
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+
+}
+
+
+body.dark-theme .book_card:hover{
+    box-shadow: 0 4px 6px rgb(255, 255, 255);
+}
+
+body.dark-theme .heart{
+    color: rgb(255, 0, 123);
+
+    text-shadow: 2px 2px 4px #760062;
+}
+
+
+
+body.dark-theme .book_card > h3 > a {
+    color: #ffffff;
+}
+
+body.dark-theme .book_card h3 a:hover {
+    color: rgb(191, 179, 245);
+}
+
+body.dark-theme .price {
+    color: #c3adff;
+}
+
+body.dark-theme .book_cover {
+    box-shadow: 0 4px 6px rgb(255, 255, 255);
+
+}
+
+body.dark-theme .pagination a {
+    color: rgb(253, 253, 253);
+    border: 1px solid rgb(19, 2, 58);
+}
+
+/* Article CSS */
+
+body.dark-theme .caption_to_new_article{
+    color: rgb(180, 186, 247);
+    text-shadow: 2px -1px 5px rgb(49, 83, 156);
+
+    border-top: 1px solid rgb(194, 212, 235);
+    border-bottom: 1px solid rgb(194, 212, 235);
+    border-left: 2px solid rgb(194, 212, 235);
+}
+
+body.dark-theme .news_title{
+    color: rgb(194, 212, 235);
+}
+body.dark-theme .news{
+    box-shadow: 0 5px 10px rgb(221, 220, 233);
+    background-color: rgb(3, 0, 37);
+}
+
+body.dark-theme .caption{
+    background-color: rgba(6, 0, 125, 0.9);
+    color: #b4aaff;
+}
+body.dark-theme .info_article > p:first-of-type{
+    color: #fbf9ff;
+}
+body.dark-theme .info_article > p:first-of-type:hover{
+    color: #dbdcff;
+}
+body.dark-theme .article_full_text{                
+    column-rule: 1px solid #ddd; 
+    background: #050024;
+}
+
+body.dark-theme .article_full_text p:first-of-type::first-letter{
+    color: #ffffff;
+}
+
+body.dark-theme .info_article::selection,
+body.dark-theme .image_of_article > .caption::selection{
+    background-color: #ffffff;
+    color: rgb(0, 42, 78);
+}
+

@@ -6,7 +6,8 @@ from django.db.models import Q
 from .forms import ReviewForm, QuestionForm, AnswerForm
 
 import logging
-
+from django.core import serializers
+from django.http import JsonResponse
 # Create your views here.
 logger = logging.getLogger('pages')
 
@@ -66,9 +67,46 @@ def faq_page(request):
 
 def contacts_page(request):
     """Contacts from store.Employee"""
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        try:
+            full_name = request.POST.get('full_name')
+            position = request.POST.get('position')
+            description = request.POST.get('description')
+            email = request.POST.get('email')
+            phone = request.POST.get('phone', '')
+            photo = request.FILES.get('photo', None)
+
+            new_emp = Employee.objects.create(
+                full_name=full_name,
+                position=position,
+                description=description,
+                email=email,
+                phone=phone,
+                photo=photo
+            )
+
+            return JsonResponse({
+                'status': 'success',
+                'employee': {
+                    'id': new_emp.id,
+                    'full_name': new_emp.full_name,
+                    'position': new_emp.position, 
+                    'email': new_emp.email,
+                    'phone': new_emp.phone,
+                    'description': new_emp.description,
+                    'photo': new_emp.photo.url if new_emp.photo else None
+                }
+            })
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+
     employees = Employee.objects.all()
-    logger.debug(f"CONTACTS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
-    return render(request, 'pages/contacts.html', {'employees': employees})
+    employees_json = serializers.serialize('json', employees)
+    
+    return render(request, 'pages/contacts.html', {
+        'employees': employees, 
+        'employees_json': employees_json
+    })
 
 def vacancies_page(request):
     """Vacancies"""
