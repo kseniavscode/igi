@@ -1,0 +1,64 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block title %}Task 10: Chart.js Analysis{% endblock %}
+
+{% block content %}
+<div class="chart_container">
+    <h2>Task 10: Function & Series Plotting (Variant 11)</h2>
+    <p>
+        Function: <code>f(x) = ln((x + 1) / (x - 1))</code> &nbsp;|&nbsp; 
+        Series: <code>2 * Σ [1 / ((2n + 1) * x^(2n+1))]</code> &nbsp;|&nbsp; 
+        Condition: <code>|x| &gt; 1</code>
+    </p>
+    <hr>
+
+    <div class="chart_controls_card">
+        <div class="control_group">
+            <label>Start X (x &gt; 1):</label>
+            <input type="number" id="x_start" value="1.2" min="1.05" max="10" step="0.1">
+        </div>
+        <div class="control_group">
+            <label>End X:</label>
+            <input type="number" id="x_end" value="4.0" min="1.2" max="20" step="0.2">
+        </div>
+        <div class="control_group">
+            <label>Step (h):</label>
+            <input type="number" id="x_step" value="0.2" min="0.05" max="1" step="0.05">
+        </div>
+        <div class="control_group">
+            <label>Precision (ε):</label>
+            <input type="number" id="epsilon" value="0.0001" min="0.000001" max="0.1" step="0.0001">
+        </div>
+        <div class="control_group btn_group">
+            <button id="plot_btn" class="panel_btn" style="background:#aa8822; color:white;">Plot & Calculate</button>
+            <button id="download_chart_btn" class="panel_btn" style="background:#555; color:white;">Save Chart to File 💾</button>
+        </div>
+    </div>
+
+    <div class="chart_canvas_wrapper">
+        <canvas id="mathChart"></canvas>
+    </div>
+
+    <div class="table_card" style="margin-top: 30px;">
+        <h3>Calculated Values Table</h3>
+        <table class="chart_table">
+            <thead>
+                <tr>
+                    <th>x</th>
+                    <th>n (terms)</th>
+                    <th>F(x) [Series]</th>
+                    <th>Math F(x) [Exact]</th>
+                    <th>Error (|F(x) - Math|)</th>
+                </tr>
+            </thead>
+            <tbody id="chart_table_body">
+                <tr><td colspan="5" style="text-align:center;">Click "Plot & Calculate" to view data.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/chart_task.js' %}"></script>
+{% endblock %}

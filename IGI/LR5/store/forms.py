@@ -8,41 +8,41 @@ import re
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
-    
+
     phone = forms.CharField(label="Phone +375(XX)XXX-XX-XX")
-    
+
     birth_date = forms.DateField(
-        label='Date of Birth',
-        widget=forms.DateInput(attrs={'type': 'date'})
+        label="Date of Birth", widget=forms.DateInput(attrs={"type": "date"})
     )
 
-    city = forms.ChoiceField(
-        choices=Client.CITY_CHOICES,
-        label="City",
-        initial='Minsk'
-    )
+    city = forms.ChoiceField(choices=Client.CITY_CHOICES, label="City", initial="Minsk")
     address = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Street, house, flat...'}), 
+        widget=forms.Textarea(
+            attrs={"rows": 3, "placeholder": "Street, house, flat..."}
+        ),
         required=False,
-        label="Delivery Address")
-    
-
+        label="Delivery Address",
+    )
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ["username", "email", "first_name", "last_name"]
 
     def clean_birth_date(self):
-        birth = self.cleaned_data.get('birth_date')
+        birth = self.cleaned_data.get("birth_date")
         today = date.today()
 
-        age = today.year - birth.year - ((today.month, today.day) < (birth.month, birth.day))
+        age = (
+            today.year
+            - birth.year
+            - ((today.month, today.day) < (birth.month, birth.day))
+        )
         if age < 18:
             raise forms.ValidationError("You must be 18+ years old.")
         return birth
-    
+
     def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
+        phone = self.cleaned_data.get("phone")
         if not re.match(r"^\+375\((25|29|33|44)\)\d{3}\-\d{2}-\d{2}$", phone):
             raise forms.ValidationError("Phone number must contain only digits.")
         if len(phone) < 7:
@@ -59,27 +59,20 @@ class UserRegistrationForm(forms.ModelForm):
 class AdvertisementForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = '__all__'
+        fields = "__all__"
 
         widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Название рекламы'
-            }),
-            'image': forms.FileInput(attrs={
-                'class': 'form-control-file',
-                'accept': 'image/*'
-            }),
-            'link': forms.URLInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'https://example.com'
-            }),
-            'order': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'min': 0,
-                'placeholder': '0'
-            }),
-            'is_active': forms.CheckboxInput(attrs={
-                'class': 'form-check-input'
-            }),
+            "title": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Название рекламы"}
+            ),
+            "image": forms.FileInput(
+                attrs={"class": "form-control-file", "accept": "image/*"}
+            ),
+            "link": forms.URLInput(
+                attrs={"class": "form-control", "placeholder": "https://example.com"}
+            ),
+            "order": forms.NumberInput(
+                attrs={"class": "form-control", "min": 0, "placeholder": "0"}
+            ),
+            "is_active": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }

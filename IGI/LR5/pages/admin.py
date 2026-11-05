@@ -1,23 +1,34 @@
 from django.contrib import admin
-from .models import CompanyInfo, Certificate, Article, FAQ, Vacancy, Review, PromoCode, CompanyPartner
+from .models import (
+    CompanyInfo,
+    Certificate,
+    Article,
+    FAQ,
+    Vacancy,
+    Review,
+    PromoCode,
+    CompanyPartner,
+)
 
 
 class CertificateInline(admin.TabularInline):
     model = Certificate
     extra = 1
 
+
 @admin.register(CompanyInfo)
 class CompanyInfoAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    search_fields = ['name', 'description']
+    list_display = ["name"]
+    search_fields = ["name", "description"]
     inlines = [CertificateInline]
 
 
 @admin.register(Certificate)
 class CertificateAdmin(admin.ModelAdmin):
-    list_display = ['title', 'company']
-    list_filter = ['company']
-    search_fields = ['title']
+    list_display = ["title", "company"]
+    list_filter = ["company"]
+    search_fields = ["title"]
+
 
 # Register your models here.
 admin.site.register(Article)

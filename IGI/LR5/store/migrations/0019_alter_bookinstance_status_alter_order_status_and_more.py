@@ -8,30 +8,81 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0018_alter_bookinstance_status_alter_order_status'),
+        ("store", "0018_alter_bookinstance_status_alter_order_status"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='bookinstance',
-            name='status',
-            field=models.CharField(blank=True, choices=[('r', 'reserved'), ('s', 'sold'), ('a', 'available'), ('m', 'maintenance')], default='m', max_length=1, verbose_name='Status'),
+            model_name="bookinstance",
+            name="status",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("r", "reserved"),
+                    ("s", "sold"),
+                    ("a", "available"),
+                    ("m", "maintenance"),
+                ],
+                default="m",
+                max_length=1,
+                verbose_name="Status",
+            ),
         ),
         migrations.AlterField(
-            model_name='order',
-            name='status',
-            field=models.CharField(choices=[('p', 'In process'), ('n', 'New'), ('c', 'Cancel'), ('d', 'Done')], default='n', max_length=1, verbose_name='Status of order'),
+            model_name="order",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("p", "In process"),
+                    ("n", "New"),
+                    ("c", "Cancel"),
+                    ("d", "Done"),
+                ],
+                default="n",
+                max_length=1,
+                verbose_name="Status of order",
+            ),
         ),
         migrations.CreateModel(
-            name='Employee',
+            name="Employee",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('full_name', models.CharField(max_length=150, verbose_name='Full- Last- Second name')),
-                ('position', models.CharField(max_length=100, verbose_name='Position in this company')),
-                ('email', models.EmailField(max_length=254, verbose_name='Email')),
-                ('photo', models.ImageField(blank=True, null=True, upload_to='employees/')),
-                ('user', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='User Account')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "full_name",
+                    models.CharField(
+                        max_length=150, verbose_name="Full- Last- Second name"
+                    ),
+                ),
+                (
+                    "position",
+                    models.CharField(
+                        max_length=100, verbose_name="Position in this company"
+                    ),
+                ),
+                ("email", models.EmailField(max_length=254, verbose_name="Email")),
+                (
+                    "photo",
+                    models.ImageField(blank=True, null=True, upload_to="employees/"),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User Account",
+                    ),
+                ),
             ],
         ),
     ]

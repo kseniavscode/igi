@@ -8,37 +8,88 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0033_alter_bookinstance_status'),
+        ("store", "0033_alter_bookinstance_status"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='book',
-            old_name='summery',
-            new_name='summary',
+            model_name="book",
+            old_name="summery",
+            new_name="summary",
         ),
         migrations.AddField(
-            model_name='bookinstance',
-            name='order',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='instances', to='store.order'),
+            model_name="bookinstance",
+            name="order",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="instances",
+                to="store.order",
+            ),
         ),
         migrations.AlterField(
-            model_name='bookinstance',
-            name='status',
-            field=models.CharField(blank=True, choices=[('m', 'maintenance'), ('s', 'sold'), ('a', 'available'), ('r', 'reserved')], default='m', max_length=1, verbose_name='Status'),
+            model_name="bookinstance",
+            name="status",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("m", "maintenance"),
+                    ("s", "sold"),
+                    ("a", "available"),
+                    ("r", "reserved"),
+                ],
+                default="m",
+                max_length=1,
+                verbose_name="Status",
+            ),
         ),
         migrations.AlterField(
-            model_name='order',
-            name='status',
-            field=models.CharField(choices=[('n', 'New'), ('p', 'In process'), ('d', 'Done'), ('c', 'Cancel')], default='n', max_length=1, verbose_name='Status of order'),
+            model_name="order",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("n", "New"),
+                    ("p", "In process"),
+                    ("d", "Done"),
+                    ("c", "Cancel"),
+                ],
+                default="n",
+                max_length=1,
+                verbose_name="Status of order",
+            ),
         ),
         migrations.CreateModel(
-            name='Waitlist',
+            name="Waitlist",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('added_at', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Date of added at waitlist')),
-                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.book')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.client')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "added_at",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now,
+                        verbose_name="Date of added at waitlist",
+                    ),
+                ),
+                (
+                    "book",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="store.book"
+                    ),
+                ),
+                (
+                    "client",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="store.client"
+                    ),
+                ),
             ],
         ),
     ]

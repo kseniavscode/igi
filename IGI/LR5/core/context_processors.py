@@ -6,4 +6,4 @@ def company_info(request):
         info = CompanyInfo.objects.first()
     except Exception:
         info = None
-    return {'company_info': info}
+    return {"company_info": info}

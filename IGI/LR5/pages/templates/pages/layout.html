@@ -118,6 +118,9 @@
         {% endblock %}
     </main>
 
+    {% block js_animation %}
+    {% endblock %}
+
     {% block article %}
     {% endblock %}
 
@@ -136,7 +139,27 @@
         <a tabindex="7" href="{% url 'vacancies' %}" class="panel_btn">Vacancies</a>
         <a tabindex="5" href="{% url 'reviews' %}" class="panel_btn">Reviews</a>
         <a tabindex="4" href="{% url 'promo' %}" class="panel_btn">PromoCodes</a>
+        <a href="{% url 'form_builder' %}" class="panel_btn">FormBuilder</a>
+        <a href="{% url 'cubes' %}" class="panel_btn">Cubes</a>
+        <a href="{% url 'chart' %}" class="panel_btn">Chart JS</a>
     </nav>
+
+
+    <div id="age_modal_overlay" class="age_modal_overlay" style="display: none;">
+        <div class="age_modal_card">
+            <h3>Book Store Age Verification</h3>
+            <p>Пожалуйста, укажите дату вашего рождения для доступа к сайту:</p>
+            
+            <div class="age_input_group">
+                <input type="date" id="birth_date_input" max="2026-12-31">
+                <button id="check_age_btn" class="panel_btn">Подтвердить</button>
+            </div>
+
+            <div id="age_result_box" class="age_result_box"></div>
+            <button id="close_age_modal_btn" class="close_modal_cross" title="Закрыть">×</button>
+        </div>
+    </div>
+    <script src="{% static 'js/age_check.js' %}"></script>
 </body>
 <script>
     class ThemeManager{

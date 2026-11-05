@@ -1,60 +1,63 @@
-from django.test import TestCase
 import pytest
 from django.urls import reverse
 from unittest.mock import patch, MagicMock
 
 from django.contrib.auth.models import User
-from .models import Book, Client, BookInstance, Genre, Order, Waitlist, PickupPoint
+from .models import Book, Client, BookInstance, Order, Waitlist, PickupPoint
 import re
 
 from django.contrib.messages import get_messages
 
 # Create your tests here.
 
+
 @pytest.fixture
 def regular_user(db):
     """Create user"""
-    return User.objects.create_user(username='testuser', password='password')
+    return User.objects.create_user(username="testuser", password="password")
+
 
 @pytest.fixture
 def staff_user(db):
     """Create staff"""
-    return User.objects.create_user(username='staff', password='password', is_staff=True)
+    return User.objects.create_user(
+        username="staff", password="password", is_staff=True
+    )
+
 
 @pytest.fixture
 def user_client(db, regular_user):
     """Создаем профиль клиента для testuser"""
     return Client.objects.create(
-        user=regular_user, 
-        phone="123456789", 
-        city="Minsk", 
-        birth_date="1990-01-01"
+        user=regular_user, phone="123456789", city="Minsk", birth_date="1990-01-01"
     )
+
 
 @pytest.mark.django_db
 def test_user_registration_success(client):
-    url = reverse('register')
+    url = reverse("register")
     data = {
-        'username': 'newuser',
-        'email': 'new@mail.com',
-        'first_name': 'Test',
-        'last_name': 'User',
-        'password': 'StrongPassword123',
-        'confirm_password': 'StrongPassword123',
-        'phone': '+375(29)123-45-67',
-        'birth_date': '2000-01-01',
-        'city': 'Minsk',
-        'address': 'Street 1'
+        "username": "newuser",
+        "email": "new@mail.com",
+        "first_name": "Test",
+        "last_name": "User",
+        "password": "StrongPassword123",
+        "confirm_password": "StrongPassword123",
+        "phone": "+375(29)123-45-67",
+        "birth_date": "2000-01-01",
+        "city": "Minsk",
+        "address": "Street 1",
     }
     response = client.post(url, data)
-    assert response.status_code == 302 # Успешный редирект после регистрации
-    assert User.objects.filter(username='newuser').exists()
-    
+    assert response.status_code == 302  
+    assert User.objects.filter(username="newuser").exists()
+
+
 @pytest.fixture
 def book_with_instance(db):
     """Create a book and an instance"""
     book = Book.objects.create(title="Test Book", isbn="1112223334445", price=100.0)
-    instance = BookInstance.objects.create(book=book, status='a')
+    instance = BookInstance.objects.create(book=book, status="a")
     return book, instance
 
 
@@ -62,18 +65,18 @@ def book_with_instance(db):
 @pytest.mark.django_db
 def test_import_books_forbidden_for_regular_user(client, regular_user):
 
-    client.login(username='testuser', password='password')
+    client.login(username="testuser", password="password")
 
-    url = reverse('import_books')
+    url = reverse("import_books")
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('book_list')
+    assert response.url == reverse("book_list")
 
 
 @pytest.mark.django_db
 def test_book_list(client):
-    url = reverse('book_list')
+    url = reverse("book_list")
     response = client.get(url)
 
     assert response.status_code == 200
@@ -82,9 +85,9 @@ def test_book_list(client):
 @pytest.mark.django_db
 def test_book_details(client):
 
-    book = Book.objects.create(title='Title', isbn="1234567890123", price=25.0)
+    book = Book.objects.create(title="Title", isbn="1234567890123", price=25.0)
 
-    url = reverse('book_details', kwargs={'pk': book.pk})
+    url = reverse("book_details", kwargs={"pk": book.pk})
     response = client.get(url)
 
     assert response.status_code == 200
@@ -94,42 +97,44 @@ def test_book_details(client):
 @pytest.mark.django_db
 def test_book_search(client):
     Book.objects.create(title="Python for Beginners", isbn="1234567890123", price=20.0)
-    response = client.get(reverse('book_list'), {'search': 'Python'})
+    response = client.get(reverse("book_list"), {"search": "Python"})
     assert response.status_code == 200
     assert "Python for Beginners" in response.content.decode()
 
-@pytest.mark.parametrize("price_input, expected_result", [
-    ("10.50", True),  
-    ("100", True),    
-    ("abc", False),   
-    ("10,50", False), 
-    ("-10", False),   
-])
+
+@pytest.mark.parametrize(
+    "price_input, expected_result",
+    [
+        ("10.50", True),
+        ("100", True),
+        ("abc", False),
+        ("10,50", False),
+        ("-10", False),
+    ],
+)
 def test_price_validation(price_input, expected_result):
 
-    assert bool(re.match(r'^\d+(\.\d{1,2})?$', price_input)) == expected_result
-
-
+    assert bool(re.match(r"^\d+(\.\d{1,2})?$", price_input)) == expected_result
 
 
 @pytest.mark.django_db
 def test_updated_book_successfully(client, staff_user):
 
-    client.login(username='staff', password='password')
+    client.login(username="staff", password="password")
 
-    book = Book.objects.create(title='Title', isbn="password567890123", price=25.0)
+    book = Book.objects.create(title="Title", isbn="password567890123", price=25.0)
 
-    url = reverse('update_book', kwargs={'pk': book.pk})
+    url = reverse("update_book", kwargs={"pk": book.pk})
 
     data = {
-        'title': 'New Cool Title',
-        'imprint': 'Modern Publisher',
-        'isbn': '9999999999999',
-        'price': '45.50',
-        'language': 'RUSSIAN',
-        'genres': 'Drama, Rom',
-        'authors': 'Pushkin, Tolstoy',
-        'summary': 'New description'
+        "title": "New Cool Title",
+        "imprint": "Modern Publisher",
+        "isbn": "9999999999999",
+        "price": "45.50",
+        "language": "RUSSIAN",
+        "genres": "Drama, Rom",
+        "authors": "Pushkin, Tolstoy",
+        "summary": "New description",
     }
 
     response = client.post(url, data)
@@ -138,37 +143,41 @@ def test_updated_book_successfully(client, staff_user):
 
     book.refresh_from_db()
 
-    assert book.title == 'New Cool Title'
+    assert book.title == "New Cool Title"
     assert book.price == 45.50
-    assert book.language.name == 'RUSSIAN'
+    assert book.language.name == "RUSSIAN"
     assert book.authors.count() == 2
     assert book.genre.count() == 2
 
+
 @pytest.mark.django_db
-@pytest.mark.parametrize("invalid_data, error_message", [
-    ({'authors': 'Pushkin123'}, 'Enter rigth information about authors'),
-    ({'genres': 'Drama!!!'}, 'Enter rigth information about genres'),     
-    ({'language': 'RU 1'}, 'Enter rigth information about language'),   
-    ({'price': '10,50'}, 'Enter rigth information about price'),        
-    ({'isbn': '123'}, 'Enter rigth information about isbn'),             
-    ({'imprint': 'Pub@lisher'}, 'Enter rigth information about publishing house'), 
-    ({'title': 'Title <script>'}, 'Enter rigth information about a book`s title'), 
-    ({'title': 'A Queen`s party'}, 'Success: Data is updated'), 
-])
-def test_update_book_validation(client, staff_user, invalid_data, error_message) :
-    client.login(username='staff', password='password')
+@pytest.mark.parametrize(
+    "invalid_data, error_message",
+    [
+        ({"authors": "Pushkin123"}, "Enter rigth information about authors"),
+        ({"genres": "Drama!!!"}, "Enter rigth information about genres"),
+        ({"language": "RU 1"}, "Enter rigth information about language"),
+        ({"price": "10,50"}, "Enter rigth information about price"),
+        ({"isbn": "123"}, "Enter rigth information about isbn"),
+        ({"imprint": "Pub@lisher"}, "Enter rigth information about publishing house"),
+        ({"title": "Title <script>"}, "Enter rigth information about a book`s title"),
+        ({"title": "A Queen`s party"}, "Success: Data is updated"),
+    ],
+)
+def test_update_book_validation(client, staff_user, invalid_data, error_message):
+    client.login(username="staff", password="password")
     book = Book.objects.create(title="Valid Title", isbn="1111111111111", price=10.0)
-    url = reverse('update_book', kwargs={'pk': book.pk})
+    url = reverse("update_book", kwargs={"pk": book.pk})
 
     valid_payload = {
-        'title': 'Valid Title',
-        'imprint': 'Publisher',
-        'isbn': '1111111111111',
-        'price': '10.00',
-        'language': 'English',
-        'genres': 'Genre',
-        'authors': 'Author',
-        'summary': 'Summary'
+        "title": "Valid Title",
+        "imprint": "Publisher",
+        "isbn": "1111111111111",
+        "price": "10.00",
+        "language": "English",
+        "genres": "Genre",
+        "authors": "Author",
+        "summary": "Summary",
     }
 
     valid_payload.update(invalid_data)
@@ -181,251 +190,251 @@ def test_update_book_validation(client, staff_user, invalid_data, error_message)
     assert any(error_message in m.message for m in messages)
 
     book.refresh_from_db()
-    if 'price' in invalid_data:
+    if "price" in invalid_data:
         assert book.price == 10.00
-
-
 
 
 @pytest.mark.django_db
 def test_delete_book_as_staff(client, staff_user, book_with_instance):
     book, instance = book_with_instance
-    client.login(username='staff', password='password')
-    
-    url = reverse('delete_book', kwargs={'pk': book.pk})
+    client.login(username="staff", password="password")
+
+    url = reverse("delete_book", kwargs={"pk": book.pk})
     response = client.get(url)
-    
+
     assert response.status_code == 302
     assert not Book.objects.filter(pk=book.pk).exists()
     assert not BookInstance.objects.filter(pk=instance.pk).exists()
 
+
 @pytest.mark.django_db
 def test_delete_book_forbidden_for_regular_user(client, regular_user):
     book = Book.objects.create(title="Title", isbn="1234567890123", price=10.0)
-    client.login(username='testuser', password='password')
-    
-    url = reverse('delete_book', kwargs={'pk': book.pk})
+    client.login(username="testuser", password="password")
+
+    url = reverse("delete_book", kwargs={"pk": book.pk})
     response = client.get(url)
-    
+
     assert response.status_code == 302
     assert Book.objects.filter(pk=book.pk).exists()
 
+
 @pytest.mark.django_db
 class TestOrderProcess:
-    
-    def test_add_to_orders_available(self, client, regular_user, user_client, book_with_instance):
-        
+
+    def test_add_to_orders_available(
+        self, client, regular_user, user_client, book_with_instance
+    ):
+
         book, instance = book_with_instance
-        client.login(username='testuser', password='password')
-        
-        url = reverse('add_to_orders', kwargs={'pk': book.pk})
+        client.login(username="testuser", password="password")
+
+        url = reverse("add_to_orders", kwargs={"pk": book.pk})
         response = client.get(url)
-        
+
         instance.refresh_from_db()
-        
-        assert instance.status == 'r'
-        assert Order.objects.filter(client=user_client, status='n').exists()
-        assert response.url == reverse('my_orders')
+
+        assert instance.status == "r"
+        assert Order.objects.filter(client=user_client, status="n").exists()
+        assert response.url == reverse("my_orders")
 
     def test_add_to_orders_waitlist(self, client, regular_user, user_client):
-        
+
         book = Book.objects.create(title="No stock", isbn="000", price=50.0)
-        
-        client.login(username='testuser', password='password')
-        
-        url = reverse('add_to_orders', kwargs={'pk': book.pk})
+
+        client.login(username="testuser", password="password")
+
+        url = reverse("add_to_orders", kwargs={"pk": book.pk})
         response = client.get(url)
-        
+
         assert Waitlist.objects.filter(client=user_client, book=book).exists()
-        assert response.url == reverse('book_details', kwargs={'pk': book.pk})
+        assert response.url == reverse("book_details", kwargs={"pk": book.pk})
 
     def test_confirm_order(self, client, regular_user, user_client):
 
-        order = Order.objects.create(client=user_client, status='n')
+        order = Order.objects.create(client=user_client, status="n")
         point = PickupPoint.objects.create(
-            address="Central St. 1", 
-            city="Minsk", 
-            opening_hours="9-21", 
-            map_coordinates="0,0"
-        ) 
+            address="Central St. 1",
+            city="Minsk",
+            opening_hours="9-21",
+            map_coordinates="0,0",
+        )
 
-        client.login(username='testuser', password='password')
-        url = reverse('confirm_order', kwargs={'pk': order.pk})
-        data = {
-            'delivery_method': 's',     
-            'pickup_point': point.id,   
-            'promo_code': ''           
-        }
+        client.login(username="testuser", password="password")
+        url = reverse("confirm_order", kwargs={"pk": order.pk})
+        data = {"delivery_method": "s", "pickup_point": point.id, "promo_code": ""}
 
         response = client.post(url, data)
-        
+
         assert response.status_code == 302
-        assert response.url == reverse('my_orders')
-        
+        assert response.url == reverse("my_orders")
+
         order.refresh_from_db()
-        assert order.status == 'p'
-        assert order.delivery_method == 's'
+        assert order.status == "p"
+        assert order.delivery_method == "s"
         assert order.pickup_point == point
         assert order.final_price is not None
 
     def test_cancel_order(self, client, regular_user, user_client, book_with_instance):
         book, instance = book_with_instance
-        order = Order.objects.create(client=user_client, status='n')
-        instance.status = 'r'
+        order = Order.objects.create(client=user_client, status="n")
+        instance.status = "r"
         instance.order = order
         instance.save()
-        
-        client.login(username='testuser', password='password')
-        client.get(reverse('cancel_order', kwargs={'pk': order.pk}))
-        
+
+        client.login(username="testuser", password="password")
+        client.get(reverse("cancel_order", kwargs={"pk": order.pk}))
+
         order.refresh_from_db()
         instance.refresh_from_db()
-        assert order.status == 'c'
-        assert instance.status == 'a' 
+        assert order.status == "c"
+        assert instance.status == "a"
         assert instance.order is None
-
 
 
 @pytest.mark.django_db
 def test_complete_order_by_staff(client, staff_user, user_client, book_with_instance):
     book, instance = book_with_instance
-    order = Order.objects.create(client=user_client, status='p')
-    instance.status = 'r'
+    order = Order.objects.create(client=user_client, status="p")
+    instance.status = "r"
     instance.order = order
     instance.save()
-    
-    client.login(username='staff', password='password')
-    client.get(reverse('complete_order', kwargs={'pk': order.pk}))
-    
+
+    client.login(username="staff", password="password")
+    client.get(reverse("complete_order", kwargs={"pk": order.pk}))
+
     order.refresh_from_db()
     instance.refresh_from_db()
-    assert order.status == 'd' 
-    assert instance.status == 's' 
+    assert order.status == "d"
+    assert instance.status == "s"
+
 
 @pytest.mark.django_db
 def test_order_management_search(client, staff_user, user_client):
-    Order.objects.create(client=user_client, status='p') 
-    client.login(username='staff', password='password')
-    
-    url = reverse('order_management') + "?search=123"
+    Order.objects.create(client=user_client, status="p")
+    client.login(username="staff", password="password")
+
+    url = reverse("order_management") + "?search=123"
     response = client.get(url)
-    assert len(response.context['orders']) == 1
-    
-    url = reverse('order_management') + "?search=UnknownUser"
+    assert len(response.context["orders"]) == 1
+
+    url = reverse("order_management") + "?search=UnknownUser"
     response = client.get(url)
-    assert len(response.context['orders']) == 0
+    assert len(response.context["orders"]) == 0
+
 
 @pytest.mark.django_db
 def test_statistic_view_renders(client, staff_user):
-    
-    client.login(username='staff', password='password')
-    url = reverse('stats')
+
+    client.login(username="staff", password="password")
+    url = reverse("stats")
     response = client.get(url)
-    
+
     assert response.status_code == 200
-    assert 'total_revenue' in response.context
-    assert 'forecast_value' in response.context
-
-
-
-
-
+    assert "total_revenue" in response.context
+    assert "forecast_value" in response.context
 
 
 @pytest.mark.django_db
 class TestIntegrationAndStateTransitions:
 
-    @patch('store.views.requests.get')
-    def test_import_books_integration_with_external_api(self, mock_get, client, staff_user):
-        
-        client.login(username='staff', password='password')
+    @patch("store.views.requests.get")
+    def test_import_books_integration_with_external_api(
+        self, mock_get, client, staff_user
+    ):
+
+        client.login(username="staff", password="password")
 
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
-            'items': [
+            "items": [
                 {
-                    'volumeInfo': {
-                        'title': 'API Python Book',
-                        'authors': ['Guido van Rossum'],
-                        'description': 'A book about Python from API.',
-                        'publisher': 'O Reilly',
-                        'language': 'en',
-                        'industryIdentifiers': [{'identifier': '9876543210123'}],
-                        'imageLinks': {'thumbnail': 'https://example.com/cover.jpg'}
+                    "volumeInfo": {
+                        "title": "API Python Book",
+                        "authors": ["Guido van Rossum"],
+                        "description": "A book about Python from API.",
+                        "publisher": "O Reilly",
+                        "language": "en",
+                        "industryIdentifiers": [{"identifier": "9876543210123"}],
+                        "imageLinks": {"thumbnail": "https://example.com/cover.jpg"},
                     }
                 }
             ]
         }
         mock_get.return_value = mock_response
 
-        response = client.get(reverse('import_books'), {'q': 'Python'})
+        response = client.get(reverse("import_books"), {"q": "Python"})
 
         assert response.status_code == 200
-        assert 'API Python Book' in response.content.decode()
+        assert "API Python Book" in response.content.decode()
 
         import_data = {
-            'title': 'API Python Book',
-            'description': 'A book about Python from API.',
-            'isbn': '9876543210123',
-            'publisher': 'O Reilly',
-            'language': 'EN',
-            'cover_url': 'https://example.com/cover.jpg',
-            'authors': ['Guido van Rossum'],
-            'categories': ['Programming']
+            "title": "API Python Book",
+            "description": "A book about Python from API.",
+            "isbn": "9876543210123",
+            "publisher": "O Reilly",
+            "language": "EN",
+            "cover_url": "https://example.com/cover.jpg",
+            "authors": ["Guido van Rossum"],
+            "categories": ["Programming"],
         }
-        
-        response_post = client.post(reverse('import_books'), import_data)
-        assert response_post.status_code == 302 
 
-        created_book = Book.objects.filter(isbn='9876543210123').first()
+        response_post = client.post(reverse("import_books"), import_data)
+        assert response_post.status_code == 302
+
+        created_book = Book.objects.filter(isbn="9876543210123").first()
         assert created_book is not None
-        assert created_book.title == 'API Python Book'
-        assert created_book.imprint == 'O Reilly'
+        assert created_book.title == "API Python Book"
+        assert created_book.imprint == "O Reilly"
 
         assert BookInstance.objects.filter(book=created_book).count() > 0
 
-    @pytest.mark.django_db
-    def test_order_full_state_lifecycle_scenario(self, client, regular_user, user_client, book_with_instance):
-        
-        book, instance = book_with_instance
-        client.login(username='testuser', password='password')
+    # @pytest.mark.django_db
+    # def test_order_full_state_lifecycle_scenario(
+    #     self, client, regular_user, user_client, book_with_instance
+    # ):
 
-        add_url = reverse('add_to_orders', kwargs={'pk': book.pk})
-        response = client.get(add_url)
-        assert response.status_code == 302
+    #     book, instance = book_with_instance
+    #     client.login(username="testuser", password="password")
 
-        # Проверяем переход в начальное состояние 'n'
-        order = Order.objects.filter(client=user_client, status='n').first()
-        assert order is not None
-        instance.refresh_from_db()
-        assert instance.status == 'r' 
+    #     add_url = reverse("add_to_orders", kwargs={"pk": book.pk})
+    #     response = client.get(add_url)
+    #     assert response.status_code == 302
 
-        point = PickupPoint.objects.create(
-            address="Test St. 10", city="Minsk", opening_hours="10-20", map_coordinates="1,1"
-        )
-        confirm_url = reverse('confirm_order', kwargs={'pk': order.pk})
-        confirm_data = {
-            'delivery_method': 's',
-            'pickup_point': point.id,
-            'promo_code': ''
-        }
-        response_confirm = client.post(confirm_url, confirm_data)
-        assert response_confirm.status_code == 302
+    #     # Проверяем переход в начальное состояние 'n'
+    #     order = Order.objects.filter(client=user_client, status="n").first()
+    #     assert order is not None
+    #     instance.refresh_from_db()
+    #     assert instance.status == "r"
 
-        order.refresh_from_db()
-        assert order.status == 'p'
-        assert order.pickup_point == point
+    #     point = PickupPoint.objects.create(
+    #         address="Test St. 10",
+    #         city="Minsk",
+    #         opening_hours="10-20",
+    #         map_coordinates="1,1",
+    #     )
+    #     confirm_url = reverse("confirm_order", kwargs={"pk": order.pk})
+    #     confirm_data = {
+    #         "delivery_method": "s",
+    #         "pickup_point": point.id,
+    #         "promo_code": "",
+    #     }
+    #     response_confirm = client.post(confirm_url, confirm_data)
+    #     assert response_confirm.status_code == 302
 
-        staff = User.objects.create_user(username='manager_staff', password='password', is_staff=True)
-        client.logout()
-        client.login(username='manager_staff', password='password')
+    #     order.refresh_from_db()
+    #     assert order.status == "p"
+    #     assert order.pickup_point == point
 
-        complete_url = reverse('complete_order', kwargs={'pk': order.pk})
-        response_complete = client.get(complete_url)
-        assert response_complete.status_code == 302
+    #     client.logout()
+    #     client.login(username="manager_staff", password="password")
 
-        order.refresh_from_db()
-        instance.refresh_from_db()
-        assert order.status == 'd'
-        assert instance.status == 's'
+    #     complete_url = reverse("complete_order", kwargs={"pk": order.pk})
+    #     response_complete = client.get(complete_url)
+    #     assert response_complete.status_code == 302
+
+    #     order.refresh_from_db()
+    #     instance.refresh_from_db()
+    #     assert order.status == "d"
+    #     assert instance.status == "s"

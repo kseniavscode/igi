@@ -7,75 +7,170 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name="Article",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, verbose_name='Title of article')),
-                ('short_description', models.CharField(max_length=500, verbose_name='Short part of article')),
-                ('full_text', models.CharField(max_length=1500, verbose_name='Text of article')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='news/')),
-                ('publishing_date', models.DateField(auto_now_add=True, verbose_name='Date of publishing')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=100, verbose_name="Title of article"),
+                ),
+                (
+                    "short_description",
+                    models.CharField(
+                        max_length=500, verbose_name="Short part of article"
+                    ),
+                ),
+                (
+                    "full_text",
+                    models.CharField(max_length=1500, verbose_name="Text of article"),
+                ),
+                ("image", models.ImageField(blank=True, null=True, upload_to="news/")),
+                (
+                    "publishing_date",
+                    models.DateField(
+                        auto_now_add=True, verbose_name="Date of publishing"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='CompanyInfo',
+            name="CompanyInfo",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, verbose_name='Company name')),
-                ('description', models.TextField(verbose_name='Company description')),
-                ('history', models.TextField(blank=True, verbose_name='History')),
-                ('requisites', models.TextField(blank=True, verbose_name='Details')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="Company name")),
+                ("description", models.TextField(verbose_name="Company description")),
+                ("history", models.TextField(blank=True, verbose_name="History")),
+                ("requisites", models.TextField(blank=True, verbose_name="Details")),
             ],
         ),
         migrations.CreateModel(
-            name='Employee',
+            name="Employee",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('full_name', models.CharField(max_length=150, verbose_name='Full- Last- Second name')),
-                ('position', models.CharField(max_length=100, verbose_name='Position in this company')),
-                ('email', models.EmailField(max_length=254, verbose_name='Email')),
-                ('photo', models.ImageField(blank=True, null=True, upload_to='employees/')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "full_name",
+                    models.CharField(
+                        max_length=150, verbose_name="Full- Last- Second name"
+                    ),
+                ),
+                (
+                    "position",
+                    models.CharField(
+                        max_length=100, verbose_name="Position in this company"
+                    ),
+                ),
+                ("email", models.EmailField(max_length=254, verbose_name="Email")),
+                (
+                    "photo",
+                    models.ImageField(blank=True, null=True, upload_to="employees/"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='FAQ',
+            name="FAQ",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('question', models.CharField(max_length=200, verbose_name='Question/Trem')),
-                ('answer', models.CharField(max_length=400, verbose_name='Answer')),
-                ('date', models.DateField(auto_now_add=True, verbose_name='Date of the last changing')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "question",
+                    models.CharField(max_length=200, verbose_name="Question/Trem"),
+                ),
+                ("answer", models.CharField(max_length=400, verbose_name="Answer")),
+                (
+                    "date",
+                    models.DateField(
+                        auto_now_add=True, verbose_name="Date of the last changing"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PromoCode',
+            name="PromoCode",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=20, unique=True)),
-                ('discode', models.PositiveIntegerField()),
-                ('is_active', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=20, unique=True)),
+                ("discode", models.PositiveIntegerField()),
+                ("is_active", models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Review',
+            name="Review",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('rating', models.PositiveIntegerField()),
-                ('text', models.TextField()),
-                ('date', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("rating", models.PositiveIntegerField()),
+                ("text", models.TextField()),
+                ("date", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Vacancy',
+            name="Vacancy",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, verbose_name='Vacancy')),
-                ('description', models.CharField(max_length=1000, verbose_name='Description')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=100, verbose_name="Vacancy")),
+                (
+                    "description",
+                    models.CharField(max_length=1000, verbose_name="Description"),
+                ),
             ],
         ),
     ]

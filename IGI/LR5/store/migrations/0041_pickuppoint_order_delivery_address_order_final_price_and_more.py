@@ -7,39 +7,67 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pages', '0007_alter_faq_answer_alter_vacancy_description'),
-        ('store', '0040_employee_description_employee_phone'),
+        ("pages", "0007_alter_faq_answer_alter_vacancy_description"),
+        ("store", "0040_employee_description_employee_phone"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PickupPoint',
+            name="PickupPoint",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('address', models.CharField(max_length=255, verbose_name='Address')),
-                ('city', models.CharField(max_length=100, verbose_name='City')),
-                ('opening_hours', models.CharField(max_length=100, verbose_name='Time of work')),
-                ('map_coordinates', models.CharField(help_text='Coordinates in map', max_length=50)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("address", models.CharField(max_length=255, verbose_name="Address")),
+                ("city", models.CharField(max_length=100, verbose_name="City")),
+                (
+                    "opening_hours",
+                    models.CharField(max_length=100, verbose_name="Time of work"),
+                ),
+                (
+                    "map_coordinates",
+                    models.CharField(help_text="Coordinates in map", max_length=50),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='order',
-            name='delivery_address',
-            field=models.TextField(blank=True, null=True, verbose_name='Адрес доставки'),
+            model_name="order",
+            name="delivery_address",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="Адрес доставки"
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='final_price',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True),
+            model_name="order",
+            name="final_price",
+            field=models.DecimalField(
+                blank=True, decimal_places=2, max_digits=10, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='promo_code',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='pages.promocode'),
+            model_name="order",
+            name="promo_code",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="pages.promocode",
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='pickup_point',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='store.pickuppoint'),
+            model_name="order",
+            name="pickup_point",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="store.pickuppoint",
+            ),
         ),
     ]

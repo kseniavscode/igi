@@ -4,3 +4,4 @@ __pycache__/
 pytest.ini
 app_debug.log
 .coverage
+.flake8

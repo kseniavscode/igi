@@ -31,9 +31,10 @@
                 </div> 
 
                 {% if article.full_text|length > 500 %}
-                    <button class="read_more_btn" id="read_more_btn-{{  article.id }}" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
+                    <button class="read_more_btn" id="read_more_btn-{{ article.id }}" onclick="toggleNewsText('{{ article.id }}')">Read more</button>
                 {% endif %}
-
+                <button id="speak_article_btn-{{ article.id }}" class="panel_btn" type="button" style="margin-left: 10px;">Listen
+                </button>
                 <p>{{ article.publishing_date }}</p>
             </div>
         </article>
@@ -58,7 +59,83 @@
                 btn.innerText = "Read more";
             }
         }
+
+        class ArticleSpeakerManager {
+            constructor() {
+                this.synth = window.speechSynthesis; 
+                this.activeButton = null;            
+                
+                this.init();
+            }
+
+            init() {
+                if (!this.synth) return;
+
+                const speakButtons = document.querySelectorAll('[id^="speak_article_btn-"]');
+
+                speakButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const articleId = btn.id.replace('speak_article_btn-', '');
+                        this.handleSpeakClick(btn, articleId);
+                    });
+                });
+            }
+
+            handleSpeakClick(btn, articleId) {
+                if (this.synth.speaking && this.activeButton === btn) {
+                    this.stopSpeaking();
+                    return;
+                }
+
+                if (this.synth.speaking) {
+                    this.stopSpeaking();
+                }
+
+                const textElement = document.getElementById('text-' + articleId);
+                if (!textElement) return;
+
+                const textToSpeak = textElement.getAttribute('data-fulltext') || textElement.textContent;
+                if (!textToSpeak.trim()) return;
+
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+                const hasCyrillic = /[а-яё]/i.test(textToSpeak);
+                utterance.lang = hasCyrillic ? 'ru-RU' : 'en-US';
+                
+                utterance.rate = 0.9;  
+                utterance.pitch = 1.0; 
+
+                utterance.onend = () => {
+                    this.resetActiveButton();
+                };
+
+                utterance.onerror = () => {
+                    this.resetActiveButton();
+                };
+
+                this.activeButton = btn;
+                this.activeButton.textContent = '⏹ Stop';
+
+                this.synth.speak(utterance);
+            }
+
+            stopSpeaking() {
+                this.synth.cancel(); 
+                this.resetActiveButton();
+            }
+
+            resetActiveButton() {
+                if (this.activeButton) {
+                    this.activeButton.textContent = 'Listen';
+                    this.activeButton = null;
+                }
+            }
+        }
+
+        new ArticleSpeakerManager();
     </script>
+
+
 
 {% endblock %}
 

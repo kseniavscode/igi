@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pages', '0010_companyinfo_audio'),
+        ("pages", "0010_companyinfo_audio"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='summary',
-            field=models.CharField(blank=True, max_length=200, verbose_name='Short summary'),
+            model_name="article",
+            name="summary",
+            field=models.CharField(
+                blank=True, max_length=200, verbose_name="Short summary"
+            ),
         ),
     ]

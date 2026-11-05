@@ -8,25 +8,33 @@ from .forms import ReviewForm, QuestionForm, AnswerForm
 import logging
 from django.core import serializers
 from django.http import JsonResponse
+
 # Create your views here.
-logger = logging.getLogger('pages')
+logger = logging.getLogger("pages")
+
 
 def news_page(request):
     """News with artcles"""
-    articles = Article.objects.all().order_by('-publishing_date')
-    logger.debug(f"NEWS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
-    return render(request, 'pages/news.html', {'articles': articles})
+    articles = Article.objects.all().order_by("-publishing_date")
+    logger.debug(
+        f"NEWS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}"
+    )
+    return render(request, "pages/news.html", {"articles": articles})
+
 
 def about_company(request):
-    company_info = CompanyInfo.objects.prefetch_related('certificates').last()
-    logger.debug(f"ABOUT COMPANY page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
-    return render(request, 'pages/about.html', {'info': company_info})
+    company_info = CompanyInfo.objects.prefetch_related("certificates").last()
+    logger.debug(
+        f"ABOUT COMPANY page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}"
+    )
+    return render(request, "pages/about.html", {"info": company_info})
+
 
 def faq_page(request):
-    """FAQ """
+    """FAQ"""
 
-    if request.method == 'POST':
-        if 'ask_question' in request.POST and request.user.is_authenticated:
+    if request.method == "POST":
+        if "ask_question" in request.POST and request.user.is_authenticated:
             form = QuestionForm(request.POST)
             if form.is_valid():
                 new_q = form.save(commit=False)
@@ -35,46 +43,53 @@ def faq_page(request):
 
                 logger.info(f"New question asked by {request.user.username}")
 
-                return redirect('faq')
-            
-        if 'answer_question' in request.POST and request.user.is_staff:
-            question_id = request.POST.get('question_id')
+                return redirect("faq")
+
+        if "answer_question" in request.POST and request.user.is_staff:
+            question_id = request.POST.get("question_id")
             instance = FAQ.objects.get(id=question_id)
             form = AnswerForm(request.POST, instance=instance)
             if form.is_valid():
                 form.save()
 
-                logger.info(f"Staff {request.user.username} answered question ID {question_id}")
+                logger.info(
+                    f"Staff {request.user.username} answered question ID {question_id}"
+                )
 
-                return redirect('faq')
-            
+                return redirect("faq")
 
+    faqs_answered = (
+        FAQ.objects.filter(answer__isnull=False).exclude(answer="").order_by("-date")
+    )
+    faqs_unanswered = FAQ.objects.filter(Q(answer__isnull=True) | Q(answer=""))
 
-
-    faqs_answered = FAQ.objects.filter(answer__isnull=False).exclude(answer='').order_by('-date')
-    faqs_unanswered = FAQ.objects.filter(Q(answer__isnull=True) | Q(answer=''))
-
-    logger.debug(f"FAQ page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
+    logger.debug(
+        f"FAQ page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}"
+    )
 
     context = {
-        'faqs': faqs_answered,
-        'unanswered': faqs_unanswered,
-        'question_form': QuestionForm(),
-        'answer_form': AnswerForm(),
+        "faqs": faqs_answered,
+        "unanswered": faqs_unanswered,
+        "question_form": QuestionForm(),
+        "answer_form": AnswerForm(),
     }
 
-    return render(request, 'pages/faq.html', context)
+    return render(request, "pages/faq.html", context)
+
 
 def contacts_page(request):
     """Contacts from store.Employee"""
-    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+    if (
+        request.method == "POST"
+        and request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    ):
         try:
-            full_name = request.POST.get('full_name')
-            position = request.POST.get('position')
-            description = request.POST.get('description')
-            email = request.POST.get('email')
-            phone = request.POST.get('phone', '')
-            photo = request.FILES.get('photo', None)
+            full_name = request.POST.get("full_name")
+            position = request.POST.get("position")
+            description = request.POST.get("description")
+            email = request.POST.get("email")
+            phone = request.POST.get("phone", "")
+            photo = request.FILES.get("photo", None)
 
             new_emp = Employee.objects.create(
                 full_name=full_name,
@@ -82,79 +97,106 @@ def contacts_page(request):
                 description=description,
                 email=email,
                 phone=phone,
-                photo=photo
+                photo=photo,
             )
 
-            return JsonResponse({
-                'status': 'success',
-                'employee': {
-                    'id': new_emp.id,
-                    'full_name': new_emp.full_name,
-                    'position': new_emp.position, 
-                    'email': new_emp.email,
-                    'phone': new_emp.phone,
-                    'description': new_emp.description,
-                    'photo': new_emp.photo.url if new_emp.photo else None
+            return JsonResponse(
+                {
+                    "status": "success",
+                    "employee": {
+                        "id": new_emp.id,
+                        "full_name": new_emp.full_name,
+                        "position": new_emp.position,
+                        "email": new_emp.email,
+                        "phone": new_emp.phone,
+                        "description": new_emp.description,
+                        "photo": new_emp.photo.url if new_emp.photo else None,
+                    },
                 }
-            })
+            )
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
+            return JsonResponse({"status": "error", "message": str(e)})
 
     employees = Employee.objects.all()
-    employees_json = serializers.serialize('json', employees)
-    
-    return render(request, 'pages/contacts.html', {
-        'employees': employees, 
-        'employees_json': employees_json
-    })
+    employees_json = serializers.serialize("json", employees)
+
+    return render(
+        request,
+        "pages/contacts.html",
+        {"employees": employees, "employees_json": employees_json},
+    )
+
 
 def vacancies_page(request):
     """Vacancies"""
     vacancies = Vacancy.objects.all()
-    logger.debug(f"VACANCIES page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
-    return render(request, 'pages/vacancies.html', {'vacancies': vacancies})
+    logger.debug(
+        f"VACANCIES page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}"
+    )
+    return render(request, "pages/vacancies.html", {"vacancies": vacancies})
+
 
 def reviews_page(request):
     """Revies"""
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if request.user.is_authenticated:
             form = ReviewForm(request.POST)
             if form.is_valid():
                 review = form.save(commit=False)
                 review.user = request.user
-                review.name = request.user.username 
+                review.name = request.user.username
                 review.save()
 
-                logger.info(f"Review added by {request.user.username}. Rating: {review.rating}")
+                logger.info(
+                    f"Review added by {request.user.username}. Rating: {review.rating}"
+                )
 
-                return redirect('reviews')
+                return redirect("reviews")
 
             else:
                 logger.error(f"Form validation error in reviews: {form.errors}")
-                
+
         else:
             logger.warning("Anonymous user attempted to post a review!")
-            return redirect('login')
-        
+            return redirect("login")
 
-    reviews = Review.objects.all().order_by('-date')
+    reviews = Review.objects.all().order_by("-date")
     form = ReviewForm()
-    logger.debug(f"REVIEWS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
-    return render(request, 'pages/reviews.html', {'reviews': reviews, 'form': form})
+    logger.debug(
+        f"REVIEWS page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}"
+    )
+    return render(request, "pages/reviews.html", {"reviews": reviews, "form": form})
+
 
 def promo_page(request):
     """PROMOCODES"""
     active_promos = PromoCode.objects.filter(is_active=True)
     archived_promos = PromoCode.objects.filter(is_active=False)
-    logger.debug(f"PROMOCODES page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
-    return render(request, 'pages/promo.html', {
-        'active_promos': active_promos,
-        'archived_promos': archived_promos
-    })
+    logger.debug(
+        f"PROMOCODES page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}"
+    )
+    return render(
+        request,
+        "pages/promo.html",
+        {"active_promos": active_promos, "archived_promos": archived_promos},
+    )
+
 
 def privacy_policy(request):
     """Policy"""
-    logger.debug(f"POLICY page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}")
-    return render(request, 'pages/privacy_policy.html')
+    logger.debug(
+        f"POLICY page accessed by {request.user.username if request.user.is_authenticated else 'Anonymous'}"
+    )
+    return render(request, "pages/privacy_policy.html")
 
+def form_builder_page(request):
+    """Task 4 LR3, Page of creation radiobtns"""
+    return render(request, 'pages/form_builder.html')
+
+def cubes_task_page(request):
+    """Cubes task 8"""
+    return render(request, 'pages/cubes.html')
+def chart_page(request):
+    """Grafics Chart.js"""
+    return render(request, 'pages/chart.html')

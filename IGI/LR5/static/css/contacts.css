@@ -38,6 +38,7 @@
 
 .contacts_table {
     width: 100%;
+    table-layout: fixed; 
     border-collapse: collapse;
     margin-top: 20px;
     background: #fff;
@@ -46,10 +47,18 @@
     overflow: hidden;
 }
 
+.contacts_table th:nth-child(1) { width: 45px; text-align: center; }
+.contacts_table th:nth-child(2) { width: 65px; text-align: center; } 
+.contacts_table th:nth-child(3) { width: 28%; }                     
+.contacts_table th:nth-child(4) { width: 22%; }                     
+.contacts_table th:nth-child(5) { width: 27%; }                      
+.contacts_table th:nth-child(6) { width: 18%; } 
+
 .contacts_table th, .contacts_table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    vertical-align: middle;
 }
 
 .contacts_table th {

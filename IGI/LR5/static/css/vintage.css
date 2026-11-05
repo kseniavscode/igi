@@ -1,0 +1,134 @@
+/* ==========================================================
+   СТИЛИ ДЛЯ ЗАДАНИЯ 11 (МНОГОСЛОЙНЫЙ СКРОЛЛ-ПАРАЛЛАКС)
+   ========================================================== */
+.vintage_parallax_section {
+    position: relative;
+    width: 100%;
+    height: 520px; /* Уютная высота секции */
+    margin: 50px 0;
+    overflow: hidden;
+    background: #0d0906;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Общее правило для слоев */
+.parallax_layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    pointer-events: none;
+}
+
+/* СЛОЙ 1: Фон (самый глубокий, z-index: 1) */
+.layer_bg {
+    background: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    filter: brightness(0.35) sepia(0.4);
+    transform: scale(1.15);
+    z-index: 1;
+}
+
+.layer_left_books {
+    display: flex;
+    align-items: center;
+    left: -10px;
+    width: auto;
+    z-index: 2;
+}
+.layer_left_books img {
+    height: 100%; 
+    border-radius: 6px;
+    box-shadow: 10px 15px 25px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.layer_right_books {
+    display: flex;
+    align-items: center;
+    right: -10px;
+    left: auto;
+    width: auto;
+    z-index: 2;
+}
+.layer_right_books img {
+    height: 100%;
+    border-radius: 6px;
+    box-shadow: -10px 15px 25px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* СЛОЙ 3: Текст (z-index: 3) */
+.layer_text {
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 20px;
+}
+
+/* СЛОЙ 4: Центральная книга (ПЕРЕДНИЙ ПЛАН, z-index: 4)
+   Она лежит НАВЕРХУ всех остальных слоев, перекрывая их при приближении */
+.layer_center_book {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 200px;
+    z-index: 4; 
+}
+.layer_center_book img {
+    width: 40%;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(170, 136, 34, 0.4);
+    border: 2px solid #aa8822;
+}
+
+.vintage_subtitle {
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #aa8822;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.9);
+}
+
+.vintage_title {
+    font-family: 'Cinzel Decorative', Georgia, serif;
+    font-size: 2.5rem;
+    margin: 0 0 8px;
+    color: #fdfbf7;
+    letter-spacing: 5px;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(170, 136, 34, 0.4);
+}
+
+.vintage_desc {
+    max-width: 500px;
+    font-size: 14px;
+    font-style: italic;
+    color: #d1d5db;
+    margin: 0;
+    line-height: 1.5;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+}
+
+/* Затемняющие виньетки по краям */
+.parallax_vignette {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at center, transparent 35%, rgba(13, 9, 6, 0.8) 100%),
+                linear-gradient(to bottom, #f4f4f4 0%, transparent 12%, transparent 88%, #f4f4f4 100%);
+    pointer-events: none;
+    z-index: 5;
+}

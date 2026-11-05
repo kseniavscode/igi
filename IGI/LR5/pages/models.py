@@ -3,12 +3,22 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+
 class CompanyInfo(models.Model):
 
     name = models.CharField(max_length=200, verbose_name="Company name")
-    logo = models.ImageField(upload_to='company/logo/', blank=True, null=True, verbose_name='Logo')
-    video = models.FileField(upload_to='company/videos/', blank=True, null=True, verbose_name='Video')
-    audio = models.FileField(upload_to='company/audio/', blank=True, null=True, verbose_name='Audio Presentation')
+    logo = models.ImageField(
+        upload_to="company/logo/", blank=True, null=True, verbose_name="Logo"
+    )
+    video = models.FileField(
+        upload_to="company/videos/", blank=True, null=True, verbose_name="Video"
+    )
+    audio = models.FileField(
+        upload_to="company/audio/",
+        blank=True,
+        null=True,
+        verbose_name="Audio Presentation",
+    )
     description = models.TextField(verbose_name="Company description")
     history = models.TextField(verbose_name="History", blank=True)
     requisites = models.TextField(verbose_name="Details", blank=True)
@@ -16,58 +26,77 @@ class CompanyInfo(models.Model):
     def __str__(self):
         return self.name
 
+
 class Certificate(models.Model):
     title = models.CharField(max_length=200, verbose_name="Certificate title")
-    company = models.ForeignKey(CompanyInfo, on_delete=models.CASCADE, related_name='certificates', verbose_name="Company")
-    image = models.ImageField(upload_to='company/certificates/', blank=True, null=True, verbose_name='Certificates')
+    company = models.ForeignKey(
+        CompanyInfo,
+        on_delete=models.CASCADE,
+        related_name="certificates",
+        verbose_name="Company",
+    )
+    image = models.ImageField(
+        upload_to="company/certificates/",
+        blank=True,
+        null=True,
+        verbose_name="Certificates",
+    )
 
     def __str__(self):
-            return self.title
+        return self.title
 
-    
+
 class CompanyPartner(models.Model):
 
     name = models.CharField(max_length=100, verbose_name="Partner company name")
-    image = models.ImageField(upload_to='companies/', verbose_name='Logo of company')
-    link = models.URLField(blank=True, verbose_name='Link about this company')
+    image = models.ImageField(upload_to="companies/", verbose_name="Logo of company")
+    link = models.URLField(blank=True, verbose_name="Link about this company")
 
     def __str__(self):
         return self.name
-    
+
+
 class Article(models.Model):
     """News"""
 
     title = models.CharField(max_length=100, verbose_name="Title of article")
     summary = models.CharField(max_length=200, blank=True, verbose_name="Short summary")
     full_text = models.TextField(verbose_name="Text of article")
-    image = models.ImageField(upload_to='news/', null=True, blank=True)
-    publishing_date = models.DateField(auto_now_add=True, verbose_name="Date of publishing")
+    image = models.ImageField(upload_to="news/", null=True, blank=True)
+    publishing_date = models.DateField(
+        auto_now_add=True, verbose_name="Date of publishing"
+    )
 
     def __str__(self):
         return self.title
-    
+
+
 class FAQ(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     question = models.CharField(max_length=200, verbose_name="Question/Trem")
-    answer = models.TextField(max_length=400, verbose_name="Answer", blank=True, null=True)
+    answer = models.TextField(
+        max_length=400, verbose_name="Answer", blank=True, null=True
+    )
     date = models.DateField(auto_now_add=True, verbose_name="Date of the last changing")
 
     def __str__(self):
         return self.question
-    
+
+
 class Vacancy(models.Model):
     title = models.CharField(max_length=100, verbose_name="Vacancy")
     description = models.TextField(verbose_name="Description")
 
     def __str__(self):
         return self.title
-    
+
+
 class Review(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    
+
     name = models.CharField(max_length=100)
     rating = models.PositiveIntegerField()
     text = models.TextField()
@@ -75,7 +104,8 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review from {self.name}"
-    
+
+
 class PromoCode(models.Model):
     code = models.CharField(max_length=20, unique=True)
     discode = models.PositiveIntegerField()

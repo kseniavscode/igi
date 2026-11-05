@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/read_more.css' %}">
     <link rel="stylesheet" href="{% static 'css/partners.css' %}">
     <link rel="stylesheet" href="{% static 'css/book_scene.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vintage.css' %}">
 {% endblock %}
 
 {% block book_scene %}
@@ -190,7 +191,14 @@
                 <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Price(High to Low)</option>
             </select>
         </div>
-        
+        <div class="select_custom">
+            <select name="per_page" onchange="this.form.submit()">
+                <option value="3" {% if per_page == '3' %}selected{% endif %}>3 per page</option>
+                <option value="6" {% if per_page == '6' %}selected{% endif %}>6 per page</option>
+                <option value="9" {% if per_page == '9' %}selected{% endif %}>9 per page</option>
+                <option value="12" {% if per_page == '12' or not per_page %}selected{% endif %}>12 per page</option>
+            </select>
+        </div>
         <button type="submit">Search</button>
     </form>
     <hr>
@@ -222,8 +230,8 @@
 
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">previous</a>
+            <a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}{% if per_page %}&per_page={{ per_page }}{% endif %}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}{% if per_page %}&per_page={{ per_page }}{% endif %}">previous</a>
 
             
         {% endif %}
@@ -233,12 +241,40 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">last &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}{% if per_page %}&per_page={{ per_page }}{% endif %}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}{% if per_page %}&per_page={{ per_page }}{% endif %}">last &raquo;</a>
         {% endif %}
     </div>
 
 {% endblock %}
+
+{% block js_animation %}
+    <section class="vintage_parallax_section" id="vintageParallax">
+        
+        <div class="parallax_layer layer_bg"></div>
+
+        <div class="parallax_layer layer_left_books">
+            <img src="https://i.pinimg.com/originals/5a/8b/0c/5a8b0c0c5c1cae24d34c02f42554cc02.jpg?nii=t" alt="Vintage Books Left">
+        </div>
+
+        <div class="parallax_layer layer_right_books">
+            <img src="https://i.pinimg.com/originals/5a/8b/0c/5a8b0c0c5c1cae24d34c02f42554cc02.jpg?nii=t" alt="Vintage Books Right">
+        </div>
+
+        <div class="parallax_layer layer_center_book">
+            <img src="https://t3.ftcdn.net/jpg/15/16/38/22/360_F_1516382248_jHd3vFbii1Y0eJgzxA8qOdnEmVXqxgy1.jpg" alt="Open Antique Book">
+        </div>
+
+        <div class="parallax_layer layer_text">
+            <span class="vintage_subtitle">RARE EDITIONS • 1880-1950</span>
+            <h2 class="vintage_title">THE VINTAGE ARCHIVE</h2>
+            <p class="vintage_desc">Discover timeless wisdom preserved across centuries on antique library shelves.</p>
+        </div>
+
+        <div class="parallax_vignette"></div>
+    </section>
+{% endblock %}
+
 
 {% block article %}
     <div class="last_new_and_partners">
@@ -285,6 +321,8 @@
 
     </div>
     
+    <script src="{% static 'js/card_tilt.js' %}"></script>
+    <script src="{% static 'js/scroll_parallax.js' %}"></script>
 
     <script>
         class AdSlider{

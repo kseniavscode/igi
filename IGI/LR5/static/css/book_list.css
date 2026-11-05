@@ -148,17 +148,29 @@
     display: flex;
     flex-direction: column;
 
+    transform-style: preserve-3d;
+    perspective: 1000px;
+
     transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6), box-shadow 0.8s ease, border-radius 0.2s ease;
+    will-change: transform;
+    cursor: pointer;
 }
 
 .book_card:hover{
-    box-shadow: 0 4px 6px gray;
     border-radius: 10px;
-    transform: translateY(-4px);
 }
+
+.book_card h3,
+.book_card .price {
+    transform: translateZ(35px);
+    transition: transform 0.3s ease-out;
+}
+
 .book_card a:first-of-type{
     display: block;
     position: relative;
+
+    transform-style: preserve-3d;
 }
 .heart{
     font-size: 30px;
@@ -167,18 +179,30 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
     pointer-events: none;
     transition: opacity 0.01s ease-in, transform 0.3s ease;
     z-index: 10;
 
     text-shadow: 2px 2px 4px #760000;
     opacity: 0;
+
+    transform: translate(-50%, -50%) scale(0.5) translateZ(60px);
 }
 .book_card:hover .heart{
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1) translateZ(60px);
     animation: pulse 0.7s ease-in infinite alternate;
+}
+
+@keyframes pulse {
+    0%{
+        transform: translate(-50%, -50%) scale(1) translateZ(60px);
+    }
+
+    100%{
+        transform: translate(-50%, -50%) scale(1.4) translateZ(60px);
+    }
+
 }
 
 .book_card > h3 {
@@ -214,6 +238,8 @@
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 
+    transform: translateZ(25px);
+    transition: transform 0.3s ease-out;
 }
 
 .book_cover img{

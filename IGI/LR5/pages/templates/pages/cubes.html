@@ -1,0 +1,73 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block title %}Task 8: Cubes OOP{% endblock %}
+
+{% block content %}
+<div class="cubes_container">
+    <h2>Task 8: OOP & Inheritance (Variant 11 — Cubes)</h2>
+    <p>Calculate quantity of cubes by color (red, yellow, blue, green) and their total volume.</p>
+    <hr>
+
+    <!-- OOP STYLE SWITCHER (AS REQUIRED BY LAB TASK) -->
+    <div class="style_toggle_box">
+        <strong>Implementation Engine:</strong>
+        <label><input type="radio" name="oop_style" value="class" checked> ES6 Classes (class / extends)</label>
+        <label><input type="radio" name="oop_style" value="prototype"> Functional (prototype)</label>
+        <span id="current_engine_badge" class="engine_badge">Engine: ES6 Classes</span>
+    </div>
+
+    <div class="cubes_grid_layout">
+        <!-- ADD CUBE FORM -->
+        <div class="cube_card form_card">
+            <h3>Add Cube</h3>
+            <form id="cube_form">
+                <p>
+                    <label>Edge Length (cm):</label><br>
+                    <input type="number" id="cube_edge" min="0.1" step="0.1" placeholder="e.g. 5" required>
+                </p>
+                <p>
+                    <label>Cube Color:</label><br>
+                    <select id="cube_color" required>
+                        <option value="red">Red 🔴</option>
+                        <option value="yellow">Yellow 🟡</option>
+                        <option value="blue">Blue 🔵</option>
+                        <option value="green">Green 🟢</option>
+                    </select>
+                </p>
+                <button type="submit" class="panel_btn">Add to Collection</button>
+                <button type="button" id="fill_demo_btn" class="panel_btn" style="background:#555; color:white;">Fill Demo Data</button>
+            </form>
+        </div>
+
+        <!-- CALCULATION RESULTS -->
+        <div class="cube_card result_card">
+            <h3>Calculation Results</h3>
+            <button id="calc_btn" class="panel_btn" style="background:#aa8822; color:white; width:100%;">Calculate Statistics</button>
+            <div id="result_output" class="result_box">
+                <i>Click the button above to calculate statistics...</i>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUBES TABLE -->
+    <div class="table_card">
+        <h3>All Cubes in Collection (<span id="cubes_count">0</span> items)</h3>
+        <table class="contacts_table" style="table-layout: auto;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Edge Length (cm)</th>
+                    <th>Color</th>
+                    <th>Volume (cm³)</th>
+                </tr>
+            </thead>
+            <tbody id="cubes_table_body">
+                <tr><td colspan="4" style="text-align:center;">No cubes yet. Add your first cube!</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="{% static 'js/cubes.js' %}"></script>
+{% endblock %}

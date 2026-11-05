@@ -1,0 +1,40 @@
+{% extends 'pages/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/form_builder.css' %}">
+{% endblock %}
+
+{% block title %}Radio Button Builder{% endblock %}
+
+{% block content %}
+<div class="builder_container">
+    <h2>Dynamic Form Element Builder (Variant 11)</h2>
+    <p>Target element: <code>&lt;input type="radio"&gt;</code></p>
+    <hr>
+
+    <div class="generator_trigger_box">
+        <label class="trigger_label">
+            <input type="checkbox" id="spawn_radio_trigger">
+            <strong>Click this checkbox to generate a new Radio Button</strong>
+        </label>
+    </div>
+
+    <div id="radio_cards_container" class="cards_grid">
+    </div>
+
+    <hr style="margin-top: 40px;">
+
+    <div class="preview_section">
+        <h3>Live Interactive Form Preview</h3>
+        <p><small>Test how generated radio buttons group by <code>name</code> and toggle:</small></p>
+        <form id="preview_form" onsubmit="event.preventDefault(); alert('Form submitted successfully!');">
+            <div id="preview_radios_box" class="preview_box">
+            </div>
+            <button type="submit" class="panel_btn" style="margin-top: 15px;">Test Submit Form</button>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/form_builder.js' %}"></script>
+{% endblock %}

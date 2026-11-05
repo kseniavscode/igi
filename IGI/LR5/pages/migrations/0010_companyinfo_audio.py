@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pages', '0009_companyinfo_logo_companyinfo_video_certificate'),
+        ("pages", "0009_companyinfo_logo_companyinfo_video_certificate"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='companyinfo',
-            name='audio',
-            field=models.FileField(blank=True, null=True, upload_to='company/audio/', verbose_name='Audio Presentation'),
+            model_name="companyinfo",
+            name="audio",
+            field=models.FileField(
+                blank=True,
+                null=True,
+                upload_to="company/audio/",
+                verbose_name="Audio Presentation",
+            ),
         ),
     ]

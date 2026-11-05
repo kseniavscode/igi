@@ -1,0 +1,116 @@
+.builder_container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.generator_trigger_box {
+    background: #fff6de;
+    border: 2px dashed #aa8822;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    display: inline-block;
+}
+
+.trigger_label {
+    cursor: pointer;
+    font-size: 16px;
+    color: #472801;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.trigger_label input[type="checkbox"] {
+    transform: scale(1.4);
+    cursor: pointer;
+}
+
+.cards_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+}
+
+.builder_card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.builder_card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.delete_card_btn {
+    background: #c84564;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+}
+.delete_card_btn:hover {
+    background: #9e1b38;
+}
+
+.attr_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.attr_row input[type="text"] {
+    width: 60%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.attr_checkboxes {
+    display: flex;
+    gap: 15px;
+    background: #fafafa;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.live_element_preview {
+    margin-top: 10px;
+    padding: 12px;
+    background: #fdfbf7;
+    border: 1px solid #e2d9c8;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.preview_box {
+    background: #fff;
+    border: 2px solid #7b5f0c;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

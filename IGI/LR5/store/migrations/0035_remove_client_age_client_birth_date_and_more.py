@@ -7,23 +7,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0034_rename_summery_book_summary_bookinstance_order_and_more'),
+        ("store", "0034_rename_summery_book_summary_bookinstance_order_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='client',
-            name='age',
+            model_name="client",
+            name="age",
         ),
         migrations.AddField(
-            model_name='client',
-            name='birth_date',
-            field=models.DateField(default='2007-03-02'),
+            model_name="client",
+            name="birth_date",
+            field=models.DateField(default="2007-03-02"),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='bookinstance',
-            name='book',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='store.book', verbose_name='Book'),
+            model_name="bookinstance",
+            name="book",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="store.book",
+                verbose_name="Book",
+            ),
         ),
     ]

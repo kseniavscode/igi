@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
     const employeesDataElement = document.getElementById('employees_data');
     if (!employeesDataElement) return;
     
@@ -29,14 +28,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const detailsBox = document.getElementById('detailsBox');
     const detailsContent = document.getElementById('detailsContent');
     const preloader = document.getElementById('preloader');
+    const selectAllCheckbox = document.getElementById('select_all');
+
+    // 🌟 ВЫНЕСЛИ ВСЕ ЭЛЕМЕНТЫ ФОРМЫ НАВЕРХ, ЧТОБЫ ОНИ БЫЛИ ДОСТУПНЫ ВЕЗДЕ:
+    const employeeForm = document.getElementById('employee_form');
+    const phoneInput = document.getElementById('phone_input');
+    const phoneError = document.getElementById('phone_error');
+    const urlInput = document.getElementById('url_input');
+    const urlError = document.getElementById('url_error');
+    const submitBtn = document.getElementById('submit_employee_btn');
+    const formWarning = document.getElementById('form_warning');
+
+    const fullNameInput = document.querySelector('input[name="full_name"]');
+    const positionInput = document.querySelector('input[name="position"]');
+    const descriptionInput = document.querySelector('textarea[name="description"]');
+    const emailInput = document.querySelector('input[name="email"]');
+
+    let selectedEmployeeIds = new Set();
+
+    function updateSelectAllCheckboxState() {
+        if (!selectAllCheckbox) return;
+        if (filteredData.length === 0) {
+            selectAllCheckbox.checked = false;
+            return;
+        }
+        selectAllCheckbox.checked = filteredData.every(emp => selectedEmployeeIds.has(String(emp.id)));
+    }
 
     function renderTable() {
         tableBody.innerHTML = '';
-
-        const selectAllCheckbox = document.getElementById('select_all');
-        if (selectAllCheckbox) {
-            selectAllCheckbox.checked = false;
-        }
 
         let start = (currentPage - 1) * itemsPerPage;
         let end = start + itemsPerPage;
@@ -45,19 +65,33 @@ document.addEventListener('DOMContentLoaded', function () {
         if (pageItems.length === 0) {
             tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No employees found</td></tr>`;
             paginationBox.innerHTML = '';
+            updateSelectAllCheckboxState();
             return;
         }
 
         pageItems.forEach(emp => {
+            let isChecked = selectedEmployeeIds.has(String(emp.id)) ? 'checked' : '';
+
             let row = document.createElement('tr');
             row.innerHTML = `
-                <td><input type="checkbox" class="emp_checkbox" data-id="${emp.id}"></td>
+                <td><input type="checkbox" class="emp_checkbox" data-id="${emp.id}" ${isChecked}></td>
                 <td><img src="${emp.photo || '/static/images/book_cover_default.jpg'}" alt="photo" width="40" height="40" style="object-fit:cover; border-radius:50%;"></td>
                 <td>${emp.full_name}</td>
                 <td>${emp.position}</td>
                 <td>${emp.email}</td>
                 <td>${emp.phone}</td>
             `;
+
+            let cb = row.querySelector('.emp_checkbox');
+            cb.addEventListener('change', () => {
+                let idStr = String(emp.id);
+                if (cb.checked) {
+                    selectedEmployeeIds.add(idStr);
+                } else {
+                    selectedEmployeeIds.delete(idStr);
+                }
+                updateSelectAllCheckboxState();
+            });
 
             row.addEventListener('click', (e) => {
                 if (e.target.tagName === 'INPUT') return; 
@@ -67,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tableBody.appendChild(row);
         });
 
+        updateSelectAllCheckboxState();
         renderPagination();
     }
 
@@ -98,20 +133,23 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
     }
 
-    const selectAllCheckbox = document.getElementById('select_all');
-
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
-            const rowCheckboxes = document.querySelectorAll('.emp_checkbox');
-            
-            rowCheckboxes.forEach(cb => {
-                cb.checked = selectAllCheckbox.checked;
-            });
+            if (selectAllCheckbox.checked) {
+                filteredData.forEach(emp => selectedEmployeeIds.add(String(emp.id)));
+            } else {
+                filteredData.forEach(emp => selectedEmployeeIds.delete(String(emp.id)));
+            }
+            renderTable();
         });
     }
 
     document.querySelectorAll('.sortable').forEach(th => {
         th.style.cursor = 'pointer';
+
+        let name = th.textContent.replace(/[↕▲▼]/g, '').trim();
+        th.setAttribute('data-name', name);
+        th.textContent = name + ' ↕';
 
         th.addEventListener('click', () => {
             let column = th.getAttribute('data-sort');
@@ -125,13 +163,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             document.querySelectorAll('.sortable').forEach(el => {
-                let name = el.getAttribute('data-name') || el.textContent.replace(/[↕▲▼]/g, '').trim();
-                el.setAttribute('data-name', name); 
-                el.textContent = name + ' ↕';
+                el.textContent = el.getAttribute('data-name') + ' ↕';
             });
 
-            let cleanName = th.getAttribute('data-name');
-            th.textContent = cleanName + (sortDirection === 'asc' ? ' ▲' : ' ▼');
+            th.textContent = th.getAttribute('data-name') + (sortDirection === 'asc' ? ' ▲' : ' ▼');
 
             filteredData.sort((a, b) => {
                 let valA = a[column] ? String(a[column]).toLowerCase() : '';
@@ -144,6 +179,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             currentPage = 1;
             renderTable();
+
+            resetSearchBtn.style.display = 'inline-block';
         });
     });
 
@@ -160,63 +197,67 @@ document.addEventListener('DOMContentLoaded', function () {
             renderTable();
             hidePreloader();
             resetSearchBtn.style.display = 'inline-block';
-        }, 400);
+        }, 1000);
     });
 
     resetSearchBtn.addEventListener('click', () => {
         searchInput.value = '';
+        currentSortColumn = null;
+        sortDirection = 'asc';
+
+        document.querySelectorAll('.sortable').forEach(el => {
+            el.textContent = el.getAttribute('data-name') + ' ↕';
+        });
         filteredData = [...tableData];
         currentPage = 1;
         renderTable();
+
+        if (detailsBox) {
+            detailsBox.style.display = 'none';
+            if (detailsContent) {
+                detailsContent.innerHTML = '';
+            }
+        }
+        
         resetSearchBtn.style.display = 'none';
     });
 
-    // Управление прелоадером
     function showPreloader() { preloader.style.display = 'block'; }
     function hidePreloader() { preloader.style.display = 'none'; }
 
-    // Кнопка Премировать (чекбоксы)
     document.getElementById('award_btn').addEventListener('click', () => {
-        let checkedBoxes = document.querySelectorAll('.emp_checkbox:checked');
         let awardedNames = [];
 
-        checkedBoxes.forEach(cb => {
-            let id = parseInt(cb.getAttribute('data-id'));
-            let emp = tableData.find(e => e.id === id);
-            if (emp) awardedNames.push(emp.full_name);
+        tableData.forEach(emp => {
+            if (selectedEmployeeIds.has(String(emp.id))) {
+                awardedNames.push(emp.full_name);
+            }
         });
 
         let resultBox = document.getElementById('award_result');
         if (awardedNames.length > 0) {
-            resultBox.innerHTML = `<strong>🏆 Awarded employees:</strong> ${awardedNames.join(', ')}. Congratulations!`;
+            resultBox.innerHTML = `<strong>🏆 Awarded employees (${awardedNames.length}):</strong> ${awardedNames.join(', ')}. Congratulations!`;
         } else {
             resultBox.innerHTML = `<i>Please select at least one employee using checkboxes.</i>`;
         }
     });
 
-    // Выпадающая форма добавления
     const toggleFormBtn = document.getElementById('toggle_form_btn');
     const formContainer = document.getElementById('add_employee_form_container');
-    toggleFormBtn.addEventListener('click', () => {
-        formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
-    });
+    if (toggleFormBtn) {
+        toggleFormBtn.addEventListener('click', () => {
+            formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+        });
+    }
 
-    // ВАЛИДАЦИЯ URL и ТЕЛЕФОНА (Требование методички)
-    const phoneInput = document.getElementById('phone_input');
-    const phoneError = document.getElementById('phone_error');
-    const urlInput = document.getElementById('url_input');
-    const urlError = document.getElementById('url_error');
-    const submitBtn = document.getElementById('submit_employee_btn');
-
+    // ==========================================
+    // ВАЛИДАЦИЯ ФОРМЫ
+    // ==========================================
     const phoneRegex = /^(?:\+375|8)\s*(?:\(\s*0?\d{2}\s*\)|0?\d{2})\s*\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
-    
-    // URL: начинается с http:// или https://, заканчивается на .php или .html
     const urlRegex = /^(http:\/\/|https:\/\/).+\.(php|html)$/;
 
     function checkPhoneAndUrl(phoneValue, urlValue) {
         let isPhoneValid = phoneRegex.test(phoneValue.trim());
-        
-        // URL валиден, если он пустой (необязателен) ИЛИ подходит под критерии методички
         let isUrlValid = urlValue.trim() === '' || urlRegex.test(urlValue.trim());
 
         return {
@@ -227,39 +268,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function validateForm() {
-        let phoneVal = phoneInput.value;
-        let urlVal = urlInput.value;
+        if (!employeeForm) return; // Если формы нет на странице — выходим!
 
-        // Передаем в функцию и получаем результат
+        let phoneVal = phoneInput ? phoneInput.value : '';
+        let urlVal = urlInput ? urlInput.value : '';
         let result = checkPhoneAndUrl(phoneVal, urlVal);
 
-        // --- ПРОВЕРКА ТЕЛЕФОНА ---
         if (phoneVal.trim() === '') {
-            // Если поле пустое
             phoneInput.style.border = '';
             phoneInput.style.backgroundColor = '';
             phoneError.textContent = '';
         } else if (!result.phoneValid) {
-            // РОЗОВЫЙ ФОН И КРАСНАЯ ГРАНИЦА ПО ЗАДАНИЮ
             phoneInput.style.border = '2px solid red';
-            phoneInput.style.backgroundColor = '#ffcccc'; // Светло-розовый
+            phoneInput.style.backgroundColor = '#ffcccc';
             phoneError.style.color = 'red';
             phoneError.textContent = 'Invalid phone format! Example: 8(029)1112233 or +375 (29) 111-22-33';
         } else {
-            // Валидно
             phoneInput.style.border = '2px solid green';
-            phoneInput.style.backgroundColor = '#e8f5e9'; // Светло-зеленый
+            phoneInput.style.backgroundColor = '#e8f5e9';
             phoneError.style.color = 'green';
             phoneError.textContent = 'Phone number is valid ✓';
         }
 
-        // --- ПРОВЕРКА URL ---
         if (urlVal.trim() === '') {
             urlInput.style.border = '';
             urlInput.style.backgroundColor = '';
             urlError.textContent = '';
         } else if (!result.urlValid) {
-            // РОЗОВЫЙ ФОН И КРАСНАЯ ГРАНИЦА ПО ЗАДАНИЮ
             urlInput.style.border = '2px solid red';
             urlInput.style.backgroundColor = '#ffcccc';
             urlError.style.color = 'red';
@@ -271,44 +306,66 @@ document.addEventListener('DOMContentLoaded', function () {
             urlError.textContent = 'URL is valid ✓';
         }
 
-        // Кнопка разблокируется, только если введен валидный телефон и валидный URL
-        submitBtn.disabled = !result.allValid || phoneVal.trim() === '';
+        let isNameFilled = fullNameInput && fullNameInput.value.trim() !== '';
+        let isPositionFilled = positionInput && positionInput.value.trim() !== '';
+        let isDescFilled = descriptionInput && descriptionInput.value.trim() !== '';
+        let isEmailFilled = emailInput && emailInput.value.trim() !== '' && emailInput.value.includes('@');
+        let isPhoneFilled = phoneVal.trim() !== '';
+
+        let areAllInputsFilled = isNameFilled && isPositionFilled && isDescFilled && isEmailFilled && isPhoneFilled;
+
+        if (!areAllInputsFilled) {
+            submitBtn.disabled = true;
+            if (formWarning) {
+                formWarning.style.color = 'red';
+                formWarning.textContent = 'Please fill in all required fields (Name, Position, Description, Email, Phone).';
+            }
+        } else if (!result.allValid) {
+            submitBtn.disabled = true;
+            if (formWarning) {
+                formWarning.style.color = 'red';
+                formWarning.textContent = 'Please fix the invalid Phone or URL format!';
+            }
+        } else {
+            submitBtn.disabled = false;
+            if (formWarning) {
+                formWarning.style.color = 'green';
+                formWarning.textContent = '✓ All fields are correctly filled. Ready to add!';
+            }
+        }
     }
 
-    phoneInput.addEventListener('input', validateForm);
-    urlInput.addEventListener('input', validateForm);
+    // Слушатели событий формы
+    if (employeeForm) {
+        employeeForm.addEventListener('input', validateForm);
+        validateForm(); // Первичный вызов для правильного состояния кнопки
+    }
 
-    // Первый запуск отрисовки таблицы
+    // 🌟 ЗАПУСКАЕМ ТАБЛИЦУ! ТЕПЕРЬ ОНА ГАРАНТИРОВАННО ВЫЗОВЕТСЯ:
     renderTable();
 
     // ==========================================
-    // ДОБАВЛЕНИЕ НОВОГО СОТРУДНИКА ЧЕРЕЗ JS
+    // ДОБАВЛЕНИЕ НОВОГО СОТРУДНИКА ЧЕРЕЗ AJAX
     // ==========================================
-    const employeeForm = document.getElementById('employee_form');
-    
     if (employeeForm) {
         employeeForm.addEventListener('submit', function (e) {
-            e.preventDefault(); // Останавливаем стандартную перезагрузку страницы
-            
-            showPreloader(); // Включаем твой прелоадер из ЛР2!
+            e.preventDefault(); 
+            showPreloader(); 
 
             let formData = new FormData(employeeForm);
 
-            // Отправляем данные на сервер (текущий URL страницы)
             fetch(window.location.href, {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest', // Говорим Django, что это AJAX-запрос
+                    'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
                 }
             })
             .then(response => response.json())
             .then(data => {
-                hidePreloader(); // Выключаем прелоадер
-
+                hidePreloader(); 
                 if (data.status === 'success') {
-                    // Успех! Добавляем нового сотрудника в наш массив tableData
                     let newEmp = {
                         id: data.employee.id,
                         full_name: data.employee.full_name,
@@ -319,12 +376,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         photo: data.employee.photo ? data.employee.photo : null
                     };
 
-                    tableData.push(newEmp);     // Добавляем в общую копилку
-                    filteredData = [...tableData]; // Обновляем фильтр
-                    renderTable();              // Перерисовываем таблицу!
-
-                    // Очищаем форму и закрываем её
+                    tableData.push(newEmp);     
+                    filteredData = [...tableData]; 
+                    renderTable();              
                     employeeForm.reset();
+                    validateForm();
                     document.getElementById('add_employee_form_container').style.display = 'none';
                     alert('Employee added successfully!');
                 } else {
@@ -339,4 +395,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
