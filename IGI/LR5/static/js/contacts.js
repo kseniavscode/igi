@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const preloader = document.getElementById('preloader');
     const selectAllCheckbox = document.getElementById('select_all');
 
-    // 🌟 ВЫНЕСЛИ ВСЕ ЭЛЕМЕНТЫ ФОРМЫ НАВЕРХ, ЧТОБЫ ОНИ БЫЛИ ДОСТУПНЫ ВЕЗДЕ:
     const employeeForm = document.getElementById('employee_form');
     const phoneInput = document.getElementById('phone_input');
     const phoneError = document.getElementById('phone_error');
@@ -236,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let resultBox = document.getElementById('award_result');
         if (awardedNames.length > 0) {
-            resultBox.innerHTML = `<strong>🏆 Awarded employees (${awardedNames.length}):</strong> ${awardedNames.join(', ')}. Congratulations!`;
+            resultBox.innerHTML = `<strong>Awarded employees (${awardedNames.length}):</strong> ${awardedNames.join(', ')}. Congratulations!`;
         } else {
             resultBox.innerHTML = `<i>Please select at least one employee using checkboxes.</i>`;
         }
@@ -250,10 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ==========================================
-    // ВАЛИДАЦИЯ ФОРМЫ
-    // ==========================================
-    const phoneRegex = /^(?:\+375|8)\s*(?:\(\s*0?\d{2}\s*\)|0?\d{2})\s*\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
+    const phoneRegex = /^(?:\+375\s*(?:\(\s*\d{2}\s*\)|\d{2})|8\s*(?:\(\s*0?\d{2}\s*\)|0?\d{2}))\s*\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
     const urlRegex = /^(http:\/\/|https:\/\/).+\.(php|html)$/;
 
     function checkPhoneAndUrl(phoneValue, urlValue) {
@@ -268,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function validateForm() {
-        if (!employeeForm) return; // Если формы нет на странице — выходим!
+        if (!employeeForm) return; 
 
         let phoneVal = phoneInput ? phoneInput.value : '';
         let urlVal = urlInput ? urlInput.value : '';
@@ -335,18 +331,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Слушатели событий формы
     if (employeeForm) {
         employeeForm.addEventListener('input', validateForm);
-        validateForm(); // Первичный вызов для правильного состояния кнопки
+        validateForm(); 
     }
 
-    // 🌟 ЗАПУСКАЕМ ТАБЛИЦУ! ТЕПЕРЬ ОНА ГАРАНТИРОВАННО ВЫЗОВЕТСЯ:
     renderTable();
 
-    // ==========================================
-    // ДОБАВЛЕНИЕ НОВОГО СОТРУДНИКА ЧЕРЕЗ AJAX
-    // ==========================================
     if (employeeForm) {
         employeeForm.addEventListener('submit', function (e) {
             e.preventDefault(); 

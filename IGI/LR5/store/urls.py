@@ -47,4 +47,5 @@ urlpatterns = [
     re_path(r"^book/(?P<pk>\d+)/delete/$", 
             views.delete_book, name="delete_book"),
     re_path(r"^point/$", views.pickup_points_view, name="points"),
+    re_path(r'^update-slider-settings/$', views.book_list, name='update_slider'),
 ]

@@ -1,15 +1,14 @@
 {% extends 'pages/layout.html' %}
 {% load static %}
 
-{% block title %}Task 8: Cubes OOP{% endblock %}
+{% block title %}Cubes{% endblock %}
 
 {% block content %}
 <div class="cubes_container">
-    <h2>Task 8: OOP & Inheritance (Variant 11 — Cubes)</h2>
+    <h2>Cubes</h2>
     <p>Calculate quantity of cubes by color (red, yellow, blue, green) and their total volume.</p>
     <hr>
 
-    <!-- OOP STYLE SWITCHER (AS REQUIRED BY LAB TASK) -->
     <div class="style_toggle_box">
         <strong>Implementation Engine:</strong>
         <label><input type="radio" name="oop_style" value="class" checked> ES6 Classes (class / extends)</label>
@@ -18,7 +17,7 @@
     </div>
 
     <div class="cubes_grid_layout">
-        <!-- ADD CUBE FORM -->
+        
         <div class="cube_card form_card">
             <h3>Add Cube</h3>
             <form id="cube_form">
@@ -40,7 +39,6 @@
             </form>
         </div>
 
-        <!-- CALCULATION RESULTS -->
         <div class="cube_card result_card">
             <h3>Calculation Results</h3>
             <button id="calc_btn" class="panel_btn" style="background:#aa8822; color:white; width:100%;">Calculate Statistics</button>
@@ -50,7 +48,6 @@
         </div>
     </div>
 
-    <!-- CUBES TABLE -->
     <div class="table_card">
         <h3>All Cubes in Collection (<span id="cubes_count">0</span> items)</h3>
         <table class="contacts_table" style="table-layout: auto;">

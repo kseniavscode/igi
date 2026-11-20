@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (!this.trigger || !this.container) return;
 
-            // Достаем сохраненные данные из памяти
             this.items = JSON.parse(localStorage.getItem('radio_builder_items')) || [];
 
             this.init();
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
         init() {
             this.render();
 
-            // При нажатии на флажок создаем новую кнопку
             this.trigger.addEventListener('change', () => {
                 if (this.trigger.checked) {
                     this.addNewRadio();
@@ -32,10 +30,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let newItem = {
                 id: uniqueId,
-                name: 'payment_method',        // Общее имя группы по умолчанию
-                value: 'option_' + index,      // Значение
-                label: 'Option ' + index,      // Текст варианта
-                checked: index === 1,          // Первая выбрана сразу
+                name: 'payment_method',        
+                value: 'option_' + index,      
+                label: 'Option ' + index,      
+                checked: index === 1,         
                 required: false,
                 disabled: false
             };
@@ -44,12 +42,10 @@ document.addEventListener('DOMContentLoaded', function () {
             this.saveAndRender();
         }
 
-        // Сохраняем в память БЕЗ уничтожения полей ввода
         saveData() {
             localStorage.setItem('radio_builder_items', JSON.stringify(this.items));
         }
 
-        // Сохраняем и полностью перерисовываем (только при добавлении/удалении)
         saveAndRender() {
             this.saveData();
             this.render();
@@ -66,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             this.items.forEach((item, idx) => {
-                // 1. Создаем карточку настроек
                 let card = document.createElement('div');
                 card.className = 'builder_card';
                 card.innerHTML = `
@@ -103,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 `;
 
-                // 2. Создаем живой элемент для формы внизу
                 let previewRow = document.createElement('label');
                 previewRow.style.display = 'flex';
                 previewRow.style.alignItems = 'center';
@@ -126,21 +120,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 previewRow.appendChild(liveText);
                 this.previewBox.appendChild(previewRow);
 
-                // ==========================================
-                // ИСПРАВЛЕНИЕ: МЯГКОЕ ОБНОВЛЕНИЕ БЕЗ СЛЁТА КУРСОРА
-                // ==========================================
                 let cardDemoRadio = card.querySelector('.card_demo_radio');
                 let cardDemoLabel = card.querySelector('.card_demo_label');
 
-                // Ввод имени группы (name)
                 card.querySelector('.input_name').addEventListener('input', (e) => {
                     item.name = e.target.value;
                     liveRadio.name = item.name;
                     cardDemoRadio.name = item.name + '_demo';
-                    this.saveData(); // Просто сохраняем, ничего не перерисовывая!
+                    this.saveData(); 
                 });
 
-                // Ввод значения (value)
                 card.querySelector('.input_value').addEventListener('input', (e) => {
                     item.value = e.target.value;
                     liveRadio.value = item.value;
@@ -148,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.saveData();
                 });
 
-                // Ввод текста надписи (label)
                 card.querySelector('.input_label').addEventListener('input', (e) => {
                     item.label = e.target.value;
                     cardDemoLabel.textContent = item.label;
@@ -156,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.saveData();
                 });
 
-                // Переключение галочки checked
                 card.querySelector('.cb_checked').addEventListener('change', (e) => {
                     if (e.target.checked) {
                         this.items.forEach(other => {
@@ -169,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.saveAndRender();
                 });
 
-                // Переключение disabled (заблокировать)
                 card.querySelector('.cb_disabled').addEventListener('change', (e) => {
                     item.disabled = e.target.checked;
                     cardDemoRadio.disabled = item.disabled;
@@ -179,20 +165,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.saveData();
                 });
 
-                // Переключение required
                 card.querySelector('.cb_required').addEventListener('change', (e) => {
                     item.required = e.target.checked;
                     liveRadio.required = item.required;
                     this.saveData();
                 });
 
-                // Удаление карточки
                 card.querySelector('.delete_card_btn').addEventListener('click', () => {
                     this.items = this.items.filter(i => i.id !== item.id);
                     this.saveAndRender();
                 });
 
-                // Если в живой форме внизу пользователь кликает по радиокнопке
                 liveRadio.addEventListener('change', () => {
                     this.items.forEach(other => {
                         if (other.name === item.name) other.checked = false;

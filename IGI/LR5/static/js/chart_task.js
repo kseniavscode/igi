@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
             this.xStepInput = document.getElementById('x_step');
             this.epsInput = document.getElementById('epsilon');
 
-            // Кнопки и вывод
             this.plotBtn = document.getElementById('plot_btn');
             this.downloadBtn = document.getElementById('download_chart_btn');
             this.tableBody = document.getElementById('chart_table_body');
@@ -63,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const exactData = [];    
             const tableRows = [];   
 
-            // Шагаем по X от Start до End
             for (let x = xStart; x <= xEnd + 0.0001; x += step) {
                 const roundedX = parseFloat(x.toFixed(2));
                 const exactVal = this.exactFunction(roundedX);
@@ -127,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             tension: 0.3,
                             order: 1              
                         },
-                        // ЗЕЛЕНАЯ ЛИНИЯ (ПОД НИЗОМ):
                         {
                             label: 'Series F(x) [Taylor Approximation]',
                             data: seriesData,

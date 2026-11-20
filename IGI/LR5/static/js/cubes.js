@@ -4,81 +4,59 @@ document.addEventListener('DOMContentLoaded', function () {
         constructor(edge) {
             this._edge = parseFloat(edge);
         }
-
-        // Method 1: Getter for edge
         get edge() {
             return this._edge;
         }
-
-        // Method 2: Setter for edge
         set edge(value) {
             this._edge = parseFloat(value);
         }
-
-        // Method 3: Volume calculation V = a^3
         getVolume() {
             return Math.pow(this._edge, 3);
         }
     }
 
-    // 2. DERIVED CLASS: COLORED CUBE (Adds color parameter)
     class ColoredCubeClass extends Cube {
         constructor(edge, color) {
-            super(edge); // Calls parent constructor
-            this._color = color; // Additional parameter
+            super(edge); 
+            this._color = color; 
         }
-
-        // Method 4: Getter for color
+        
         get color() {
             return this._color;
         }
 
-        // Method 5: Setter for color
         set color(value) {
             this._color = value;
         }
     }
 
-
-    // =========================================================================
-    // VARIANT 2: FUNCTIONAL PROTOTYPE STYLE (Prototype Inheritance)
-    // =========================================================================
-
-    // 1. Base constructor function
     function ProtoCube(edge) {
         this._edge = parseFloat(edge);
     }
-    ProtoCube.prototype.getEdge = function() { return this._edge; };
-    ProtoCube.prototype.setEdge = function(val) { this._edge = parseFloat(val); };
+
+    Object.defineProperty(ProtoCube.prototype, 'edge', {
+        get: function() { return this._edge; },
+        set: function(val) { this._edge = parseFloat(val); }
+    });
     ProtoCube.prototype.getVolume = function() { return Math.pow(this._edge, 3); };
 
-    // 2. Derived constructor function
     function ProtoColoredCube(edge, color) {
-        ProtoCube.call(this, edge); // Inherits properties
+        ProtoCube.call(this, edge); 
         this._color = color;
     }
-    // Prototype chain inheritance:
     ProtoColoredCube.prototype = Object.create(ProtoCube.prototype);
     ProtoColoredCube.prototype.constructor = ProtoColoredCube;
 
-    ProtoColoredCube.prototype.getColor = function() { return this._color; };
-    ProtoColoredCube.prototype.setColor = function(val) { this._color = val; };
-
-    Object.defineProperty(ProtoColoredCube.prototype, 'edge', {
-        get: function() { return this._edge; }
-    });
+    
     Object.defineProperty(ProtoColoredCube.prototype, 'color', {
-        get: function() { return this._color; }
+        get: function() { return this._color; },
+        set: function(val) { this._color = val; }
     });
 
-
-    // =========================================================================
-    // APPLICATION MANAGER (Collection Controller)
-    // =========================================================================
     class CubeManager {
         constructor() {
             this.cubes = []; 
-            this.currentMode = 'class'; // 'class' or 'prototype'
+            this.currentMode = 'class'; 
 
             this.tableBody = document.getElementById('cubes_table_body');
             this.countSpan = document.getElementById('cubes_count');
@@ -92,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         init() {
-            // Engine switcher (ES6 vs Prototype)
             document.querySelectorAll('input[name="oop_style"]').forEach(radio => {
                 radio.addEventListener('change', (e) => {
                     this.currentMode = e.target.value;
@@ -101,18 +78,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-            // Form submit event
             this.form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 this.addCubeFromForm();
             });
 
-            // Calculate button event
             document.getElementById('calc_btn').addEventListener('click', () => {
                 this.calculateAndDisplayResult();
             });
 
-            // Demo data button event
             document.getElementById('fill_demo_btn').addEventListener('click', () => {
                 this.fillDemoData();
             });
@@ -157,11 +131,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         calculateAndDisplayResult() {
             if (this.cubes.length === 0) {
-                this.resultBox.innerHTML = '<span style="color:red;">⚠️ The collection is empty! Add at least one cube.</span>';
+                this.resultBox.innerHTML = '<span style="color:red;">The collection is empty! Add at least one cube.</span>';
                 return;
             }
 
-            // Color counters
             const colorCounts = {
                 red: 0,
                 yellow: 0,
@@ -171,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let totalVolume = 0;
 
-            // Algorithm computation
             this.cubes.forEach(cube => {
                 const color = cube.color;
                 if (colorCounts.hasOwnProperty(color)) {
@@ -180,9 +152,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 totalVolume += cube.getVolume();
             });
 
-            // Output rendering
             this.resultBox.innerHTML = `
-                <h4>📊 Analysis Results (Variant 11):</h4>
+                <h4>Analysis Results:</h4>
                 <p><strong>Cubes quantity by color:</strong></p>
                 <ul>
                     <li><span class="color_stat_badge badge_red">RED:</span> <strong>${colorCounts.red}</strong> pcs</li>
@@ -192,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </ul>
                 <hr style="border:0; border-top:1px dashed #ccc; margin:10px 0;">
                 <p style="font-size: 1.1em;">
-                    📦 <strong>Total volume of all cubes:</strong> 
+                    <strong>Total volume of all cubes:</strong> 
                     <span style="color:#7b5f0c; font-weight:bold;">${totalVolume.toFixed(2)} cm³</span>
                 </p>
             `;

@@ -22,19 +22,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         init() {
-            // ==========================================
-            // 🧠 ПАМЯТЬ: ПРОВЕРЯЕМ, ОТВЕЧАЛ ЛИ УЖЕ ПОЛЬЗОВАТЕЛЬ?
-            // ==========================================
             const isAlreadyAnswered = localStorage.getItem('user_age_confirmed');
 
-            // Показываем окно ТОЛЬКО если пользователь ЕЩЁ НИ РАЗУ НЕ ОТВЕЧАЛ:
             if (!isAlreadyAnswered && this.modal) {
+            // if (this.modal) {
                 setTimeout(() => {
                     this.openModal();
                 }, 800);
             }
 
-            // Слушатели кнопок
             if (this.submitBtn) {
                 this.submitBtn.addEventListener('click', () => this.verifyAge());
             }
@@ -43,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.closeBtn.addEventListener('click', () => this.closeModal());
             }
 
-            // Кнопка из меню всегда может открыть окно принудительно (для показа преподавателю)
             if (this.openBtn) {
                 this.openBtn.addEventListener('click', () => this.openModal());
             }
@@ -77,44 +72,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Расчёт возраста
             let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
 
-            // Определение дня недели
             const dayIndex = birthDate.getDay();
             const dayName = this.daysOfWeek[dayIndex];
 
-            // 🌟 ГЛАВНОЕ: ЗАПОМИНАЕМ, ЧТО ПОЛЬЗОВАТЕЛЬ ДАЛ ОТВЕТ!
-            // Теперь при переходах по страницам окно больше никогда не появится само:
             localStorage.setItem('user_age_confirmed', 'true');
 
             if (age >= 18) {
-                // ДЛЯ СОВЕРШЕННОЛЕТНИХ
                 this.resultBox.className = 'age_result_box age_result_adult';
                 this.resultBox.innerHTML = `
-                    🎉 <strong>Доступ разрешён!</strong><br>
+                    <strong>Доступ разрешён!</strong><br>
                     Вам полных лет: <strong>${age}</strong>.<br>
                     Вы родились в <strong>${dayName}</strong>.<br>
                     Приятных покупок в книжном магазине!
                 `;
                 this.resultBox.style.display = 'block';
 
-                // Закрываем окно через 2.5 секунды
                 setTimeout(() => {
                     this.closeModal();
                 }, 2500);
 
             } else {
-                // ДЛЯ НЕСОВЕРШЕННОЛЕТНИХ (Алерт по заданию методички)
-                alert('⚠️ Внимание! Вам ' + age + ' лет. Для использования сайта книжного магазина и покупок необходимо разрешение родителей!');
+                alert('Внимание! Вам ' + age + ' лет. Для использования сайта книжного магазина и покупок необходимо разрешение родителей!');
 
                 this.resultBox.className = 'age_result_box age_result_minor';
                 this.resultBox.innerHTML = `
-                    ⛔ <strong>Внимание!</strong><br>
+                    <strong>Внимание!</strong><br>
                     Вам полных лет: <strong>${age}</strong> (несовершеннолетний).<br>
                     Для покупок на сайте требуется согласие родителей.
                 `;

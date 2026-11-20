@@ -35,6 +35,7 @@ import random
 from django.contrib import messages
 import re
 from functools import wraps
+from django.core import serializers
 
 import logging
 
@@ -194,6 +195,7 @@ def import_books(request):
 
 def book_list(request):
     """Get all books from bd and by searching"""
+    
     search_query = request.GET.get("search", "")
     sort_option = request.GET.get("sort", "none")
 

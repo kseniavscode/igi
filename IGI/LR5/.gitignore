@@ -5,3 +5,4 @@ pytest.ini
 app_debug.log
 .coverage
 .flake8
+bookstore_api.postman_collection.json
