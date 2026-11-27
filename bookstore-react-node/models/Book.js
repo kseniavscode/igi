@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const BookSchema = new mongoose.Schema({
     isbn: {
         type: String,
+        trim: true,
         required: [true, 'ISBN is required'],
         length: [13, 'ISBN must be 13 characters long'],
         validate: {
@@ -44,7 +45,7 @@ const BookSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Select the genre'],
         enum: {
-            values: ['Classic', 'Fantasy', 'Romantic', 'Detective', 'Programming', 'Other'],
+            values: ['Classic', 'Fantasy', 'Romantic', 'Sci-Fi', 'Detective', 'Programming', 'Other'],
             message: 'Genre "{VALUE}" is not supported. Please choose from the list.'
         },
         default: 'Other'

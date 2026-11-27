@@ -50,10 +50,21 @@ const OrderSchema = new mongoose.Schema({
             message: 'Status "{VALUE}" is not supported'
         },
         default: 'pending'
+    },
+    isPaid: {
+        type: Boolean,
+        default: false
+    },
+    paidAt: {
+        type: Date
+    },
+    cancellationReason: {
+        type: String,
+        default: ''
     }
 },
 {
     timestamps: true
 });
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Order', OrderSchema);
