@@ -21,7 +21,7 @@ const AuthorSchema = new mongoose.Schema({
     },
     birthDate: {
         type: Date,
-        min: [1000, 'Birth year is too old'],
+        min: [new Date('1500-01-01'), 'Author is too old (before 1500)'],
         max: [new Date().getFullYear(), 'Birth year cannot be in the future']
     },
     biography: {
